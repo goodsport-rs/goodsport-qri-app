@@ -44,8 +44,8 @@ export class UserListingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     console.log('UserListingComponent.ngOnInit()');
+    this.isLoading = true; // Set loading to true when starting to load data
     this.datatableConfig = {
       serverSide: true,
       ajax: (dataTablesParameters: any, callback) => {
@@ -56,6 +56,10 @@ export class UserListingComponent implements OnInit, AfterViewInit, OnDestroy {
             recordsTotal: resp.totalElements,
             recordsFiltered: resp.totalElements
           });
+          this.isLoading = false; // Set loading to false after data is loaded
+        }, error => {
+          console.error(error);
+          this.isLoading = false; // Set loading to false in case of error
         });
       },
       columns: [
@@ -95,7 +99,7 @@ export class UserListingComponent implements OnInit, AfterViewInit, OnDestroy {
           title: 'Last Name', data: 'lastName'
         },
         {
-          title: 'Role', data: 'authorities', render: function (data) {
+          title: 'Role', data: 'roles', render: function (data) {
             return data.map((authority: any) => authority.role).join(', ');
           }
         },

@@ -1,0 +1,157 @@
+<div *ngIf="!isUserVerified"
+     class="col-md-12 d-flex justify-content-between yellow-light-bg card-rounded radius-8px flex-stack flex-wrap p-5 mt-5">
+  <span class="fs-8 bold">
+    <img class="h-30px me-3" src="./assets/media/illustrations/info.svg" alt="info"/>
+   Your account is not verified please verify your email {{profile.username}}</span>
+  <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
+     class="btn yellow-button fw-bolder fs-8 w-150px" (click)="resendVerificationMail()">Resend mail</a>
+</div>
+
+<div
+  class="col-md-12 d-flex justify-content-between bg-white card-rounded idea-card flex-stack flex-wrap p-0 mt-5 radius-8px overflow-hidden">
+  <div class="overlay w-100 h-200px d-flex flex-wrap pt-10">
+    <div class="p-10">
+      <h4 class="fw-bolder fs-2x mb-2 text-white">
+        Hitta bästa projekten för att bidra med Global målen 2030
+      </h4>
+      <p class="text-white">Utforska senaste globla projekten.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row" *ngIf="!(dataLoading$ | async)">
+  <div class="row g-10" *ngIf="allProjects.length > 0">
+    <div class="col-md-3" *ngFor="let data of allProjects">
+      <a [routerLink]="['./details', data.id]" class="card h-100">
+        <img class="bannerImg" src="./assets/media/categories/{{data?.categoryId}}-banner.png"/>
+        <div class="card-header border-0 mb-0 ps-4 pe-4">
+          <div class="card-toolbar">
+            <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                  *ngIf="data?.projectStatus === 'NEW'">{{ data?.projectPhase }} Started</span>
+            <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                  *ngIf="data?.projectStatus === 'APPROVED'">
+              Project Approved</span>
+            <span class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                  *ngIf="data?.projectStatus === 'ACCEPTED'">
+            Öppen för investering</span>
+            <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                  *ngIf="data?.projectStatus === 'DECLINED'">
+              Project Rejected</span>
+            <span class="badge light-purple-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                  *ngIf="data?.projectStatus === 'PENDING'">
+              {{ data?.projectPhase }} Submitted</span>
+          </div>
+          <div class="card-toolbar">
+            <td class="text-end">
+              <div class="d-flex flex-column w-100 me-2">
+                <div class="d-flex flex-stack mb-2">
+                  <span class="text-muted me-2 fs-7 fw-bold">
+                    <ng-container [ngSwitch]="data?.projectPhase">
+                      <ng-container *ngSwitchCase="'IDEA'">
+                        <ng-container [ngSwitch]="data?.projectStatus">
+                          <ng-container *ngSwitchCase="'NEW'">0%</ng-container>
+                          <ng-container *ngSwitchCase="'PENDING'">17%</ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'PLAN'">
+                        <ng-container [ngSwitch]="data?.projectStatus">
+                          <ng-container *ngSwitchCase="'NEW'">33%</ng-container>
+                          <ng-container *ngSwitchCase="'PENDING'">50%</ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'FUNDING'">
+                        <ng-container [ngSwitch]="data?.projectStatus">
+                          <ng-container *ngSwitchCase="'NEW'">66%</ng-container>
+                          <ng-container *ngSwitchCase="'PENDING'">83%</ng-container>
+                          <ng-container *ngSwitchCase="'ACCEPTED'">90%</ng-container>
+                          <ng-container *ngSwitchCase="'APPROVED'">100%</ng-container>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngSwitchCase="'REPORTING'">100%
+                      </ng-container>
+                    </ng-container>
+                  </span>
+                </div>
+                <div class="progress h-6px w-100">
+                  <ng-container [ngSwitch]="data?.projectPhase">
+                    <ng-container *ngSwitchCase="'IDEA'">
+                      <ng-container [ngSwitch]="data?.projectStatus">
+                        <ng-container *ngSwitchCase="'NEW'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'0%'"></div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'PENDING'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'17%'"></div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'PLAN'">
+                      <ng-container [ngSwitch]="data?.projectStatus">
+                        <ng-container *ngSwitchCase="'NEW'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'33%'"></div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'PENDING'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'50%'"></div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'FUNDING'">
+                      <ng-container [ngSwitch]="data?.projectStatus">
+                        <ng-container *ngSwitchCase="'NEW'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'66%'"></div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'PENDING'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'83%'"></div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'ACCEPTED'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'90%'"></div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'APPROVED'">
+                          <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'100%'">
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'REPORTING'">
+                      <div class="progress-bar bg-primary yellow-bg" role="progressbar" [style.width]="'100%'"></div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
+            </td>
+          </div>
+        </div>
+
+
+        <div class="card-body pt-0 pb-5 ps-4">
+          <div class="m-0">
+            <span class="fs-6 text-dark bold text-hover-primary text-dark lh-base">{{ data?.title }}</span>
+            <div class="fw-medium fs-9 mt-1 limit-text card-des-text">
+              {{ data?.description }}
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row mt-10" *ngIf="!allProjects.length">
+    <span class="text-dark fw-bolder mb-0 fs-2"  *ngIf="!(dataLoading$ | async)">Inga nya projekt tillgängliga just nu</span>
+  </div>
+
+
+
+  <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
+       *ngIf="totalPages > 1">
+    <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
+    </ngb-pagination>
+  </div>
+
+
+</div>
+<div class="col text-center data-loader mt-5 p-5" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.limit-text {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  max-height: 15px;
+  margin-bottom: 0;
+}
+.form-control.form-control-flush {
+  color: #a1a5b7 !important;
+  font-size: 13px !important;
+}
+.card-rounded {
+  .svg-icon.svg-icon-2 {
+    width: 18px !important;
+  }
+}
+.card-des-text {
+  color: #929292;
+}
+
+.bannerImg { 
+  width: 100%; 
+}

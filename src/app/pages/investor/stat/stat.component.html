@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col-md-4">
+    <div *ngIf="!(userLoading$ | async)"
+         class="card d-flex flex-row justify-content-between align-item-center p-8 py-5">
+      <div class="symbol symbol-50px me-2">
+        <img src="./assets/media/illustrations/bulb.svg" class="h-100 align-self-center" alt=""/>
+      </div>
+      <div class="text-end">
+        <span class="d-block fw-bolder mb-2 fs-7">Total Investemnts</span>
+        <span class="fs-3 fw-bold">Kommer snart</span>
+      </div>
+    </div>
+
+    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="userLoading$ | async">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div *ngIf="!(userLoading$ | async)"
+         class="card d-flex flex-row justify-content-between align-item-center p-8 py-5">
+      <div class="symbol symbol-50px me-2">
+        <img src="./assets/media/illustrations/wallet.svg" class="h-100 align-self-center" alt=""/>
+      </div>
+      <div class="text-end">
+        <span class="d-block fw-bolder mb-2 fs-7">Total Participants</span>
+        <span class="fs-3 fw-bold">Kommer snart</span>
+      </div>
+    </div>
+    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="userLoading$ | async">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div *ngIf="!(userLoading$ | async)"
+         class="card d-flex flex-row justify-content-between align-item-center p-8 py-5">
+      <div class="symbol symbol-50px me-2">
+        <img src="./assets/media/illustrations/box.svg" class="h-100 align-self-center" alt=""/>
+      </div>
+      <div class="text-end">
+        <span class="d-block fw-bolder mb-2 fs-7">Total Live Projekt</span>
+        <span class="fs-3 fw-bold">Kommer snart</span>
+      </div>
+    </div>
+    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="userLoading$ | async">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-8">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label bold fs-6 mb-1">Category-wise Projects</span>
+        </h3>
+      </div>
+
+      <div class="card-body">
+        <div id="categoryChart" *ngIf="!(categoryLoading$ | async)">
+          <!--
+          <apx-chart [series]="categoryChart.series" [chart]="categoryChart.chart"
+                     [dataLabels]="categoryChart.dataLabels"
+                     [plotOptions]="categoryChart.plotOptions" [yaxis]="categoryChart.yaxis"
+                     [legend]="categoryChart.legend"
+                     [fill]="categoryChart.fill" [stroke]="categoryChart.stroke" [tooltip]="categoryChart.tooltip"
+                     [xaxis]="categoryChart.xaxis" [colors]="categoryChart.colors"></apx-chart>
+                     -->
+        </div>
+
+        <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="categoryLoading$ | async">
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+          <span class="card-label bold fs-6 mb-1">Månadvis Projekt</span>
+        </h3>
+      </div>
+
+      <div class="card-body">
+        <div id="columnChart" *ngIf="!(categoryLoading$ | async)">
+          <!--
+          <apx-chart [series]="columnChart.series" [chart]="columnChart.chart" [dataLabels]="columnChart.dataLabels"
+                     [plotOptions]="columnChart.plotOptions" [yaxis]="columnChart.yaxis" [legend]="columnChart.legend"
+                  [stroke]="columnChart.stroke" [tooltip]="columnChart.tooltip"
+                     [xaxis]="columnChart.xaxis"></apx-chart>
+                     -->
+        </div>
+        <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="categoryLoading$ | async">
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 text-center mt-5">
+    <img src="./assets/media/illustrations/global_goals_small.png" />
+  </div>
+</div>

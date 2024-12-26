@@ -55,7 +55,7 @@ export class AuthHTTPService {
     const httpHeaders = new HttpHeaders({
       'X-AUTH-TOKEN': `${token}`,
     });
-    return this.http.get<any>(`${API_USERS_URL}/api/users/me`, {
+    return this.http.get<any>(`${API_USERS_URL}/api/auth/user-info`, {
       headers: httpHeaders,
     }).pipe(
       map((response: AccountModel) => {

@@ -1,0 +1,158 @@
+<div class="card">
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
+        >
+          <thead>
+          <tr>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Image </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Goal </span>
+            </th>
+
+
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Name </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Type </span>
+            </th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let category of allCategories">
+
+            <td>
+              <div class="d-flex">
+                <div class="symbol symbol-50px">
+                  <span class="symbol-label bg-light">
+                    <!-- <img src="./assets/media/svg/avatars/001-boy.svg" class="h-75 align-self-end" alt="" /> -->
+                    <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">
+                      <img src="./assets/media/categories/{{category?.id}}-icon.png" class="w-50px"
+                           style=" border-radius: 10%;"/>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex">
+                <div class="d-flex justify-content-start flex-column">
+                  {{ category?.categoryNumber }}
+                </div>
+              </div>
+            </td>
+
+
+
+
+
+            <td>
+              <div class="d-flex">
+                <div class="d-flex justify-content-start flex-column">
+                  {{ category.name }}
+                </div>
+              </div>
+            </td>
+
+
+
+            <td>
+              <div class="d-flex">
+                <div class="d-flex justify-content-start flex-column">
+                  {{ category?.categoryType }}
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+          <!--end::Table body-->
+        </table>
+        <!--end::Table-->
+
+        <div
+          class="col text-center data-loader mt-5 p-5 pt-7"
+          *ngIf="dataLoading$ | async"
+        >
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- -->
+
+  <!--create questionnaire modal-->
+  <ng-template #createQuestionnaire let-modal>
+    <div class="modal-header px-7">
+      <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+        Add Course
+      </h4>
+    </div>
+    <div class="modal-body">
+
+      <div class="">
+        <div class="card-body d-flex flex-column pb-0 px-0">
+          <div class="fv-row">
+            <form [formGroup]="form" autocomplete="off" novalidate>
+              <div class="fv-row mb-5 fv-plugins-icon-container">
+                <label class="d-flex align-items-center fs-7 fw-bold mb-2">
+                  <span class="required">Title</span>
+                </label>
+                <input type="email" class="form-control form-control-lg form-control-solid fs-8 text-dark px-3"
+                       name="title"
+                       placeholder="title" formControlName="title"/>
+                <div *ngIf="form.get('title')?.touched">
+                  <div class="fv-plugins-message-container invalid-feedback fs-8"
+                       *ngIf="form.get('title')?.hasError('required')">
+                    Username is required
+                  </div>
+                </div>
+              </div>
+              <div class="fv-row mb-5 fv-plugins-icon-container">
+                <label class="d-flex align-items-center fs-7 fw-bold mb-2">
+                  <span class="required">Link</span>
+                </label>
+                <input type="text" class="form-control form-control-lg form-control-solid fs-8 text-dark px-3"
+                       name="link"
+                       placeholder="link" formControlName="link"/>
+                <div *ngIf="form.get('link')?.touched">
+                  <div class="fv-plugins-message-container invalid-feedback fs-8"
+                       *ngIf="form.get('link')?.hasError('required')">
+                    Link is required
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+              [disabled]="btnLoading$ | async">
+        Discard
+      </button>
+      <button type="button" class="btn yellow-button w-175px" (click)="onClickSave(modal)"
+              [disabled]="btnLoading$ | async">
+        <ng-container *ngIf="btnLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+        </ng-container>
+        <ng-container *ngIf="!(btnLoading$ | async)">
+          <span class="indicator-label">Save</span>
+        </ng-container>
+      </button>
+
+    </div>
+  </ng-template>

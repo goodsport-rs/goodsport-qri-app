@@ -1,0 +1,377 @@
+<div class="card d-flex justify-content-between flex-row card-rounded mb-5" *ngIf="!(dataLoading$ | async)">
+
+
+  <div class="card-body pt-9 pb-0 border-0">
+    <div class="d-flex flex-wrap flex-sm-nowrap mb-3 border-0">
+      <div class="me-7 mb-4">
+        <div class="
+              symbol symbol-150px symbol-lg-150px symbol-fixed
+              position-relative
+            ">
+          <img src="./assets/media/categories/{{projectDetails?.categoryId}}-icon.png" alt="Metronic"/>
+        </div>
+      </div>
+
+      <div class="flex-grow-1">
+        <div class="
+              d-flex
+              justify-content-between
+              align-items-start
+              flex-wrap
+              mb-2
+            ">
+          <div class="d-flex flex-column">
+            <div class="d-flex align-items-center mb-2">
+              <a class="
+                    text-gray-800
+                    fs-5
+                    fw-bolder
+                    me-1
+
+                  ">
+                {{ projectDetails?.title }}
+              </a>
+              <div class="card-toolbar ps-5">
+                  <span class="badge light-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="projectDetails?.projectStatus === 'NEW'">
+                    {{ projectDetails?.projectPhase }} Pending</span>
+                <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                      *ngIf="projectDetails?.projectStatus === 'APPROVED'">
+                    Project Approved</span>
+                <span class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                      *ngIf="projectDetails?.projectStatus === 'ACCEPTED'">
+                    Open for Investment</span>
+                <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                      *ngIf="projectDetails?.projectStatus === 'DECLINED'">
+                    Project Rejected</span>
+                <span class="badge light-purple-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                      *ngIf="projectDetails?.projectStatus === 'PENDING'">
+                    {{ projectDetails?.projectPhase }} Submitted - In Review</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap flex-stack">
+          <div class="d-flex flex-column flex-grow-1 pe-8">
+            <div class="d-flex flex-wrap">
+              <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen049.svg'
+                      " class="svg-icon svg-icon-1 yellow-icon me-2"></span>
+                  <div class="fs-5 fw-bolder">{{ projectDetails?.entrepreneur }}</div>
+                </div>
+
+                <div class="fw-bold fs-7 ms-9 text-gray-400">Entrepreneur</div>
+              </div>
+
+              <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen048.svg'
+                      " class="svg-icon svg-icon-1 yellow-icon me-2"></span>
+                  <div class="fs-5 fw-bolder">{{ projectDetails?.organizationName }}</div>
+                </div>
+
+                <div class="fw-bold fs-7 ms-9 text-gray-400">Organization</div>
+              </div>
+
+              <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen048.svg'
+                      " class="svg-icon svg-icon-1 yellow-icon me-2"></span>
+                  <div class="fs-5 fw-bolder">{{ projectDetails?.fundingAmountRequest }} SEK</div>
+                </div>
+
+                <div class="fw-bold fs-7 ms-9 text-gray-400">{{ projectDetails?.fundingInterval }}</div>
+              </div>
+
+              <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen014.svg'
+                      " class="svg-icon svg-icon-3 yellow-icon me-2"></span>
+                  <div class="fs-5 fw-bolder">{{ projectDetails?.createdDateTime | date: "longDate" }}</div>
+                </div>
+
+                <div class="fw-bold fs-7 ms-7 text-gray-400">Skapad</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="
+            d-flex
+            align-items-center
+            w-200px w-sm-300px
+            flex-column
+            mt-3
+          ">
+          <div class="d-flex justify-content-between w-100 mt-auto mb-2">
+            <span class="fw-bold fs-7 text-dark">Project Approval Process</span>
+            <span class="fw-bolder fs-7">
+                <ng-container [ngSwitch]="projectDetails?.projectPhase">
+                  <ng-container *ngSwitchCase="'IDEA'">
+                    <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                      <ng-container *ngSwitchCase="'NEW'">0%</ng-container>
+                      <ng-container *ngSwitchCase="'PENDING'">17%</ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'PLAN'">
+                    <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                      <ng-container *ngSwitchCase="'NEW'">33%</ng-container>
+                      <ng-container *ngSwitchCase="'PENDING'">50%</ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'FUNDING'">
+                    <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                      <ng-container *ngSwitchCase="'NEW'">66%</ng-container>
+                      <ng-container *ngSwitchCase="'PENDING'">83%</ng-container>
+                      <ng-container *ngSwitchCase="'ACCEPTED'">90%</ng-container>
+                      <ng-container *ngSwitchCase="'APPROVED'">100%</ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'REPORTING'">100%
+                  </ng-container>
+                </ng-container>
+              </span>
+          </div>
+          <div class="h-5px mx-3 w-100 bg-light mb-3">
+            <ng-container [ngSwitch]="projectDetails?.projectPhase">
+              <ng-container *ngSwitchCase="'IDEA'">
+                <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                  <ng-container *ngSwitchCase="'NEW'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'0%'"></div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'PENDING'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'17%'"></div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngSwitchCase="'PLAN'">
+                <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                  <ng-container *ngSwitchCase="'NEW'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'33%'"></div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'PENDING'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'50%'"></div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngSwitchCase="'FUNDING'">
+                <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                  <ng-container *ngSwitchCase="'NEW'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'66%'"></div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'PENDING'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'83%'"></div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'ACCEPTED'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'90%'"></div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'APPROVED'">
+                    <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'100%'"></div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngSwitchCase="'REPORTING'">
+                <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'100%'"></div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <!-- <button></button> -->
+  </div>
+</div>
+<div class="card pe-10"  *ngIf="!(dataLoading$ | async)">
+  <div class="card-body">
+    <h4 class="fs-3 bold">Project Details</h4>
+    <div class="row gx-10">
+      <div class="col-md-9">
+        <img *ngIf="projectDetails?.imageUrl" class="w-100 cursor-pointer" src="{{projectDetails?.imageUrl}}" alt="idea-bg"/>
+      </div>
+      <div class="col-md-9">
+        <p class="fw-medium fs-8 mt-1 limit-text card-des-text text-justify">
+          {{ projectDetails?.description }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card pe-10 mt-5"  *ngIf="!(dataLoading$ | async)">
+
+  <div class="card-body">
+    <div class="col-md-9 mt-5" *ngIf="investments.length > 0">
+      <h4 class="fs-3 bold">Projekt sponsorer</h4>
+      <div class="col-md-9">
+        <ul>
+          <li *ngFor="let item of investments">{{
+            item.investorOrganization
+            }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Project Doucments Section -->
+<div class="card pe-10 mt-10" *ngIf="allDocuments.length > 0">
+
+
+  <div class="card-body">
+    <h4 class="fs-3 bold">Projekt dokument</h4>
+
+    <div class="table-responsive round-table">
+      <table class="table align-middle gs-5 gy-4 mb-0 ">
+        <tbody>
+        <tr *ngFor="let item of allDocuments">
+          <td>
+            <div class="d-flex align-items-center">
+                  <span class="fw-bold text-blue d-block fs-8 bold cursor-pointer" (click)="onClickViewIcon(item)">{{
+                    item?.fileName
+                    }}</span>
+            </div>
+          </td>
+          <td>
+                <span class="fw-bold text-dark d-block fs-8 bold">{{
+                  item?.createdDateTime | date: "longDate"
+                  }}</span>
+          </td>
+
+          <td class="text-end">
+            <button class="btn btn-sm btn-icon p-0 w-auto h-auto mt-1" data-kt-password-meter-control="visibility"
+                    (click)="onClickViewIcon(item)">
+              <i class="bi bi-file-arrow-down text-blue fs-5"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- -->
+<div class="card pe-10 mt-10"  *ngIf="!(dataLoading$ | async)">
+
+
+  <div class="card-body">
+    <h4 class="fs-3 bold">Project Plan</h4>
+    <div class="w-100 pe-10">
+      <div class="fv-row border p-8 radius-8px">
+        <div class="fv-row mb-5 fv-plugins-icon-container d-flex align-items-start flex-wrap"
+             *ngFor="let data of projectPlanDetails">
+          <div class="col-md-7 pe-10">
+
+
+            <!-- begin::Project Plan Questionnaires -->
+            <div class="card-body pb-0">
+              <!-- begin::Header -->
+              <div class="d-flex align-items-center mb-3">
+                <!-- begin::User -->
+                <div class="d-flex align-items-center flex-grow-1">
+                  <!-- begin::Avatar -->
+                  <div class="symbol symbol-45px me-5">
+                    <img src="./assets/media/icons/QA.png" alt=""/>
+                  </div>
+                  <!-- end::Avatar -->
+
+                  <!-- begin::Info -->
+                  <div class="d-flex flex-column">
+                    <label class="text-gray-800 fs-6 fw-bolder">
+                      <span [ngClass]="{'required': data?.required===true}">{{ data?.question }}</span>
+                      <i class="fas fa-exclamation-circle ms-2 fs-7" *ngIf="data?.description"
+                         ngbTooltip="{{ data?.description }}"></i>
+                    </label>
+                  </div>
+                  <!-- end::Info -->
+                </div>
+                <!-- end::User -->
+
+
+              </div>
+              <!-- end::Header -->
+
+
+              <!-- begin::Post -->
+              <div class="mb-7">
+                <!-- begin::Text -->
+                <div class="text-gray-800 mb-5 text-style" *ngIf="data?.answerType !== 'FILE'">
+                  {{ data?.answer ? data?.answer : "-" }}
+                </div>
+                <!-- end::Text -->
+
+                <!-- begin::File -->
+                <div class="col-8" *ngIf="data?.answerType === 'FILE'">
+                  <a
+                    href="javascript:void(0)"
+                    *ngFor="let item of data?.files"
+                    (click)="onClickViewIcon(item)">
+                    <div class="card-body d-flex justify-content-center text-center flex-column p-0">
+                      <a class="text-gray-800 text-hover-primary d-flex flex-column cursor-pointer">
+                        <div class="symbol symbol-55px mb-6"><img src="./assets/media/svg/files/doc.svg" alt=""/></div>
+                        <div class="fs-5 fw-bolder mb-2">{{ item?.fileName }}</div>
+                      </a>
+                    </div>
+                  </a>
+                </div>
+                <!-- end::File -->
+
+
+              </div>
+              <!-- end::Post -->
+            </div>
+            <!-- end::Project Plan Questionnaires -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col text-center data-loader mt-10 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

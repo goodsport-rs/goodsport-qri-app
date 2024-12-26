@@ -1,0 +1,91 @@
+<div class="card">
+  <div class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0">
+    <form data-kt-search-element="form" autocomplete="off"
+      class="position-relative mb-3 bg-light px-5 w-100 radius-8px">
+      <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+            transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+          <path
+            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+            fill="black"></path>
+        </svg></span><input type="text" name="search" placeholder="Search..." data-kt-search-element="input"
+        class="form-control form-control-flush ps-10 fs-7" [(ngModel)]="search" (keyup.enter)="onEnterSearch()" />
+    </form>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+        <thead>
+          <tr>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Entrepreneures </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Username </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Phone </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Created Date </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entrepreneur of allEntrepreneurs">
+            <td>
+              <div class="d-flex">
+                <div class="symbol symbol-50px me-5">
+                  <div class="symbol symbol-80px symbol-circle">
+                    <span class="symbol-label fs-4 fw-bold text-white yellow-bg yellow-light-border"
+                      *ngIf="!entrepreneur?.imageUrl">{{
+                      entrepreneur.organizationName.charAt(0) }}</span>
+                    <img src="{{entrepreneur?.imageUrl}}" *ngIf="entrepreneur?.imageUrl">
+                  </div>
+                </div>
+                <div class="d-flex justify-content-start flex-column">
+                  <a [routerLink]="['./details', entrepreneur?.id]"
+                    class="text-dark fw-bolder text-hover-primary mb-0 fs-12">{{ entrepreneur.organizationName }}</a>
+                  <span class="text-muted fw-bold text-muted d-block fs-11">{{ entrepreneur.firstName }}
+                    {{ entrepreneur.lastName }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ entrepreneur.username }}</span>
+            </td>
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ entrepreneur.phoneNumber }}</span>
+            </td>
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ entrepreneur.createdDateTime}}</span>
+            </td>
+          </tr>
+        </tbody>
+        <!--end::Table body-->
+      </table>
+      <!--end::Table-->
+
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!--
+      <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
+        <ngb-pagination [collectionSize]="totalItems"
+                        [(page)]="page"
+                        [maxSize]="5"
+                        [pageSize]="20"
+                        (pageChange)="onPageChange()">
+        </ngb-pagination>
+      </div>
+      -->
+    </div>
+  </div>
+</div>

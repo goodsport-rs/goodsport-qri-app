@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import {AdminRouting} from "./admin/admin-routing";
+import {PortalGuard} from "../auth/guards/portal.guard";
+import {EntrepreneursModule} from "./admin/entrepreneurs/entrepreneurs.module";
 
 const Routing: Routes = [
   {
@@ -6,54 +9,31 @@ const Routing: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'builder',
-    loadChildren: () => import('./builder/builder.module').then((m) => m.BuilderModule),
+    path:'projects',
+    loadChildren: () => import('./admin/categories/category.module').then((m) => m.CategoryModule),
   },
   {
-    path: 'crafted/pages/profile',
-    loadChildren: () => import('../modules/profile/profile.module').then((m) => m.ProfileModule),
-    // data: { layout: 'light-sidebar' },
+    path:'entrepreneurs',
+    loadChildren: () => import('./admin/entrepreneurs/entrepreneurs.module').then((m) => m.EntrepreneursModule),
   },
-  {
-    path: 'crafted/account',
-    loadChildren: () => import('../modules/account/account.module').then((m) => m.AccountModule),
-    // data: { layout: 'dark-header' },
-  },
-  {
-    path: 'crafted/pages/wizards',
-    loadChildren: () => import('../modules/wizards/wizards.module').then((m) => m.WizardsModule),
-    // data: { layout: 'light-header' },
-  },
-  {
-    path: 'crafted/widgets',
-    loadChildren: () => import('../modules/widgets-examples/widgets-examples.module').then((m) => m.WidgetsExamplesModule),
-    // data: { layout: 'light-header' },
-  },
-  {
-    path: 'apps/chat',
-    loadChildren: () => import('../modules/apps/chat/chat.module').then((m) => m.ChatModule),
-    // data: { layout: 'light-sidebar' },
-  },
+
   {
     path: 'apps/users',
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
   {
-    path: 'apps/roles',
-    loadChildren: () => import('./role/role.module').then((m) => m.RoleModule),
+    path: 'admin',
+    canActivate: [PortalGuard],
+    children: AdminRouting,
   },
   {
-    path: 'apps/permissions',
-    loadChildren: () => import('./permission/permission.module').then((m) => m.PermissionModule),
+    path: '**',
+    redirectTo: 'error/404',
   },
   {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
-  },
-  {
-    path: '**',
-    redirectTo: 'error/404',
   },
 ];
 

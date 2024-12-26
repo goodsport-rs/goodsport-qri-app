@@ -47,7 +47,7 @@ export class UserService {
       .set('page', dataTablesParameters.start / dataTablesParameters.length)
       .set('size', dataTablesParameters.length);
 
-    return this.http.get<DataTablesResponse>(this.apiUrl+"/admin/api/users", { params }).pipe(
+    return this.http.get<DataTablesResponse>(this.apiUrl+"/api/v1/users", { params }).pipe(
       map(response => ({
         content: response.content,
         totalElements: response.totalElements,
