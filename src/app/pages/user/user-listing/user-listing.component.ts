@@ -44,16 +44,23 @@ export class UserListingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    console.log('UserListingComponent.ngOnInit()');
     this.datatableConfig = {
       serverSide: true,
       ajax: (dataTablesParameters: any, callback) => {
         this.apiService.getUsers(dataTablesParameters).subscribe(resp => {
-          callback(resp);
+          this.users = resp; // Assign the response to the users property
+          callback({
+            data: resp.content,
+            recordsTotal: resp.totalElements,
+            recordsFiltered: resp.totalElements
+          });
         });
       },
       columns: [
         {
-          title: 'Name', data: 'name', render: function (data, type, full) {
+          title: 'Username', data: 'username', render: function (data, type, full) {
             const colorClasses = ['success', 'info', 'warning', 'danger'];
             const randomColorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
 
@@ -82,24 +89,25 @@ export class UserListingComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         {
-          title: 'Role', data: 'role', render: function (data, type, row) {
-            const roleName = row.roles[0]?.name;
-            return roleName || '';
-          },
-          orderData: [1],
-          orderSequence: ['asc', 'desc'],
-          type: 'string',
+          title: 'First Name', data: 'firstName'
         },
         {
-          title: 'Last Login', data: 'last_login_at', render: (data, type, full) => {
-            const date = data || full.created_at;
-            const dateString = moment(date).fromNow();
+          title: 'Last Name', data: 'lastName'
+        },
+        {
+          title: 'Role', data: 'authorities', render: function (data) {
+            return data.map((authority: any) => authority.role).join(', ');
+          }
+        },
+        {
+          title: 'Last Login', data: 'lastSeenTimestamp', render: (data) => {
+            const dateString = moment(data).fromNow();
             return `<div class="badge badge-light fw-bold">${dateString}</div>`;
           }
         },
         {
-          title: 'Joined Date', data: 'created_at', render: function (data) {
-            return moment(data).format('DD MMM YYYY, hh:mm a');;
+          title: 'Joined Date', data: 'createdDate', render: function (data) {
+            return moment(data).format('DD MMM YYYY, hh:mm a');
           }
         }
       ],

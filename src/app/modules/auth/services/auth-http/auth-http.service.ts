@@ -5,6 +5,7 @@ import { UserModel } from '../../models/user.model';
 import { environment } from '../../../../../environments/environment';
 import { AuthModel } from '../../models/auth.model';
 import {catchError, map} from "rxjs/operators";
+import {AccountModel} from "../../models/account.model";
 
 const API_USERS_URL = `${environment.apiBaseURL}`;
 
@@ -57,7 +58,7 @@ export class AuthHTTPService {
     return this.http.get<any>(`${API_USERS_URL}/api/users/me`, {
       headers: httpHeaders,
     }).pipe(
-      map((response: any) => {
+      map((response: AccountModel) => {
         console.log('response', response);
         return response || undefined;
       }),

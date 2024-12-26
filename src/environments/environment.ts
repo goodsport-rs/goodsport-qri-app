@@ -8,8 +8,8 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
-  //apiBaseURL: 'https://apiv2.challengenow.se',
-  apiBaseURL: 'http://localhost:7771',
+  apiBaseURL: 'https://apiv2.challengenow.se',
+  //apiBaseURL: 'http://localhost:7771',
   appThemeName: 'Metronic',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration:

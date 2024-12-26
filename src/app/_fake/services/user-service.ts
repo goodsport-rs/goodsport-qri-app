@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
 import { IRoleModel } from './role.service';
-
+import {environment} from "../../../environments/environment";
 export interface DataTablesResponse {
-    draw?: number;
-    recordsTotal: number;
-    recordsFiltered: number;
-    data: any[];
+  content?: any[];
+  totalElements?: number;
+  totalPages?: number;
+  size?: number;
+  number?: number;
+  numberOfElements?: number;
+  first?: boolean;
+  last?: boolean;
+  empty?: boolean;
+  data?: any[];
 }
 
 export interface IUserModel {
@@ -31,16 +37,26 @@ export interface IUserModel {
 })
 export class UserService {
 
-    private apiUrl = 'https://preview.keenthemes.com/starterkit/metronic/laravel/api/v1/users';
-    // private apiUrl = 'http://127.0.0.1:8000/api/v1/users';
+    private apiUrl = environment.apiBaseURL;
+
 
     constructor(private http: HttpClient) { }
 
-    getUsers(dataTablesParameters: any): Observable<DataTablesResponse> {
-        const url = `${this.apiUrl}-list`;
-        return this.http.post<DataTablesResponse>(url, dataTablesParameters);
-    }
+  getUsers(dataTablesParameters: any): Observable<DataTablesResponse> {
+    let params = new HttpParams()
+      .set('page', dataTablesParameters.start / dataTablesParameters.length)
+      .set('size', dataTablesParameters.length);
 
+    return this.http.get<DataTablesResponse>(this.apiUrl+"/admin/api/users", { params }).pipe(
+      map(response => ({
+        content: response.content,
+        totalElements: response.totalElements,
+        totalPages: response.totalPages,
+        size: response.size,
+        number: response.number
+      }))
+    );
+  }
     getUser(id: number): Observable<IUserModel> {
         const url = `${this.apiUrl}/${id}`;
         return this.http.get<IUserModel>(url);

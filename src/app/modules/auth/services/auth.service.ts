@@ -81,6 +81,10 @@ export class AuthService implements OnDestroy {
       tap((response: any) => {
         console.log('HTTP response:', response.id);
       }),
+      map((user: UserModel) => {
+        this.currentUserSubject.next(user);
+        return user;
+      }),
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
@@ -118,7 +122,7 @@ export class AuthService implements OnDestroy {
     return false;
   }
 
-  private getAuthFromLocalStorage(): AuthModel | undefined {
+  getAuthFromLocalStorage(): AuthModel | undefined {
     try {
       const lsValue = localStorage.getItem(this.authLocalStorageToken);
       if (!lsValue) {
