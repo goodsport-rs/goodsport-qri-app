@@ -19,12 +19,12 @@ export class SidebarMenuComponent implements OnInit {
   menuItems: MenuItem[] = [
     { title: 'Dashboard', link: '/dashboard', roles: ['ROLE_ADMIN', 'ROLE_ENTREPRENEUR', 'ROLE_INVESTOR'], icon: 'element-11' },
     { title: 'Categories', link: '/admin/categories', roles: ['ROLE_ADMIN'], icon: 'element-12' },
-    { title: 'Investments', link: '/investments', roles: ['ROLE_INVESTOR'], icon: 'element-13' },
-    { title: 'Projects', link: '/projects', roles: ['ROLE_ENTREPRENEUR','ROLE_ADMIN'], icon: 'element-14' },
-    { title: 'Entrepreneurs', link: '/entrepreneurs', roles: ['ROLE_ADMIN', 'ROLE_ENTREPRENEUR'], icon: 'rocket' },
-    { title: 'Investors', link: '/investors', roles: ['ROLE_ADMIN', 'ROLE_INVESTOR'], icon: 'briefcase' },
-    { title: 'Media', link: '/media', roles: ['ROLE_ADMIN'], icon: 'element-11' },
-    { title: 'Partners', link: '/partners', roles: ['ROLE_ADMIN'], icon: 'element-11' },
+    { title: 'Investments', link: '/admin/investments', roles: ['ROLE_INVESTOR'], icon: 'element-13' },
+    { title: 'Projects', link: '/admin/projects', roles: ['ROLE_ENTREPRENEUR','ROLE_ADMIN'], icon: 'rocket' },
+    { title: 'Entrepreneurs', link: '/admin/entrepreneurs', roles: ['ROLE_ADMIN', 'ROLE_ENTREPRENEUR'], icon: 'rocket' },
+    { title: 'Investors', link: '/admin/investors', roles: ['ROLE_ADMIN', 'ROLE_INVESTOR'], icon: 'briefcase' },
+    { title: 'Media', link: '/admin/media', roles: ['ROLE_ADMIN'], icon: 'element-11' },
+    { title: 'Partners', link: '/admin/partners', roles: ['ROLE_ADMIN'], icon: 'element-11' },
     { title: 'Users', link: '/apps/users', roles: ['ROLE_ADMIN'], icon: 'user' }
   ];
 
