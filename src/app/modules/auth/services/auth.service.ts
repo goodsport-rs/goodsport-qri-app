@@ -113,6 +113,7 @@ export class AuthService implements OnDestroy {
   }
 
   // private methods
+  private roles: any[];
   private setAuthFromLocalStorage(auth: AuthModel): boolean {
     // store auth authToken/refreshToken/epiresIn in local storage to keep user logged in between page refreshes
     if (auth && auth.authToken) {
@@ -139,5 +140,12 @@ export class AuthService implements OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  getUserRoles(): string[] {
+    const user = this.currentUserValue;
+    this.roles = user ? user.roles.map(roleObj => roleObj.role) : [];
+    console.log('roles', this.roles);
+    return this.roles;
   }
 }
