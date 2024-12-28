@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { WidgetsModule } from '../../../_metronic/partials';
 import { EntrepreneursComponent } from './entrepreneurs.component';
 import { EntrepreneurDetailsComponent } from './details/details.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +21,6 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
         component: EntrepreneurDetailsComponent,
       },
     ]),
-    WidgetsModule,
     FormsModule,
     NgbModule,
     NgbPaginationModule

@@ -15,7 +15,7 @@ import {SharedModule} from "../../../shared/shared.module";
   ],
   imports: [
     CommonModule,
-    InlineSVGModule,
+
     RouterModule,
     SharedModule
   ],

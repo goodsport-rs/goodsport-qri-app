@@ -75,7 +75,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     TranslationModule,
-    InlineSVGModule,
+
     NgbDropdownModule,
     NgbProgressbarModule,
     ExtrasModule,

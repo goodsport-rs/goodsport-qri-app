@@ -1,0 +1,155 @@
+<div class="card">
+  <div
+    class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0"
+  >
+    <form data-kt-search-element="form" autocomplete="off" class="w-100 d-flex justify-content-between">
+      <div class="bg-light position-relative px-5 w-100 me-10 radius-8px">
+        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
+          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                  transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+            <path
+              d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+              fill="black"></path>
+          </svg>
+        </span>
+        <input type="text" name="search" placeholder="Search..." data-kt-search-element="input"
+               class="form-control form-control-flush ps-10 fs-7 h-100" [(ngModel)]="search"
+               (keyup.enter)="onEnterSearch()"/>
+      </div>
+      <a class="btn yellow-button w-150px fs-7" (click)="openModal(createPartnerModal)">
+        Add Partner
+      </a>
+    </form>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
+      >
+        <thead>
+          <tr>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Name </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Code </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Created Date </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let partner of allPartners">
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ partner.name}}</span
+              >
+            </td>
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ partner.invitationCode}}</span
+              >
+            </td>
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ partner.createdDateTime}}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+        <!--end::Table body-->
+      </table>
+      <!--end::Table-->
+
+      <div
+        class="col text-center data-loader mt-5 p-5 pt-7"
+        *ngIf="dataLoading$ | async"
+      >
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div
+        class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
+      >
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [(page)]="page"
+          [pageSize]="20"
+          [maxSize]="5"
+          (pageChange)="onPageChange()"
+        >
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #createPartnerModal let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Add admin
+    </h4>
+  </div>
+  <div class="modal-body">
+
+    <div class="">
+      <div class="card-body d-flex flex-column pb-0 px-0">
+        <div class="fv-row">
+          <form [formGroup]="form" autocomplete="off" novalidate>
+            <div class="fv-row mb-5 fv-plugins-icon-container">
+              <label class="d-flex align-items-center fs-7 fw-bold mb-2">
+                <span class="required">Partner name</span>
+              </label>
+              <input type="text" class="form-control form-control-lg form-control-solid fs-8 text-dark px-3"
+                     name="partnerName"
+                     placeholder="Partner" formControlName="partnerName"/>
+              <div *ngIf="form.get('partnerName')?.touched">
+                <div class="fv-plugins-message-container invalid-feedback fs-8"
+                     *ngIf="form.get('partnerName')?.hasError('required')">
+                  Partner is required
+                </div>
+              </div>
+            </div>
+            <div class="fv-row mb-5 fv-plugins-icon-container">
+              <label class="d-flex align-items-center fs-7 fw-bold mb-2">
+                <span class="required">Code</span>
+              </label>
+              <input type="text" class="form-control form-control-lg form-control-solid fs-8 text-dark px-3"
+                     name="partnerCode"
+                     placeholder="partnerCode" formControlName="partnerCode"/>
+              <div *ngIf="form.get('partnerCode')?.touched">
+                <div class="fv-plugins-message-container invalid-feedback fs-8"
+                     *ngIf="form.get('partnerCode')?.hasError('required')">
+                  password is required
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+            [disabled]="btnLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onClickSave(modal)"
+            [disabled]="btnLoading$ | async"> Save
+      <ng-container *ngIf="btnLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(btnLoading$ | async)">
+        <span class="indicator-label">Save</span>
+      </ng-container>
+    </button>
+
+  </div>
+</ng-template>

@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WidgetsModule } from '../../../_metronic/partials';
 import { InvestProjectListingComponent } from './invest-project-listing.component';
 import { DetailsComponent } from './details/details.component';
-import { InlineSVGModule } from 'ng-inline-svg';
+
 
 @NgModule({
   declarations: [InvestProjectListingComponent, DetailsComponent],
@@ -27,7 +27,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    InlineSVGModule,
+
   ],
 })
 export class InvestProjectListingModule {}

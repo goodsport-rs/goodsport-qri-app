@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { WidgetsModule } from '../../_metronic/partials';
 import { AdminRouting } from './admin-routing';
 import { AdminService } from './admin.service';
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { AdminService } from './admin.service';
     NgApexchartsModule,
     ReactiveFormsModule,
     FormsModule,
+    NgbPaginationModule,
     HttpClientModule,
     WidgetsModule,
   ],

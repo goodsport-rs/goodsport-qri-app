@@ -12,7 +12,7 @@ import { SharedModule } from "../../_metronic/shared/shared.module";
   imports: [
     CommonModule,
     FormsModule,
-    InlineSVGModule,
+
     NgbTooltipModule,
     SharedModule,
     RouterModule.forChild([

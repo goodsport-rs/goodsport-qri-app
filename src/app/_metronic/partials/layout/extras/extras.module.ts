@@ -23,11 +23,12 @@ import { SharedModule } from "../../../shared/shared.module";
   imports: [
     CommonModule,
     FormsModule,
-    InlineSVGModule,
+
     RouterModule,
     TranslationModule,
     NgbTooltipModule,
-    SharedModule
+    SharedModule,
+    InlineSVGModule
   ],
   exports: [
     NotificationsInnerComponent,

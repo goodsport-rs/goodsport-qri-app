@@ -20,6 +20,18 @@ const Routing: Routes = [
     path:'investors',
     loadChildren: () => import('./admin/investors/investor.module').then((m) => m.InvestorModule),
   },
+  {
+    path:'media',
+    loadChildren: () => import('./admin/media/media.module').then((m) => m.MediaModule),
+  },
+  {
+    path:'partners',
+    loadChildren: () => import('./admin/partners/partners.module').then((m) => m.PartnersModule),
+  },
+  {
+    path:'projects',
+    loadChildren: () => import('./admin/projects/projects.module').then((m) => m.ProjectsModule),
+  },
 
   {
     path: 'apps/users',

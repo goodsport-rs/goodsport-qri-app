@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import {NgbModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 
 
-import { WidgetsModule } from '../../../_metronic/partials';
 import { InvestorsComponent } from './investors.component';
 import { InvestorDetailsComponent } from './details/details.component';
 
@@ -23,7 +22,6 @@ import { InvestorDetailsComponent } from './details/details.component';
         component: InvestorDetailsComponent,
       },
     ]),
-    WidgetsModule,
     FormsModule,
     NgbModule,
     NgbPaginationModule

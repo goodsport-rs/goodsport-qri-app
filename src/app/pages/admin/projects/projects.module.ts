@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { WidgetsModule } from '../../../_metronic/partials';
+import {NgbAccordionModule, NgbModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsComponent } from './projects.component';
 import { ProjectDetailComponent } from './details/details.component';
-
+import {InlineSVGModule} from "ng-inline-svg-2";
 
 
 @NgModule({
-  declarations: [ProjectsComponent, ProjectDetailComponent],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+
     RouterModule.forChild([
       {
         path: '',
@@ -24,11 +25,15 @@ import { ProjectDetailComponent } from './details/details.component';
         component: ProjectDetailComponent,
       },
     ]),
-    WidgetsModule,
     NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
-
+    NgbPaginationModule,
+    NgbAccordionModule,
+    InlineSVGModule,
   ],
+  declarations: [
+    ProjectsComponent,
+    ProjectDetailComponent,
+  ],
+  providers: [DatePipe],
 })
 export class ProjectsModule {}

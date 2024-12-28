@@ -27,7 +27,7 @@ import { SharedModule } from "../../_metronic/shared/shared.module";
   imports: [
     CommonModule,
     ProfileRoutingModule,
-    InlineSVGModule,
+
     DropdownMenusModule,
     WidgetsModule,
     CardsModule,

@@ -1,0 +1,199 @@
+<div class="card">
+
+
+  <div class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0">
+
+    <form data-kt-search-element="form" autocomplete="off" class="w-100 d-flex justify-content-between">
+
+      <div class="px-2 w-70 radius-8px">
+
+        <select class="form-select form-select-transparent" aria-label="Select example" name="phaseSearch"
+                [(ngModel)]="projectPhase" (change)="onPhaseSearch()"
+        >
+          <option value="">Phase</option>
+          <option *ngFor="let item of projectPhases" value="{{ item }}">
+            {{ item }}
+          </option>
+        </select>
+
+
+      </div>
+      <div class="px-2 w-70 radius-8px">
+        <select class="form-select form-select-transparent" aria-label="Select example" name="phaseSearch"
+                [(ngModel)]="projectStatus" (change)="onPhaseSearch()"
+        >
+          <option value="">Status</option>
+          <option *ngFor="let status of projectStatuses" value="{{ status }}">
+            {{ status }}
+          </option>
+        </select>
+
+      </div>
+      <div class="bg-light position-relative px-5 w-100 me-10 radius-8px">
+
+
+      <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
+        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
+                transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+          <path
+            d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+            fill="black"></path>
+        </svg></span>
+        <input type="text" name="search" placeholder="Search..." data-kt-search-element="input"
+               class="form-control form-control-flush ps-10 fs-7" [(ngModel)]="search"
+               (keyup.enter)="onEnterSearch()"/>
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+        <thead>
+        <tr>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Projekt </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Fas </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Beslut </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Kod </span>
+          </th>
+          <th style="text-align:right">
+            <span class="text-gray-500 fs-8 bold"> Sökt Belopp </span>
+          </th>
+
+          <th style="text-align:right">
+            <span class="text-gray-500 fs-8 bold"> Senast ändrad </span>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let project of allProjects">
+          <td class="">
+            <div class="d-flex w-250px">
+              <div class="symbol symbol-50px me-5">
+                  <span class="symbol-label bg-light">
+                    <!-- <img src="./assets/media/svg/avatars/001-boy.svg" class="h-75 align-self-end" alt="" /> -->
+                    <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">
+                      <img src="./assets/media/categories/{{project?.categoryId}}-icon.png" class="w-50px"
+                           style=" border-radius: 10%;"/>
+                    </span>
+                  </span>
+              </div>
+
+              <div class="d-flex justify-content-start flex-column">
+                <a
+                  [routerLink]="['./details', project.id]"
+                  class="text-dark fw-bolder text-hover-primary mb-0 fs-12"
+                >{{ project?.title }}</a
+                >
+                <span class="text-muted fw-bold text-muted d-block fs-11"
+                >{{ project?.organizationName }} </span
+                >
+              </div>
+
+
+            </div>
+          </td>
+          <td>
+              <span class="fw-bold text-dark d-block fs-10">
+                <div class="card-toolbar">
+                  <span class="badge dark-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="project?.projectPhase === 'IDEA'">
+
+                     Projekt Ide </span>
+                                    <span
+                                      class="badge dark-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                                      *ngIf="project?.projectPhase === 'PLAN'">
+
+                     Affärsplan </span>
+                                    <span
+                                      class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                                      *ngIf="project?.projectPhase === 'FUNDING'">
+
+
+                     Investering </span>
+                                       <span
+                                         class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                                         *ngIf="project?.projectPhase === 'REPORTING'">Åter rapportering</span>
+                                    <span
+                                      class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                                      *ngIf="project?.projectPhase === 'FINAL_REPORT'">
+
+                     GRI Rapport </span>
+
+                </div>
+              </span>
+          </td>
+          <td>
+              <span class="fw-bold text-dark d-block fs-10">
+                <div class="card-toolbar">
+                  <span class="badge light-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="project?.projectStatus === 'NEW'">
+                    Pending {{ project?.projectPhase }} Submission</span>
+                  <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="project?.projectStatus === 'APPROVED'">
+                    Project Approved</span>
+                  <span class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="project?.projectStatus === 'ACCEPTED'">
+                    Open for Investment</span>
+                  <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="project?.projectStatus === 'DECLINED'">
+                    Project Rejected</span>
+                  <span class="badge light-purple-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="project?.projectStatus === 'PENDING'">
+                    {{ project?.projectPhase }} Approval Pending</span>
+                </div>
+              </span>
+          </td>
+
+          <td style="text-align:right">
+             <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{project?.investorCampaignCode}}
+              </span>
+          </td>
+          <td style="text-align:right">
+              <span class="text-muted fw-bold text-muted d-block fs-11" *ngIf="project?.fundingInterval === 'ONE_TIME'">
+                {{project?.fundingAmountRequest}} SEK
+              </span>      <span class="text-muted fw-bold text-muted d-block fs-11"  *ngIf="project?.fundingInterval === 'MONTHLY'">
+                {{project?.fundingAmountRequest}} SEK / månad
+              </span> <span class="text-muted fw-bold text-muted d-block fs-11"  *ngIf="project?.fundingInterval === 'YEARLY'">
+                {{project?.fundingAmountRequest}} SEK / år
+              </span>
+          </td>
+
+          <td style="text-align:right">
+             <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{project?.lastModifiedDateTime }}
+              </span>
+          </td>
+
+        </tr>
+        </tbody>
+        <!--en
+d::Table body-->
+      </table>
+      <!--end::Table-->
+
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
+        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <input type="hidden" value="{{ dataLoading$ | async }}" /> -->

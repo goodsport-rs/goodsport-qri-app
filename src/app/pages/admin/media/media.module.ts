@@ -2,25 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { CategoryComponent } from './category.component';
+import {NgbModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { MediaComponent } from './media.component';
 
 
 @NgModule({
-  declarations: [CategoryComponent],
+  declarations: [MediaComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: CategoryComponent,
+        component: MediaComponent,
       },
 
     ]),
     FormsModule,
     NgbModule,
     ReactiveFormsModule,
+    NgbPaginationModule
   ],
 })
-export class CategoryModule {}
+export class MediaModule {}

@@ -8,7 +8,7 @@ import { SharedModule } from "../../../shared/shared.module";
   declarations: [ThemeModeSwitcherComponent],
   imports: [
     CommonModule,
-    InlineSVGModule,
+
     SharedModule
   ],
   exports: [ThemeModeSwitcherComponent],

@@ -22,7 +22,7 @@ import { SharedModule } from "../../../shared/shared.module";
   ],
   imports: [
     CommonModule,
-    InlineSVGModule,
+
     NgbTooltipModule,
     DropdownMenusModule,
     SharedModule
