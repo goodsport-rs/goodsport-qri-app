@@ -18,7 +18,7 @@ interface MenuItem {
 export class SidebarMenuComponent implements OnInit {
   menuItems: MenuItem[] = [
     { title: 'Dashboard', link: '/dashboard', roles: ['ROLE_ADMIN', 'ROLE_ENTREPRENEUR', 'ROLE_INVESTOR'], icon: 'element-11' },
-    { title: 'Categories', link: '/categories', roles: ['ROLE_ADMIN'], icon: 'element-12' },
+    { title: 'Categories', link: '/admin/categories', roles: ['ROLE_ADMIN'], icon: 'element-12' },
     { title: 'Investments', link: '/investments', roles: ['ROLE_INVESTOR'], icon: 'element-13' },
     { title: 'Projects', link: '/projects', roles: ['ROLE_ENTREPRENEUR','ROLE_ADMIN'], icon: 'element-14' },
     { title: 'Entrepreneurs', link: '/entrepreneurs', roles: ['ROLE_ADMIN', 'ROLE_ENTREPRENEUR'], icon: 'rocket' },

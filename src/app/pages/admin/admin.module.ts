@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { WidgetsModule } from '../../_metronic/partials';
 import { AdminRouting } from './admin-routing';
 import { AdminService } from './admin.service';
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
@@ -21,8 +20,7 @@ import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
     ReactiveFormsModule,
     FormsModule,
     NgbPaginationModule,
-    HttpClientModule,
-    WidgetsModule,
+    HttpClientModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [AdminService],

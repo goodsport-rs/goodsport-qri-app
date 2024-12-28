@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import {AdminRouting} from "./admin/admin-routing";
 import {PortalGuard} from "../auth/guards/portal.guard";
-import {EntrepreneursModule} from "./admin/entrepreneurs/entrepreneurs.module";
 
 const Routing: Routes = [
   {
@@ -9,23 +8,23 @@ const Routing: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path:'categories',
+    path:'admin/categories',
     loadChildren: () => import('./admin/categories/category.module').then((m) => m.CategoryModule),
   },
   {
-    path:'entrepreneurs',
+    path:'admin/entrepreneurs',
     loadChildren: () => import('./admin/entrepreneurs/entrepreneurs.module').then((m) => m.EntrepreneursModule),
   },
   {
-    path:'investors',
+    path:'admin/investors',
     loadChildren: () => import('./admin/investors/investor.module').then((m) => m.InvestorModule),
   },
   {
-    path:'media',
+    path:'admin/media',
     loadChildren: () => import('./admin/media/media.module').then((m) => m.MediaModule),
   },
   {
-    path:'partners',
+    path:'admin/partners',
     loadChildren: () => import('./admin/partners/partners.module').then((m) => m.PartnersModule),
   },
   {
@@ -33,7 +32,7 @@ const Routing: Routes = [
     loadChildren: () => import('./admin/projects/projects.module').then((m) => m.ProjectsModule),
   },
   {
-    path:'investments',
+    path:'admin/investments',
     loadChildren: () => import('./admin/investments/investment.module').then((m) => m.InvestmentModule),
   },
 

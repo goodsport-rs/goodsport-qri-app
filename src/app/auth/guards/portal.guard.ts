@@ -32,7 +32,7 @@ export class PortalGuard implements CanActivate {
     }
     const role = storage.role;
     const path = this.url.split('/')[1];
-    console.log('role', role);
+    console.log('role  ===>', role);
     if (role === 'ROLE_ADMIN' && path !== 'admin') {
       this.router.navigate(['/admin']);
       return false;
