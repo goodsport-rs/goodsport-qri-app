@@ -9,12 +9,16 @@ const Routing: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path:'projects',
+    path:'categories',
     loadChildren: () => import('./admin/categories/category.module').then((m) => m.CategoryModule),
   },
   {
     path:'entrepreneurs',
     loadChildren: () => import('./admin/entrepreneurs/entrepreneurs.module').then((m) => m.EntrepreneursModule),
+  },
+  {
+    path:'investors',
+    loadChildren: () => import('./admin/investors/investor.module').then((m) => m.InvestorModule),
   },
 
   {

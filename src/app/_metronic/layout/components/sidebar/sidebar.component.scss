@@ -1,0 +1,21 @@
+.main-logo-text{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover{
+        color: #fff;
+        text-decoration: none;
+    }
+}

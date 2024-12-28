@@ -1,0 +1,276 @@
+<div *ngIf="!(dataLoading$ | async)">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card py-11 radius-15px">
+        <!--begin::Card body-->
+        <div class="card-toolbar text-end mt-5 pe-5"></div>
+        <div class="card-body d-flex flex-center flex-column py-0 px-9 radius-8px">
+          <!--begin::Avatar-->
+          <div class="symbol symbol-100px symbol-circle mb-5 profile-pic">
+            <span class="symbol-label fs-2x fw-bold text-white yellow-bg yellow-light-border"
+                  *ngIf="!investorDetails?.imageUrl">{{
+              investorDetails?.organizationName.charAt(0) }}</span>
+            <img src="{{investorDetails?.imageUrl}}" *ngIf="investorDetails?.imageUrl">
+          </div>
+          <!--begin::Name-->
+          <span class="fs-4 text-gray-800 fw-bolder mb-5">{{
+            investorDetails.organizationName }}</span>
+          <!--end::Name-->
+          <!--end::Avatar-->
+          <div class="card-toolbar mb-5">
+            <span class="badge light-green-badge fw-bolder me-auto px-4 py-2" *ngIf="investorDetails?.verified">
+            Verified
+            </span>
+          </div>
+        </div>
+        <!--begin::Card body-->
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="card radius-15px">
+        <div class="card-header border-0 pt-5">
+          <div class="card-title mt-3">
+            <span class="card-label fw-bolder fs-3 mb-1">Profile</span>
+          </div>
+        </div>
+        <div class="card-body pt-0 pb-0">
+          <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-7 mb-3">
+            <tbody>
+            <tr class="">
+              <td>
+                  <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
+                    <img src="./assets/media/icons/briefcase.png" alt="envelope"/>
+                  </span>
+                <span class="text-gray-500 fw-bold"> Name </span>
+              </td>
+              <td>
+                  <span class="text-gray-500 fw-medium">
+                    {{ investorDetails?.firstName }}
+                    {{ investorDetails?.lastName }}
+                  </span>
+              </td>
+
+              <td class="text-end"></td>
+            </tr>
+            <tr class="">
+              <td>
+                  <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
+                    <img src="./assets/media/icons/envelope.png" alt="envelope"/>
+                  </span>
+                <span class="text-gray-500 fw-bold"> Email </span>
+              </td>
+              <td>
+                  <span class="text-gray-500 fw-medium">
+                    {{ investorDetails?.username }}
+                  </span>
+              </td>
+
+              <td class="text-end"></td>
+            </tr>
+            <tr class="">
+              <td>
+                  <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
+                    <img src="./assets/media/icons/mob.png" alt="envelope"/>
+                  </span>
+                <span class="text-gray-500 fw-bold"> Phone </span>
+              </td>
+              <td>
+                  <span class="text-gray-500 fw-medium">
+                    {{ investorDetails?.phoneNumber }}
+                  </span>
+              </td>
+
+              <td class="text-end"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card mt-7 radius-15px py-3"  *ngIf="investments.length > 0">
+    <div class="card-header border-0 mb-0">
+      <div class="card-title mt-3">
+        <h4 class="fs-3 fw-bolder">Investments</h4>
+      </div>
+      <div class="card-toolbar text-end mt-5 pe-5"></div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
+        >
+          <thead>
+          <tr>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Project </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Status </span>
+            </th>
+            <th>
+              <span class="text-gray-500 fs-8 bold"> Created date </span>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let investment of investments">
+
+            <td>
+
+              <a
+                [routerLink]="['/admin/projects/details',investment.projectId]"
+                class="text-dark fw-bolder text-hover-primary mb-0 fs-12"
+              >{{ investment.projectName }}</a>
+
+
+            </td>
+
+            <td>
+                <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                      *ngIf=" investment.investmentStatus === 'APPROVED'">APPROVED</span>
+              <span class="badge light-red-badge  fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                    *ngIf=" investment.investmentStatus === 'DECLINED'">DECLINED</span>
+              <span class="badge dark-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                    *ngIf=" investment.investmentStatus === 'PENDING'">PENDING</span>
+
+            </td>
+            <td>
+              <span class="text-muted fw-bold text-muted d-block fs-11">
+                {{ investment.createdDateTime }}</span
+              >
+            </td>
+          </tr>
+          </tbody>
+          <!--end::Table body-->
+        </table>
+        <!--end::Table-->
+
+        <div
+          class="col text-center data-loader mt-5 p-5 pt-7"
+          *ngIf="dataLoading$ | async"
+        >
+          <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <div
+          class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
+        >
+          <ngb-pagination
+            [collectionSize]="totalItems"
+            [(page)]="page"
+            [pageSize]="20"
+            [maxSize]="5"
+            (pageChange)="onPageChange()"
+          >
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-7 radius-15px py-3">
+    <div class="card-header border-0 mb-0">
+      <div class="card-title mt-3">
+        <h4 class="fs-3 fw-bolder">Project Preferences</h4>
+      </div>
+      <div class="card-toolbar text-end mt-5 pe-5"></div>
+    </div>
+    <div class="card-body d-flex justify-content-start pt-0 flex-wrap pb-3">
+      <span *ngFor="let data of selectedCategories"
+            class="yellow-light-bg d-flex flex-column align-items-center justify-content-center p-5 pt-5 pb-3 rounded-card me-5 w-125px radius-8px mb-5">
+        <img src="./assets/media/categories/{{data?.id}}-icon.png" class="w-50px radius-8px" alt=" camera.png"/>
+        <span class="text-gray-700 d-block mt-2 fs-8 bold h-40px overflow-hidden text-center">{{
+          data?.name
+          }}</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!--edit profile modal-->
+<ng-template #content let-modal>
+  <div class="modal-header px-10">
+    <h4 class="modal-title fw-bolder" id="modal-basic-title">
+      Organisationsfrågor
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <!--begin::Card body-->
+
+      <div class="card-body d-flex flex-column pt-0 px-5">
+        <div class="d-flex align-items-center">
+          <!--begin::Avatar-->
+          <div class="symbol symbol-100px symbol-circle me-10 profile-pic">
+            <span class="symbol-label fs-2x fw-bold text-white yellow-bg yellow-light-border">bp</span>
+          </div>
+          <!--begin::Name-->
+          <div>
+            <a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bolder">Bromma Pojkarna</a>
+            <!--end::Name-->
+            <!--end::Avatar-->
+            <div class="card-toolbar">
+              <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 mt-3">
+                <span class="svg-icon svg-icon-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path opacity="0.3"
+                          d="M10 18C9.7 18 9.5 17.9 9.3 17.7L2.3 10.7C1.9 10.3 1.9 9.7 2.3 9.3C2.7 8.9 3.29999 8.9 3.69999 9.3L10.7 16.3C11.1 16.7 11.1 17.3 10.7 17.7C10.5 17.9 10.3 18 10 18Z"
+                          fill="black"></path>
+                    <path
+                      d="M10 18C9.7 18 9.5 17.9 9.3 17.7C8.9 17.3 8.9 16.7 9.3 16.3L20.3 5.3C20.7 4.9 21.3 4.9 21.7 5.3C22.1 5.7 22.1 6.30002 21.7 6.70002L10.7 17.7C10.5 17.9 10.3 18 10 18Z"
+                      fill="black"></path>
+                  </svg>
+                </span>
+                Verified</span>
+            </div>
+          </div>
+        </div>
+        <!--begin::Position-->
+        <div class="fw-bold text-dark mb-0 text-start mt-10">
+          <p>Drivs organisationen av någon politisk utsatt person (PEP)?</p>
+
+          <button class="btn btn-light bg-white border w-200px me-5">
+            Yes
+          </button>
+          <button class="btn blue-transparent-button w-200px">No</button>
+        </div>
+        <!--end::Position-->
+
+        <div class="fw-bold text-dark mb-0 text-start mt-10">
+          <p>
+            Är organisationen försatt i konkurs eller genomgår en
+            konkursutredning?
+          </p>
+
+          <div class="fv-row fv-plugins-icon-container">
+            <!--begin::Input-->
+            <input type="text" class="form-control form-control-lg form-control-solid" name="name"
+                   placeholder="Test Text" value=""/>
+            <!--end::Input-->
+          </div>
+        </div>
+      </div>
+      <!--begin::Card body-->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light w-200px" (click)="modal.close('Save click')">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-200px" (click)="modal.close('Save click')">
+      Submit
+    </button>
+  </div>
+</ng-template>
+<!--edit profile modal-->

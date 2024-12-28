@@ -2,24 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+
+
 import { WidgetsModule } from '../../../_metronic/partials';
-import { EntrepreneursComponent } from './entrepreneurs.component';
-import { EntrepreneurDetailsComponent } from './details/details.component';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { InvestorsComponent } from './investors.component';
+import { InvestorDetailsComponent } from './details/details.component';
 
 @NgModule({
-  declarations: [EntrepreneursComponent, EntrepreneurDetailsComponent],
+  declarations: [InvestorsComponent, InvestorDetailsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: EntrepreneursComponent,
+        component: InvestorsComponent,
       },
       {
         path: 'details/:id',
-        component: EntrepreneurDetailsComponent,
+        component: InvestorDetailsComponent,
       },
     ]),
     WidgetsModule,
@@ -28,4 +29,4 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     NgbPaginationModule
   ],
 })
-export class EntrepreneursModule {}
+export class InvestorModule {}
