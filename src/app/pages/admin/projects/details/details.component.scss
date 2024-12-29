@@ -22,10 +22,26 @@
 }
 
 .my-custom-class .tooltip-inner {
-  max-width: 400px; 
-  width: inherit; 
+  max-width: 400px;
+  width: inherit;
 }
 
 .text-style{
   white-space: pre-wrap;
+}
+
+.nav-tabs .nav-link {
+  font-size: 1.5rem; /* Increase font size */
+  padding: 1rem 1.5rem; /* Increase padding */
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #007bff; /* Change background color */
+  color: #fff; /* Change text color */
+  border-color: #007bff; /* Change border color */
+}
+
+.tab-content .tab-pane {
+  padding: 1.1rem; /* Increase padding */
+  font-size: 1.25rem; /* Increase font size */
 }

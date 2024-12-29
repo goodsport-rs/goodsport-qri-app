@@ -1,0 +1,525 @@
+<div *ngIf="!(dataLoading$ | async)">
+  <div class="card d-flex justify-content-between  flex-row card-rounded mb-5">
+    <div class="card-body pt-9 pb-0 border-0">
+      <div class="d-flex flex-wrap flex-sm-nowrap mb-3 border-0">
+        <div class="me-7 mb-4">
+          <div class="
+              symbol symbol-150px symbol-lg-150px symbol-fixed
+              position-relative
+            ">
+            <img src="./assets/media/categories/{{projectDetails?.categoryId}}-icon.png" alt="Logo" />
+          </div>
+        </div>
+
+        <div class="flex-grow-1">
+          <div class="
+              d-flex
+              justify-content-between
+              align-items-start
+              flex-wrap
+              mb-2
+            ">
+            <div class="d-flex flex-column">
+              <div class="d-flex align-items-center mb-2">
+                <a class="
+                    text-gray-800
+                    fs-3
+                    fw-bolder
+                    me-1
+
+                  ">
+                  {{ projectDetails?.title }}
+                </a>
+                <div class="card-toolbar ps-5">
+                  <span class="badge light-yellow-badge fw-bolder me-auto px-4 py- rounded-pill text-uppercase"
+                    *ngIf="projectDetails?.projectStatus === 'NEW'">
+                    {{ projectDetails?.projectPhase }} Pending</span>
+                  <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                    *ngIf="projectDetails?.projectStatus === 'APPROVED'">
+                    Project Approved</span>
+                  <span class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                    *ngIf="projectDetails?.projectStatus === 'ACCEPTED'">
+                    Öppen för investering</span>
+                  <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                    *ngIf="projectDetails?.projectStatus === 'DECLINED'">
+                    Projektet avvisad </span>
+                  <span class="badge light-purple-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                    *ngIf="projectDetails?.projectStatus === 'PENDING'">
+                    {{ projectDetails?.projectPhase }} Skickad - Under granskning</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap flex-stack">
+            <div class="d-flex flex-column flex-grow-1 pe-8">
+              <div class="d-flex flex-wrap">
+                <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                  <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen049.svg'
+                      " class="svg-icon svg-icon-1 me-2 yellow-icon "></span>
+                    <div class="fs-5 fw-bolder">{{ projectDetails?.entrepreneur }}</div>
+                  </div>
+
+                  <div class="fw-bold fs-7 text-gray-400 ms-9">Entreprenör</div>
+                </div>
+
+                <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                  <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen048.svg'
+                      " class="svg-icon svg-icon-1 blue-icon  me-2"></span>
+                    <div class="fs-5 fw-bolder">{{ projectDetails?.organizationName }}</div>
+                  </div>
+
+                  <div class="fw-bold fs-7 text-gray-400 ms-9">Organisation</div>
+                </div>
+
+                <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                  <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/finance/fin010.svg'
+                      " class="svg-icon svg-icon-1 yellow-icon  me-2"></span>
+                    <div class="fs-5 fw-bolder">{{ projectDetails?.fundingAmountRequest }} SEK</div>
+                  </div>
+
+                  <div  *ngIf="projectDetails?.fundingInterval === 'ONE_TIME'" class="fw-bold fs-7 text-gray-400 ms-9">Engångsumma</div>
+                  <div  *ngIf="projectDetails?.fundingInterval === 'MONTHLY'" class="fw-bold fs-7 text-gray-400 ms-9">Per månad</div>
+                  <div  *ngIf="projectDetails?.fundingInterval === 'YEARLY'" class="fw-bold fs-7 text-gray-400 ms-9">Per år</div>
+                </div>
+
+                <div class="
+                    border border-gray-300 border-dashed
+                    rounded
+                    min-w-125px
+                    py-3
+                    px-4
+                    me-6
+                    mb-3
+                  ">
+                  <div class="d-flex align-items-center">
+                    <span [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen014.svg'
+                      " class="svg-icon svg-icon-3 yellow-icon me-2"></span>
+                    <div class="fs-5 fw-bolder">{{ projectDetails?.createdDateTime | date: "longDate" }}</div>
+                  </div>
+
+                  <div class="fw-bold fs-7 text-gray-400 ms-7">Skapad</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="
+            d-flex
+            align-items-center
+            w-200px w-sm-300px
+            flex-column
+            mt-3
+          ">
+            <div class="d-flex justify-content-between w-100 mt-auto mb-2">
+              <span class="fw-bold fs-7 text-dark">Project Approval Process</span>
+              <span class="fw-bolder fs-7">
+                <ng-container [ngSwitch]="projectDetails?.projectPhase">
+                  <ng-container *ngSwitchCase="'IDEA'">
+                    <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                      <ng-container *ngSwitchCase="'NEW'">0%</ng-container>
+                      <ng-container *ngSwitchCase="'PENDING'">17%</ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'PLAN'">
+                    <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                      <ng-container *ngSwitchCase="'NEW'">33%</ng-container>
+                      <ng-container *ngSwitchCase="'PENDING'">50%</ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'FUNDING'">
+                    <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                      <ng-container *ngSwitchCase="'NEW'">66%</ng-container>
+                      <ng-container *ngSwitchCase="'PENDING'">83%</ng-container>
+                      <ng-container *ngSwitchCase="'ACCEPTED'">90%</ng-container>
+                      <ng-container *ngSwitchCase="'APPROVED'">100%</ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'REPORTING'">100%
+                  </ng-container>
+                </ng-container>
+              </span>
+            </div>
+            <div class="h-5px mx-3 w-100 bg-light mb-3">
+              <ng-container [ngSwitch]="projectDetails?.projectPhase">
+                <ng-container *ngSwitchCase="'IDEA'">
+                  <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                    <ng-container *ngSwitchCase="'NEW'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'0%'"></div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'PENDING'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'17%'"></div>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="'PLAN'">
+                  <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                    <ng-container *ngSwitchCase="'NEW'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'33%'"></div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'PENDING'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'50%'"></div>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="'FUNDING'">
+                  <ng-container [ngSwitch]="projectDetails?.projectStatus">
+                    <ng-container *ngSwitchCase="'NEW'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'66%'"></div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'PENDING'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'83%'"></div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'ACCEPTED'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'90%'"></div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'APPROVED'">
+                      <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'100%'"></div>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="'REPORTING'">
+                  <div class="bg-success rounded h-5px" role="progressbar" [style.width]="'100%'"></div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card-footer border-0">
+
+
+      <button class="btn success-button w-175px ms-3 fs-7" *ngIf="
+          projectDetails?.projectPhase === 'FUNDING' &&
+          projectDetails?.projectStatus === 'APPROVED'
+        " (click)="onClickApproveReject(startProject)" [disabled]="startLoading$ | async">
+        <ng-container *ngIf="startLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Please wait...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!(startLoading$ | async)">
+          <span class="indicator-label">Start</span>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed banner-bg">
+    <!--begin::Content-->
+    <div class="d-flex flex-center flex-column flex-column-fluid vh-xxl-100">
+      <!--begin::Content body-->
+      <div class="bg-white rounded shadow-sm pb-10 mx-auto w-100 radius-15px overflow-hidden">
+        <div class="stepper stepper-pills stepper-column d-flex flex-wrap" id="kt_create_account_stepper">
+          <div class="d-flex justify-content-center bg-white rounded justify-content-xl-start flex-row-auto w-100">
+            <div class="stepper-nav horizental-stepper w-100 d-flex flex-row p-10 py-0 mb-7 px-0">
+              <div class="stepper-item align-items-center hand" [ngClass]="{
+                  current: currentStep$.value === 1,
+                  completed: currentStep$.value > 1
+                }" (click)="currentStep$.next(1)">
+                <div class="stepper-icon w-30px h-30px me-0 mb-0">
+                  <i class="stepper-check fas fa-check"></i>
+                  <span class="stepper-number">1</span>
+                </div>
+
+                <div class="stepper-label ms-6">
+                  <h3 class="stepper-title fs-7 bold">Projekt Ide</h3>
+                </div>
+              </div>
+
+              <div class="stepper-item align-items-center hand" [ngClass]="{
+                  current: currentStep$.value === 2,
+                  completed: currentStep$.value > 2,
+                  'disable-div': currentPhase < 1
+                }" (click)="currentStep$.next(2)">
+                <div class="stepper-icon w-30px h-30px me-0 mb-0">
+                  <i class="stepper-check fas fa-check"></i>
+                  <span class="stepper-number">2</span>
+                </div>
+
+                <div class="stepper-label ms-6">
+                  <h3 class="stepper-title fs-7 bold">
+                    Plan
+                    <span class="svg-icon-gray svg-icon ms-2" *ngIf="currentPhase < 1">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <mask fill="white">
+                            <use xlink:href="#path-1" />
+                          </mask>
+                          <g />
+                          <path
+                            d="M7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 Z M12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L15,10 L15,8 C15,6.34314575 13.6568542,5 12,5 Z"
+                            fill="#000000" />
+                        </g>
+                      </svg>
+                    </span>
+                  </h3>
+                </div>
+              </div>
+
+              <div class="stepper-item align-items-center hand" [ngClass]="{
+                  current: currentStep$.value === 3,
+                  completed: currentStep$.value > 3,
+                  'disable-div': currentPhase < 2
+                }" (click)="currentStep$.next(3)">
+                <div class="stepper-icon w-30px h-30px me-0 mb-0">
+                  <i class="stepper-check fas fa-check"></i>
+                  <span class="stepper-number">3</span>
+                </div>
+
+                <div class="stepper-label ms-6">
+                  <h3 class="stepper-title fs-7 bold">
+                    Investering
+                    <span class="svg-icon-gray svg-icon ms-2" *ngIf="currentPhase < 2">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <mask fill="white">
+                            <use xlink:href="#path-1" />
+                          </mask>
+                          <g />
+                          <path
+                            d="M7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 Z M12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L15,10 L15,8 C15,6.34314575 13.6568542,5 12,5 Z"
+                            fill="#000000" />
+                        </g>
+                      </svg>
+                    </span>
+                  </h3>
+                </div>
+              </div>
+
+              <div class="stepper-item align-items-center hand" [ngClass]="{
+                  current: currentStep$.value === 4,
+                  completed: currentStep$.value > 4,
+                  'disable-div': currentPhase < 3
+                }" (click)="currentStep$.next(4)">
+                <div class="stepper-icon w-30px h-30px me-0 mb-0">
+                  <i class="stepper-check fas fa-check"></i>
+                  <span class="stepper-number">4</span>
+                </div>
+
+                <div class="stepper-label ms-6">
+                  <h3 class="stepper-title fs-7 bold">
+                    Återrapportering
+                    <span class="svg-icon-gray svg-icon ms-2" *ngIf="currentPhase < 3">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <mask fill="white">
+                            <use xlink:href="#path-1" />
+                          </mask>
+                          <g />
+                          <path
+                            d="M7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 Z M12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L15,10 L15,8 C15,6.34314575 13.6568542,5 12,5 Z"
+                            fill="#000000" />
+                        </g>
+                      </svg>
+                    </span>
+                  </h3>
+                </div>
+              </div>
+
+              <div class="stepper-item align-items-center hand" [ngClass]="{
+                  current: currentStep$.value === 5,
+                  completed: currentStep$.value > 5,
+                  'disable-div': currentPhase < 4
+                }" (click)="currentStep$.next(5)">
+                <div class="stepper-icon w-30px h-30px me-0 mb-0">
+                  <i class="stepper-check fas fa-check"></i>
+                  <span class="stepper-number">5</span>
+                </div>
+
+                <div class="stepper-label ms-6">
+                  <h3 class="stepper-title fs-7 bold">
+                    GRI Rapport
+                    <span class="svg-icon-gray svg-icon ms-2" *ngIf="currentPhase < 4">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <mask fill="white">
+                            <use xlink:href="#path-1" />
+                          </mask>
+                          <g />
+                          <path
+                            d="M7,10 L7,8 C7,5.23857625 9.23857625,3 12,3 C14.7614237,3 17,5.23857625 17,8 L17,10 L18,10 C19.1045695,10 20,10.8954305 20,12 L20,18 C20,19.1045695 19.1045695,20 18,20 L6,20 C4.8954305,20 4,19.1045695 4,18 L4,12 C4,10.8954305 4.8954305,10 6,10 L7,10 Z M12,5 C10.3431458,5 9,6.34314575 9,8 L9,10 L15,10 L15,8 C15,6.34314575 13.6568542,5 12,5 Z"
+                            fill="#000000" />
+                        </g>
+                      </svg>
+                    </span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap rounded col-md-12 px-0">
+            <form class="w-100 px-9" noValidate id="kt_create_account_form">
+              <div class="current w-100">
+                <ng-container *ngIf="currentStep$.value === 1">
+                  <app-signup-step0 class="w-100" [projectDetails]="projectDetails"
+                    (updateParent)="notifyChild($event)">
+                  </app-signup-step0>
+                </ng-container>
+
+                <ng-container *ngIf="currentStep$.value === 2">
+                  <app-signup-step1 class="w-100" [projectDetails]="projectDetails"
+                    (updateParent)="notifyChild($event)">
+                  </app-signup-step1>
+                </ng-container>
+
+                <ng-container *ngIf="currentStep$.value === 3">
+                  <app-signup-step2 class="w-100" [projectDetails]="projectDetails"
+                    (updateParent)="notifyChild($event)">
+                  </app-signup-step2>
+                </ng-container>
+
+                <ng-container *ngIf="currentStep$.value === 4">
+                  <app-signup-step3 class="w-100" [projectId]="projectId" [projectDetails]="projectDetails">
+                  </app-signup-step3>
+                </ng-container>
+
+                <ng-container *ngIf="currentStep$.value === 5">
+                  <app-signup-step4 class="w-100" [projectId]="projectId">
+                  </app-signup-step4>
+                </ng-container>
+              </div>
+
+
+            </form>
+          </div>
+        </div>
+      <!--end::Content body-->
+    </div>
+    <!--end::Content-->
+  </div>
+  <!-- </div> -->
+
+</div>
+
+<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!--project approve modal-->
+<ng-template #approveProject let-modal>
+  <div class="modal-header px-10">
+    <h4 class="modal-title fw-bolder" id="modal-basic-title">
+      Approve Project
+    </h4>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to approve this project?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light w-200px" (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-200px" (click)="onClickPopupBtn(modal, 'approved')"
+      [disabled]="statusLoading$ | async">
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<!--project reject modal-->
+<ng-template #rejectProject let-modal>
+  <div class="modal-header px-10">
+    <h4 class="modal-title fw-bolder" id="modal-basic-title">Reject Project</h4>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to reject this project?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light w-200px" (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-200px" (click)="onClickPopupBtn(modal, 'declined')"
+      [disabled]="statusLoading$ | async">
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<!--project start modal-->
+<ng-template #startProject let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">Start Project</h4>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to start this project?</p>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onClickStart(modal)"
+      [disabled]="startLoading$ | async">
+      <ng-container *ngIf="startLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(startLoading$ | async)">
+        <span class="indicator-label">Start</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>

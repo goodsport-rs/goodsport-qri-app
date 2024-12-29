@@ -1,0 +1,33 @@
+<div class="d-flex flex-column flex-column-fluid text-center p-10 py-lg-20">
+  <a (click)="routeToHome()" class=" pt-lg-20 cursor-pointer">
+    <img
+      alt="Logo"
+      src="./assets/media/logos/gs_logo2.png"
+      class="h-50px "
+    />
+  </a>
+  <div class="pt-lg-10">
+    <div class="row g-10 mt-5" *ngIf="!(dataLoading$ | async)">
+      <p *ngIf="successfulVerificationDone">Din epost är nu verifierad</p>
+      <p *ngIf="!successfulVerificationDone">Tyvärr kunde vi ej verifiera din epost felaktig verifieringskod</p>
+
+      <div class="text-center mt-10">
+        <a
+          (click)="routeToHome()"
+          class="btn btn-lg btn-primary fw-bolder cursor-pointer"
+        >
+          Tillbaka till hemsidan
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="col mt-5 p-5" *ngIf="dataLoading$ | async">
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>

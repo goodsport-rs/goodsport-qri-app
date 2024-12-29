@@ -1,0 +1,98 @@
+<form class="form" *ngIf="!(dataLoading$ | async)">
+  <div class="card-body">
+    <h3 class="font-size-lg text-center text-dark font-weight-bold mb-6">Report Info:</h3>
+    <div class="mb-15" *ngIf="viewData">
+
+      <div class="form-group row justify-content-center">
+        <label class="col-lg-3 col-form-label">Leaders:</label>
+        <div class="col-lg-6">
+          <span class="form-control form-text text-muted">{{viewData.leaders}}</span>
+        </div>
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-lg-3 col-form-label">Total Participants:</label>
+        <div class="col-lg-6">
+          <span class="form-control form-text text-muted">{{viewData.participants}}</span>
+        </div>
+      </div>
+      <div class="form-group row justify-content-center">
+        <label class="col-lg-3 col-form-label">Locality:</label>
+        <div class="col-lg-6">
+          <span class="form-control form-text text-muted">{{viewData.locality}}</span>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Locality:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.location}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Total Number of girls:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.femaleParticipants}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Number of new girls:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.newFemaleParticipants}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Total Number of boys:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.maleParticipants}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Number of new boys:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.newMaleParticipants}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Total Number of unaccompanied children:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.unaccompaniedMinors}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Number of new unaccompanied children:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.newUnaccompaniedMinors}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Report Date:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.reportDate}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Duration in minutes:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.duration}}</span>
+          </div>
+        </div>
+        <div class="form-group row justify-content-center">
+          <label class="col-lg-3 col-form-label">Status:</label>
+          <div class="col-lg-6">
+            <span class="form-control form-text text-muted">{{viewData.status}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="mt-5 text-center">
+        <button class="btn btn-primary profile-button" type="button" (click)="close()">Close</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

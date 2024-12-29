@@ -1,0 +1,40 @@
+<div class="card pb-5 mt-5">
+  <div class="row">
+    <div class="col">
+      <div class="text-center mt-15 mb-10">
+        <img class="h-150px" src="./assets/media/illustrations/courses.svg" alt="project-icon" />
+        <h4 class="bold fs-6 mt-8 mb-0">Lär dig hur söker investering till dina sociala projekt och GRI</h4>
+        <p class="text-gray-800 fs-8">
+         Nedan finner du antal online kurser för lära dig mer om social hållbara projekt.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- <div class="col-md-11 mx-auto"> -->
+    <div class="col-md-4 mx-auto mt-5 p-5" *ngFor="let data of allCourses">
+      <div class="d-flex justify-content-center">
+        <div class="card-xl-stretch card radius-15px overflow-hidden">
+          <iframe [src]="data?.link" frameborder="0" allowfullscreen class="h-200px"></iframe>
+          <div class="card-body pt-5 pb-5 bg-gray-200 px-6">
+            <div class="m-0">
+              <span class="fs-6 text-dark bold text-dark lh-base">{{
+                data?.title || "-"
+                }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+  <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="col-md-8 mx-auto d-flex mt-10">
+    <div class="row"></div>
+  </div>
+</div>

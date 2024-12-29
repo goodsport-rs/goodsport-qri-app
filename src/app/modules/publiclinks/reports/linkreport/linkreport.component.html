@@ -1,0 +1,197 @@
+<div class="container">
+  <form name="report" [formGroup]="form">
+    <div class="row justify-content-md-center">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="report-screen">
+          <div class="report-box">
+            <a href="#" class="login-logo">
+              <h2 class="fw-bolder text-dark mt-2">Rapportera projekt aktivitet</h2>
+            </a>
+            <div class="row gutters" *ngIf="btnStatus == 'rep1'">
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Aktivitetsnamn:</label>
+                  <input type="text" class="form-control form-control-solid" formControlName="title"
+                         placeholder="Activity Name">
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.title.touched && form.controls.title.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Email:</label>
+                  <input type="email" class="form-control form-control-solid" formControlName="email"
+                         placeholder="Email">
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.email.touched && form.controls.email.errors?.required">Detta fält är obligatoriskt</span>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.email.touched && form.controls.email.errors?.pattern">Invalid email</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Aktivietsdatum:</label>
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd"
+                           name="dp" formControlName="reportDate" ngbDatepicker formControlName="reportDate"
+                           #d="ngbDatepicker" dateFormat="dd-MMM-yyyy">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <i class="bi bi-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.reportDate.touched && form.controls.reportDate.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Ort:</label>
+                  <input type="text" class="form-control form-control-solid" formControlName="locality"
+                         placeholder="Ange ort">
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.locality.touched && form.controls.locality.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Plats:</label>
+                  <input type="text" class="form-control form-control-solid" formControlName="location"
+                         placeholder="Ange Plats">
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.location.touched && form.controls.location.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+
+
+              <!-- [disabled]="!(form.controls.reportDate.valid && form.controls.locality.valid && form.controls.title.valid)" -->
+              <button type="submit" class="continue-link btn btn-primary w-25"
+                      [disabled]="!(form.controls.reportDate.valid && form.controls.email.valid && form.controls.locality.valid && form.controls.title.valid)"
+                      (click)="continue('rep2')">Fortsätt
+              </button>
+            </div>
+
+            <div class="row gutters" *ngIf="btnStatus == 'rep2'">
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Total killar:</label>
+                  <input type="number" formControlName="maleParticipants" class="form-control form-control-solid"
+                         placeholder="Total Number of boys">
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.maleParticipants.touched && form.controls.maleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Nya killar:</label>
+                  <input type="number" formControlName="newMaleParticipants" class="form-control form-control-solid"
+                         placeholder="Number of new boys"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.newMaleParticipants.touched && form.controls.newMaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Total tjejer:</label>
+                  <input type="number" formControlName="femaleParticipants" class="form-control form-control-solid"
+                         placeholder="Total Number of girls"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.femaleParticipants.touched && form.controls.femaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-md-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Nya tjejer:</label>
+                  <input type="number" formControlName="newFemaleParticipants" class="form-control form-control-solid"
+                         placeholder="Number of new girls"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.newFemaleParticipants.touched && form.controls.newFemaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-md-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Total barn ensamkommande:</label>
+                  <input type="number" formControlName="unaccompaniedMinors" class="form-control form-control-solid"
+                         placeholder="Total Number of unaccompanied children"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.unaccompaniedMinors.touched && form.controls.unaccompaniedMinors.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-md-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Nya barn ensamkommande:</label>
+                  <input type="number" formControlName="newUnaccompaniedMinors" class="form-control form-control-solid"
+                         placeholder="Number of new unaccompanied children"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.newUnaccompaniedMinors.touched && form.controls.newUnaccompaniedMinors.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <button type="submit" class="continue-link btn btn-primary w-25" [disabled]="!(this.form.controls.femaleParticipants.valid
+              && this.form.controls.newFemaleParticipants.valid
+              && this.form.controls.unaccompaniedMinors.valid
+              && this.form.controls.newUnaccompaniedMinors.valid
+              && this.form.controls.newMaleParticipants.valid
+              && this.form.controls.maleParticipants.valid)"
+                      (click)="continue('rep3')">Continue
+              </button>
+            </div>
+
+            <div class="row gutters" *ngIf="btnStatus == 'rep3'">
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Ledare:</label>
+                  <input type="number" formControlName="leaders" class="form-control form-control-solid"
+                         placeholder="Numer of leaders present">
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.leaders.touched && form.controls.leaders.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Publik:</label>
+                  <input type="number" formControlName="spectator" class="form-control form-control-solid"
+                         placeholder="Number of spectators"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.spectator.touched && form.controls.spectator.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Föräldrar:</label>
+                  <input type="number" formControlName="parents" class="form-control form-control-solid"
+                         placeholder="How many parents were present during the evening"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Aktivitets tid i minuter</label>
+                  <input type="number" formControlName="duration" class="form-control form-control-solid"
+                         placeholder="Hur månaga minuter var aktiviteteng"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Sammanfattning:</label>
+                  <textarea class="form-control form-control-solid" formControlName="summary" id="validationTextarea"
+                            placeholder="Brief Summary"></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="continue-link btn btn-primary w-25" (click)="continue('submit')">Skicka
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

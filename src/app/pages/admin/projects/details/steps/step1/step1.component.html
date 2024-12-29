@@ -1,0 +1,140 @@
+<div class="pe-10">
+  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+    {{questionnaireName}}
+  </h2>
+</div>
+<div *ngIf="!(dataLoading$ | async)" class="w-100 pe-10">
+  <div class="fv-row border p-8 radius-8px">
+    <div class="fv-row mb-5 fv-plugins-icon-container align-items-start flex-wrap"
+      *ngFor="let data of allAnswers">
+
+      <div class="fv-row border p-2 radius-8px align-items-start flex-wrap">
+        <questionnaire-text1 class="w-100" [QuestionInfo]="data" [projectDetails]="projectDetails">
+        </questionnaire-text1>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5" *ngIf="projectDetails?.projectPhase === 'PLAN' && projectDetails?.projectStatus === 'PENDING'">
+    <div class="col d-flex justify-content-end">
+      <button class="btn blue-transparent-button w-200px me-5" (click)="onClickApproveReject(reworkProject)">
+        Rework Required
+      </button>
+      <button class="btn success-button w-150px me-5" (click)="onClickApproveReject(approveProject)">
+        Approve PLAN
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="col text-center data-loader mt-5" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!--project approve modal-->
+<ng-template #approveProject let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Approve Project
+    </h4>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to approve project PLAN?</p>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onClickPopupBtn(modal, 'approved')"
+      [disabled]="statusLoading$ | async">
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<!--project rework modal-->
+<ng-template #reworkProject let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Rework Required
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="fv-row fv-plugins-icon-container mb-10">
+      <label class="form-label fw-medium text-gray-400 fs-6 mb-2">
+        <span class="required">Comments</span>
+      </label>
+
+      <textarea class="form-control form-control-lg form-control-solid" placeholder="Comments" name="comments"
+        [(ngModel)]="comments">
+      </textarea>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onClickRework(modal)"
+      [disabled]="statusLoading$ | async">
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<!--comment modal-->
+<ng-template #comment let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Internal Notes
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="fv-row fv-plugins-icon-container mb-10">
+      <label class="form-label fw-medium text-gray-400 fs-6 mb-2">
+        <span class="required">Notes</span>
+      </label>
+
+      <textarea class="form-control form-control-lg form-control-solid" placeholder="Notes" name="comments"
+        [(ngModel)]="comments">
+      </textarea>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onClickSubmit(modal)"
+      [disabled]="statusLoading$ | async">
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>

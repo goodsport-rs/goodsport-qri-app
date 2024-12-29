@@ -1,0 +1,210 @@
+<div *ngIf="!showKyc"
+     class="col-md-12 d-flex justify-content-between yellow-light-bg card-rounded radius-8px flex-stack flex-wrap p-5 mt-5">
+  <span class="fs-8 bold">
+    <img class="h-30px me-3" src="./assets/media/illustrations/info.svg" alt="info"/>
+    You need to answer few questions about your organisation!</span>
+
+  <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
+     class="btn yellow-button fw-bolder fs-8 w-150px" (click)="openModal(content, 'kyc')">Answer Now</a>
+</div>
+
+<div *ngIf="!isUserVerified"
+     class="col-md-12 d-flex justify-content-between yellow-light-bg card-rounded radius-8px flex-stack flex-wrap p-5 mt-5">
+  <span class="fs-8 bold">
+    <img class="h-30px me-3" src="./assets/media/illustrations/info.svg" alt="info"/>
+   Your account is not verified please verify your email {{profile.username}}</span>
+  <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
+     class="btn yellow-button fw-bolder fs-8 w-150px" (click)="resendVerificationMail()">Resend mail</a>
+</div>
+
+
+<div class="col-md-12 d-flex justify-content-between bg-white card-rounded idea-card flex-stack flex-wrap p-0 mt-5">
+  <div class="p-5 px-10">
+    <h4 class="bold fs-5 mb-0">Vi hjälper dig med din nästa projekt ide</h4>
+    <p class="fs-8">
+      Vi matchar intressenter med projekt som stiftelser, näringsliv och privatpersoner med kvalitativa samhällsnyttiga
+      verksamheter och projekt.
+    </p>
+    <a [routerLink]="'/entrepreneure/projects'" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
+       class="btn yellow-button fw-bolder fs-8">Visa projekt</a>
+  </div>
+  <img src="./assets/media/illustrations/idea-bg.svg" class="h-175px" alt="idea-bg"/>
+</div>
+
+
+<!--  *ngIf="!(dataLoading$ | async) && allProjects.length === 0"-->
+<div class="text-center mt-15">
+  <img src="./assets/media/illustrations/project-icon.svg" alt="project-icon"/>
+  <h4 class="fw-bolder fs-3 mt-5 mb-2">Behöver du hjälp ?</h4>
+  <p>
+    Lär dig mer om projekten med hjälp av våra online <a class="blue-color" href="/entrepreneure/courses">kurser.</a>
+
+
+  </p>
+</div>
+
+<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!--
+<div
+  *ngIf="allProjects.length > 0"
+  class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
+>
+  <ngb-pagination
+    [collectionSize]="totalPages"
+    [(page)]="page"
+    [maxSize]="3"
+    (pageChange)="onPageChange()"
+  >
+  </ngb-pagination>
+</div>
+-->
+
+<!--edit profile modal-->
+<ng-template #content let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Organisationsfrågor
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div *ngFor="let data of allQuestions; let i = index">
+      <div class="fw-bold text-dark mb-0 text-start mb-5">
+        <label class="form-label fw-medium text-gray-400 fs-6 mb-2">{{ data?.question }}</label>
+        <div *ngIf="data?.answerType === 'YES_OR_NO'">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="{{ i }}" value="yes" name="{{ i }}"
+                   [(ngModel)]="data.answer"/>
+            <label class="form-check-label" for="{{ i }}">Ja</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="{{ i }}" value="no" name="{{ i }}"
+                   [(ngModel)]="data.answer"/>
+            <label class="form-check-label" for="{{ i }}">Nej</label>
+          </div>
+        </div>
+
+        <div class="fv-row fv-plugins-icon-container" *ngIf="data?.answerType === 'TEXT'">
+          <!--begin::Input-->
+          <input type="text" class="form-control form-control-lg form-control-solid px-4 fs-6 text-dark"
+                 name="data.answer" placeholder="Svar" [(ngModel)]="data.answer"/>
+          <!--end::Input-->
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+            [disabled]="btnPrefLoading$ | async">
+      Avbryt
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onOrganizationQuestionnaireClick(modal)"
+            [disabled]="btnPrefLoading$ | async">
+      <ng-container *ngIf="btnPrefLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(btnPrefLoading$ | async)">
+        <span class="indicator-label">Spara</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+<!--edit profile modal-->
+
+<!--create/edit modal-->
+<ng-template #createProject let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Create Project
+    </h4>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" novalidate>
+      <div class="fv-row fv-plugins-icon-container mb-10">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-stack mb-2">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Project Title</label>
+          </div>
+        </div>
+        <input type="text" class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+               name="title" placeholder="Project Title" formControlName="title"/>
+        <div *ngIf="form.get('title')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('title')?.hasError('required')">
+            Title is required
+          </div>
+        </div>
+      </div>
+      <div class="fv-row fv-plugins-icon-container mb-10 mt-n5">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-stack mb-2">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">
+              Description
+            </label>
+          </div>
+        </div>
+        <textarea rows="5" class="form-control form-control-lg form-control-solid px-4 fs-6 border-gray-200"
+                  placeholder="Project Description" name="description" formControlName="description">
+        </textarea>
+        <div *ngIf="form.get('description')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback"
+               *ngIf="form.get('description')?.hasError('required')">
+            Description is required
+          </div>
+        </div>
+      </div>
+      <div class="fv-row fv-plugins-icon-container mb-5 mt-n5">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-stack mb-2">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">
+              Category
+            </label>
+          </div>
+        </div>
+        <select class="form-select form-select-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                formControlName="categoryId">
+          <option class="special" *ngFor="let item of allCategories" value="{{ item?.id }}">
+            {{ item?.name }}
+          </option>
+        </select>
+        <div *ngIf="form.get('categoryId')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback"
+               *ngIf="form.get('categoryId')?.hasError('required')">
+            Category is required
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')"
+            [disabled]="btnPrefLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="onCreateOrUpdateProjectClick(modal)"
+            [disabled]="btnPrefLoading$ | async">
+      <ng-container *ngIf="btnPrefLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(btnPrefLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+<!--create/edit modal-->
+<button id="viewKyc" (click)="openModal(content, 'kyc')" class="display-none"></button>

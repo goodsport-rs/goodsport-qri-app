@@ -1,0 +1,59 @@
+<div class="row text-center">
+  <h2 class="fw-bolder text-dark mt-2">Add Report Data</h2>
+</div>
+
+<form class="form" [formGroup]="form">
+  <div class="card-body">
+    <div class="form-group">
+      <label class="form-label fs-6 fw-medium">Total Number of boys:</label>
+      <input type="number" formControlName="maleParticipants" class="form-control form-control-solid"
+             placeholder="Total Number of boys">
+      <span class="form-text text-danger"
+            *ngIf="form.controls.maleParticipants.touched && form.controls.maleParticipants.errors?.required">This field is required</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label fs-6 fw-medium">Number of new boys:</label>
+      <input type="number" formControlName="newMaleParticipants" class="form-control form-control-solid"
+             placeholder="Number of new boys"/>
+      <span class="form-text text-danger"
+            *ngIf="form.controls.newMaleParticipants.touched && form.controls.newMaleParticipants.errors?.required">This field is required</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label fs-6 fw-medium">Total Number of girls:</label>
+      <input type="number" formControlName="femaleParticipants" class="form-control form-control-solid"
+             placeholder="Total Number of girls"/>
+      <span class="form-text text-danger"
+            *ngIf="form.controls.femaleParticipants.touched && form.controls.femaleParticipants.errors?.required">This field is required</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label fs-6 fw-medium">Number of new girls:</label>
+      <input type="number" formControlName="newFemaleParticipants" class="form-control form-control-solid"
+             placeholder="Number of new girls"/>
+      <span class="form-text text-danger"
+            *ngIf="form.controls.newFemaleParticipants.touched && form.controls.newFemaleParticipants.errors?.required">This field is required</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label fs-6  fw-medium">Total Number of unaccompanied children:</label>
+      <input type="number" formControlName="unaccompaniedMinors" class="form-control form-control-solid"
+             placeholder="Total Number of unaccompanied children"/>
+      <span class="form-text text-danger"
+            *ngIf="form.controls.unaccompaniedMinors.touched && form.controls.unaccompaniedMinors.errors?.required">This field is required</span>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label fs-6  fw-medium">Number of new unaccompanied children:</label>
+      <input type="number" formControlName="newUnaccompaniedMinors" class="form-control form-control-solid"
+             placeholder="Number of new unaccompanied children"/>
+      <span class="form-text text-danger"
+            *ngIf="form.controls.newUnaccompaniedMinors.touched && form.controls.newUnaccompaniedMinors.errors?.required">This field is required</span>
+    </div>
+
+  </div>
+  <div class="card-footer">
+    <button type="reset" class="btn btn-primary mr-2" [disabled]="form.invalid" (click)="continue('rep3')">Continue
+    </button>
+  </div>
+</form>

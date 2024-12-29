@@ -1,0 +1,157 @@
+<div class="pe-10">
+  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+    {{questionnaireName}}
+  </h2>
+</div>
+<div *ngIf="!(dataLoading$ | async)" class="w-100 pe-10">
+  <div class="fv-row border p-8 radius-8px">
+    <div class="fv-row mb-10 fv-plugins-icon-container d-flex align-items-start"
+      *ngFor="let answerItem of allAnswers; let i = index">
+      <div class="col-md-7 pe-10">
+        <label class="form-label fw-medium text-gray-400 fs-7 mb-2">
+          <span [ngClass]="{'required': answerItem?.required===true}">{{ answerItem?.question }}</span>
+          <i class="fas fa-exclamation-circle ms-2 fs-7" *ngIf="answerItem?.description" ngbTooltip="{{ answerItem?.description }}" tooltipClass="my-custom-class"></i>
+        </label>
+        <div class="row" *ngIf="answerItem?.answerType === 'YES_OR_NO'">
+          <div class="form-radio form-check-custom form-radio-solid
+                    mx-3
+                    d-flex
+                    align-items-center
+                    col-md-2
+                    px-0">
+            <span class=" form-check
+                      form-check-custom
+                      form-check-solid
+                      form-check-sm
+                      align-items-start">
+              <input class="form-check-input" type="radio" id="{{ i }}" value="yes" name="{{ i }}"
+                     [(ngModel)]="answerItem.answer" [disabled]="
+                !(projectDetails?.projectPhase === 'FUNDING') ||
+                (projectDetails?.projectPhase === 'FUNDING' &&
+                  projectDetails?.projectStatus !== 'NEW')
+              " />
+            </span>
+            <label class="ms-5 fw-medium  text-gray-400" for="{{ i }}">Yes</label>
+          </div>
+          <div class="form-radio form-check-custom form-radio-solid mx-3 d-flex align-items-center col-md-4 px-0">
+            <span class=" form-check
+                                  form-check-custom
+                                  form-check-solid
+                                  form-check-sm
+                                  align-items-start">
+              <input class="form-check-input" type="radio" id="{{ i }}" value="no" name="{{ i }}"
+                     [(ngModel)]="answerItem.answer" [disabled]="
+                !(projectDetails?.projectPhase === 'FUNDING') ||
+                (projectDetails?.projectPhase === 'FUNDING' &&
+                  projectDetails?.projectStatus !== 'NEW')
+              " />
+            </span>
+            <label class="ms-5 fw-medium  text-gray-400" for="{{ i }}">No</label>
+          </div>
+        </div>
+
+        <div class="fv-row fv-plugins-icon-container" *ngIf="answerItem?.answerType === 'TEXT'">
+          <textarea class="form-control form-control-lg form-control-solid"
+                    name="data.answer" placeholder="Answer Here" [(ngModel)]="answerItem.answer" [disabled]="
+              !(projectDetails?.projectPhase === 'FUNDING') ||
+              (projectDetails?.projectPhase === 'FUNDING' &&
+                projectDetails?.projectStatus !== 'NEW')">
+          </textarea>
+        </div>
+
+        <div class="fv-row fv-plugins-icon-container" *ngIf="answerItem?.answerType === 'FILE'">
+          <div class="row" class="alert alert-warning" role="alert">
+            <div class="col-8">
+              <a href="javascript:void(0)" *ngFor="let item of answerItem?.files" (click)="onClickFile(item)">
+                {{ item?.fileName }}
+              </a>
+            </div>
+            <div class="col-4">
+              <input type="file" class="form-control form-control-lg form-control-solid"
+                     (change)="onUploadFile($event, answerItem?.questionId)" style="display: none" #upload />
+              <button type="button" class="btn yellow-button" (click)="upload.click()" [disabled]="
+                  (uploadLoading$ | async) ||
+                  !(projectDetails?.projectPhase === 'FUNDING') ||
+                  (projectDetails?.projectPhase === 'FUNDING' &&
+                    projectDetails?.projectStatus !== 'NEW')
+                ">
+                <ng-container *ngIf="uploadLoading$ | async">
+                  <span class="indicator-progress" [style.display]="'block'">
+                    Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="!(uploadLoading$ | async)">
+                  <span class="indicator-label">Upload</span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5" *ngIf="answerItem?.comments && answerItem?.comments.length > 0">
+        <h2 class="form-label fw-medium text-gray-400 fs-7 mb-n1">Comments</h2>
+        <div class="bg-light-danger py-2 p-5 radius-8px">
+          <ul class="ps-0 mb-0">
+            <li *ngFor="let item of answerItem?.comments" class="timeline-item d-flex">
+              <div class="timeline-badge">
+                <i class="fa fa-genderless text-warning fs-1"></i>
+              </div>
+              <span class="fw-bolder timeline-content text-dark ps-3 fs-9"> {{ item?.comment }}
+
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-15" *ngIf="
+      (projectDetails?.projectStatus === 'NEW' || projectDetails?.projectStatus === 'PENDING') &&
+      projectDetails?.projectPhase === 'FUNDING' &&
+      projectDetails?.comment
+    ">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-3">
+      Phase Feedback
+    </h2>
+  </div>
+  <div class="row" *ngIf="
+      (projectDetails?.projectStatus === 'NEW' || projectDetails?.projectStatus === 'PENDING') &&
+      projectDetails?.projectPhase === 'FUNDING' &&
+      projectDetails?.comment
+    ">
+    <div class="col border p-8 radius-8px">
+      <div class="bg-light-danger min-h-50px radius-8px p-5 fs-8 bold" role="alert">
+        {{ projectDetails?.comment }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="projectDetails?.projectPhase === 'FUNDING'">
+    <div class="col text-end mt-10">
+      <button type="button" class="btn btn-light  w-300px text-uppercase" [disabled]="true"
+        *ngIf="projectDetails?.projectStatus === 'PENDING'">
+        Project {{ projectDetails?.projectPhase }} sent for review
+      </button>
+      <button type="button" class="btn yellow-button w-300px " (click)="onClickSubmitAnswer()"
+        [disabled]="btnLoading$ | async" *ngIf="projectDetails?.projectStatus === 'NEW'">
+        <ng-container *ngIf="btnLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Please wait...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!(btnLoading$ | async)">
+          <span class="indicator-label text-uppercase">Submit Project {{ projectDetails?.projectPhase }}</span>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="col text-center data-loader mt-5" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

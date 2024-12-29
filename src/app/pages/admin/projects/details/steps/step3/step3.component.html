@@ -1,0 +1,206 @@
+<!-- Todo  create separate report-search-component -->
+<div class="border p-8 radius-8px mb-10">
+  <div class="form-group row">
+    <p style="text-align:left">Search</p>
+    <div class="col-lg-3">
+
+      <div class="input-group sm-3 mb-2">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+               name="dateFrom" [(ngModel)]="dateFromFld" ngbDatepicker #d="ngbDatepicker">
+        <button class="btn btn-primary  calendar" (click)="d.toggle()" type="button"><i class="far fa-calendar"></i>
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3">
+
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+               name="dateTo" [(ngModel)]="dateToFld" ngbDatepicker #df="ngbDatepicker">
+        <button class="btn btn-primary  calendar" (click)="df.toggle()" type="button"><i class="far fa-calendar"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+
+      <div class="input-group">
+        <input class="form-control" placeholder="search"
+               name="locality" [(ngModel)]="locality">
+      </div>
+    </div>
+
+
+    <div class="col-lg-1">
+      <div class="input-group">
+        <button class="btn btn-primary" (click)="reportDateSearch()">Search</button>
+      </div>
+    </div>
+
+    <div class="col-lg-1">
+      <div class="input-group">
+        <button class="btn btn-secondary" (click)="reportDateExport()">Export</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="border p-8 radius-8px mb-10">
+  <div class="table-responsive" *ngIf="activityReports.length > 0">
+    <table class="table gs-7 gy-7 gx-7">
+      <thead>
+      <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Datum </span>
+        </th>
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Användare </span></th>
+
+
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Deltagare / Ledare</span>
+        </th>
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Ort / Plats </span>
+        </th>
+
+
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Status </span>
+        </th>
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Actions </span>
+        </th>
+
+      </tr>
+      </thead>
+      <tbody *ngIf="activityReports && activityReports.length">
+      <tr *ngFor="let v of activityReports">
+
+        <td>{{v?.reportDate  |  date: "yyyy-MM-dd"}}</td>
+        <td>{{v?.submittedBy ? v.submittedBy : 'N/A'}}</td>
+        <td>{{v?.participants}} / {{v?.leaders}}</td>
+        <td>{{v?.locality}} / {{v?.location}}</td>
+
+        <td>{{v?.status}}</td>
+        <td>
+          <div class="row">
+            <div class="col-lg-12">
+              <span *ngIf="(v.status == 'APPROVED')" ngbTooltip="Already approved">
+                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="(v.status == 'APPROVED')"
+                        (click)="approve(v.id)">Approve</button>
+              </span>
+              <span *ngIf="!(v.status == 'APPROVED')">
+                <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="(v.status == 'APPROVED')"
+                        (click)="approve(v.id)">Approve</button>
+              </span>
+
+              <span *ngIf="(v.status == 'DECLINED')" ngbTooltip="Already denied">
+            <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="(v.status == 'DECLINED')"
+                    (click)="deny(v.id)">Deny</button>
+           </span>
+              <span *ngIf="!(v.status == 'DECLINED')">
+            <button type="submit" class="btn btn-primary btn-sm me-2" [disabled]="(v.status == 'DECLINED')"
+                    (click)="deny(v.id)">Deny</button>
+           </span>
+              <span>
+            <button type="submit" class="btn btn-primary btn-sm me-2" (click)="openEdit(v.id)">Edit</button>
+           </span>
+              <span>
+              <button type="submit" class="btn btn-primary btn-sm me-2" (click)="openView(v.id)">View</button>
+            </span>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+      <tbody *ngIf="!activityReports.length">
+      <td></td>
+      <td></td>
+      <td>
+        <div class="row justify-content-center">
+          <div class="col-md-5">
+            <h2>No Data found</h2>
+          </div>
+        </div>
+      </td>
+      </tbody>
+    </table>
+
+    <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
+      <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="onPageChange()">
+      </ngb-pagination>
+    </div>
+
+  </div>
+  <div *ngIf="activityReports.length == 0">
+    <div class="col-md-4">
+      <h4>There is no report for this period</h4>
+    </div>
+  </div>
+</div>
+
+
+<div class="pe-10">
+  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+    Dokument
+  </h2>
+</div>
+<div class="border p-8 radius-8px mb-10 mt-10">
+
+  <div class="table-responsive">
+    <table class="table table-bordered gs-7 gy-7 gx-7" *ngIf="projectFiles && projectFiles.length">
+      <thead>
+      <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+        <th>
+          <span class="text-gray-500 fs-8 bold"> File </span>
+        </th>
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Date </span>
+        </th>
+        <th>
+          <span class="text-gray-500 fs-8 bold"> Username </span>
+        </th>
+      </tr>
+
+      </thead>
+      <tbody >
+      <tr *ngFor="let projectFile of projectFiles ">
+        <div class="d-flex align-items-center">
+                  <span class="fw-bold text-blue d-block fs-8 bold cursor-pointer"
+                        (click)="onClickViewIcon(projectFile)">{{
+                    projectFile?.fileName
+                    }}</span>
+        </div>
+        <td>{{projectFile?.createdDateTime}}</td>
+        <td>{{projectFile?.username}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div *ngIf="projectFiles.length == 0">
+      <div class="col-md-4">
+        <h4>There is no report files uploaded</h4>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- Table ends -->
+<div class="pe-10">
+  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+    Statistik baserad på total antal deltagare
+  </h2>
+</div>
+
+
+<div class="row" *ngIf="projectDetails && projectDetails.projectPhase !== 'FINAL_REPORT'">
+  <div class="col-md-5">
+    <button class="btn btn-primary" (click)="goStep4()">Skapa GRI</button>
+  </div>
+
+
+</div>
+
+

@@ -1,0 +1,125 @@
+<div class="row">
+  <div class="col-6">
+    <div class="pb-0 pe-10">
+      <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold">
+        Project Idea
+      </h2>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card-toolbar text-end mt-5 pe-5" *ngIf="
+        projectDetails?.projectStatus === 'PENDING' &&
+        projectDetails?.projectPhase === 'IDEA'
+      ">
+      <button class="btn p-0" (click)="openModal(updatePproject)">
+        <span class="svg-icon svg-icon-gray me-0">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+            viewBox="0 0 24 24" version="1.1">
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <rect x="0" y="0" width="24" height="24" />
+              <path
+                d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z"
+                fill="#000000" fill-rule="nonzero"
+                transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) " />
+              <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1" />
+            </g>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="pe-10">
+  <div class="d-flex justify-content-between bg-dark card-rounded idea-card flex-stack flex-wrap p-0 w-100 mt-3">
+    <span></span>
+    <img class="w-100" src="./assets/media/illustrations/project-banner.png" alt="idea-bg" />
+  </div>
+  <div class="mt-5">
+    <p class="text-gray-700 fs-7 text-justify">{{ projectDetails?.description }}</p>
+  </div>
+</div>
+
+<div class="row" *ngIf="
+    projectDetails?.projectStatus === 'PENDING' &&
+    projectDetails?.projectPhase === 'IDEA'
+  ">
+  <div class="col">
+    <div class="alert alert-warning" role="alert">
+      {{ projectDetails?.comment }}
+    </div>
+  </div>
+</div>
+
+<!--edit project modal-->
+<ng-template #updatePproject let-modal>
+  <div class="modal-header pe-10">
+    <h4 class="modal-title fw-bolder" id="modal-basic-title">Edit Project</h4>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" novalidate>
+      <div class="fv-row fv-plugins-icon-container mb-10">
+        <label class="d-flex align-items-center fs-5 fw-bold mb-2 required">Project Title</label>
+        <input type="text" class="form-control form-control-lg form-control-solid" name="title"
+          placeholder="Project Title" formControlName="title" />
+        <div *ngIf="form.get('title')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('title')?.hasError('required')">
+            Title is required
+          </div>
+        </div>
+      </div>
+      <div class="fv-row fv-plugins-icon-container mb-10">
+        <label class="d-flex align-items-center justify-content-between fs-5 fw-bold mb-2">
+          <span class="required">Description</span>
+        </label>
+
+        <textarea class="form-control form-control-lg form-control-solid" placeholder="Project Description"
+          name="description" formControlName="description">
+        </textarea>
+        <div *ngIf="form.get('description')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback"
+            *ngIf="form.get('description')?.hasError('required')">
+            Description is required
+          </div>
+        </div>
+      </div>
+      <div class="fv-row fv-plugins-icon-container mb-10">
+        <label class="fs-5 fw-bold mb-2 required"> Category </label>
+
+        <select class="form-control form-control-lg form-control-solid" formControlName="categoryId">
+          <option *ngFor="let item of allCategories" value="{{ item?.id }}">
+            {{ item?.name }}
+          </option>
+        </select>
+        <div *ngIf="form.get('categoryId')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback"
+            *ngIf="form.get('categoryId')?.hasError('required')">
+            Category is required
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light w-200px" (click)="modal.close('Save click')"
+      [disabled]="btnLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-200px" (click)="onClickUpdate(modal)"
+      [disabled]="btnLoading$ | async">
+      <ng-container *ngIf="btnLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(btnLoading$ | async)">
+        <span class="indicator-label">Update</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+<!--create/edit modal-->

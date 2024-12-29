@@ -1,0 +1,82 @@
+<div *ngIf="!(dataLoading$ | async)">
+  <div>
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+      {{questionnaireName}}
+    </h2>
+  </div>
+
+  <div class="d-flex justify-content-end mb-6" *ngIf="reports">
+    <button mat-raised-button color="primary" class="me-3" (click)="save()">
+      Save Report
+    </button>
+    <button mat-raised-button color="primary" class="me-3" (click)="print($event)" [disabled]="(exportLoading$ | async)">
+      <ng-container *ngIf="exportLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(exportLoading$ | async)">
+        <span class="indicator-label">Export Report</span>
+      </ng-container>
+    </button>
+    <button mat-raised-button color="primary" class="me-3" (click)="resetFinalReport()">
+      Reset Report
+    </button>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let rep of reports; index as i">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h2 class="fw-bolder d-flex align-items-center text-dark ms-4 mt-3">
+            {{rep.name}}
+          </h2>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div #content>
+        <table mat-table [dataSource]="rep.entries" class="mat-elevation-z8">
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let grp; let i = index" (click)="openView(grp)" style="cursor: pointer;">{{ i + 1 }}</td>
+          </ng-container>
+          <ng-container matColumnDef="question">
+            <th mat-header-cell *matHeaderCellDef>Question</th>
+            <td mat-cell *matCellDef="let grp" (click)="openView(grp)" style="cursor: pointer;">{{ grp.question }}</td>
+          </ng-container>
+          <ng-container matColumnDef="answer">
+            <th mat-header-cell *matHeaderCellDef>Answer</th>
+            <td mat-cell *matCellDef="let grp" (click)="openView(grp)" style="cursor: pointer;">
+              <div *ngIf="grp.answer">
+                {{grp.answer | slice:0:50}} <span *ngIf="grp.answer && grp.answer.length >= 20">...</span>
+              </div>
+              <div *ngIf="!grp.answer">
+                N/A
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="decision">
+            <th mat-header-cell *matHeaderCellDef>Decision</th>
+            <td mat-cell *matCellDef="let grp">
+              <mat-select [(ngModel)]="grp.decision" [disabled]="!(projectDetails?.projectStatus === 'PENDING')">
+                <mat-option [value]="'APPROVE'">Godkänn</mat-option>
+                <mat-option [value]="'UNAPPROVED'">Icke godkänd</mat-option>
+                <mat-option [value]="'UNDER_PROCESS'">Under process</mat-option>
+                <mat-option [value]="'NA'">N/A</mat-option>
+              </mat-select>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['index', 'question', 'answer', 'decision']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['index', 'question', 'answer', 'decision'];"></tr>
+        </table>
+      </div>
+      <div *ngIf="!reports">
+        <h2>No Data Found</h2>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <mat-spinner color="warn"></mat-spinner>
+</div>

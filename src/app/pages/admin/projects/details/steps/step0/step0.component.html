@@ -1,0 +1,128 @@
+<div class="pb-0">
+  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold">
+    Project Idea
+  </h2>
+</div>
+
+<div class="pe-10">
+  <div
+    class="d-flex justify-content-between bg-dark card-rounded idea-card flex-stack flex-wrap p-0 w-100 mt-3"
+  >
+    <span></span>
+    <input type="file" name="file" class="form-control form-control file form-control-solid"
+           (change)="onUploadFile($event)" style="display: none" #upload/>
+    <img *ngIf="projectDetails?.imageUrl" class="w-100 cursor-pointer" src="{{projectDetails?.imageUrl}}"  (click)="upload.click()" alt="idea-bg" />
+    <img *ngIf="!projectDetails?.imageUrl" class="w-100 cursor-pointer" src="https://res.cloudinary.com/goodsports/image/upload/v1663533990/project-banner-default.jpg"  (click)="upload.click()" alt="idea-bg" />
+  </div>
+  <div class="mt-5 text-style">{{ projectDetails?.description }}
+  </div>
+</div>
+
+<div class="row mt-5" *ngIf="projectDetails?.projectPhase === 'IDEA' && projectDetails?.projectStatus === 'PENDING'">
+  <div class="col d-flex justify-content-end">
+    <button
+      class="btn blue-transparent-button w-200px me-5"
+      (click)="onClickApproveReject(reworkProject)"
+    >
+      Rework Required
+    </button>
+    <button
+      class="btn success-button w-150px me-5"
+      (click)="onClickApproveReject(approveProject)"
+    >
+      Approve IDEA
+    </button>
+  </div>
+</div>
+
+<!--project approve modal-->
+<ng-template #approveProject let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Approve Project
+    </h4>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to approve project IDEA?</p>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button
+      type="button"
+      class="btn btn-light w-175px"
+      (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async"
+    >
+      Discard
+    </button>
+    <button
+      type="button"
+      class="btn yellow-button w-175px"
+      (click)="onClickPopupBtn(modal, 'approved')"
+      [disabled]="statusLoading$ | async"
+    >
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<!--project rework modal-->
+<ng-template #reworkProject let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Rework Required
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="fv-row fv-plugins-icon-container mb-10">
+      <label class="form-label fw-medium text-gray-400 fs-6 mb-2">
+        <span class="required">Comments</span>
+      </label>
+
+      <textarea
+        class="form-control form-control-lg form-control-solid"
+        placeholder="Comments"
+        name="comments"
+        [(ngModel)]="comments"
+      >
+      </textarea>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button
+      type="button"
+      class="btn btn-light w-175px"
+      (click)="modal.close('Save click')"
+      [disabled]="statusLoading$ | async"
+    >
+      Discard
+    </button>
+    <button
+      type="button"
+      class="btn yellow-button w-175px"
+      (click)="onClickRework(modal)"
+      [disabled]="statusLoading$ | async"
+    >
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,221 @@
+<ngb-toast *ngIf="copied" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1200" [autohide]="true"
+           [delay]="3000" (hidden)="copied=false">
+  Copied
+</ngb-toast>
+
+<div class="col text-center data-loader mt-5" *ngIf="(dataLoading$ | async)">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="card-body" *ngIf="!(dataLoading$ | async)" >
+
+  <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
+    <!--begin::Filter-->
+    <button type="button" (click)="openModal()" class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end">
+      Rapportera aktivitet
+    </button>
+
+
+    <input type="file" name="file" class="form-control form-control file form-control-solid"
+           (change)="onUploadFile($event)" style="display: none" #upload/>
+    <button type="button" class="btn btn-light-primary me-3" (click)="upload.click()"
+            [disabled]="(uploadLoading$ | async)">
+      <ng-container *ngIf="uploadLoading$ | async">
+                <span class="indicator-progress" [style.display]="'block'">
+                <p> {{fileName || "No file uploaded yet."}}</p>
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+      </ng-container>
+      <ng-container *ngIf="!(uploadLoading$ | async)">
+        <span class="indicator-label">Ladda upp rapport</span>
+      </ng-container>
+    </button>
+
+    <button type="button" (click)="shareModal()" class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end">
+      Share Report link
+    </button>
+
+    <button type="button" class="btn btn-secondary" ngxClipboard [cbContent]="shareLink"
+            (cbOnSuccess)="linkCopied()">
+      Kopiera rapportlänk
+    </button>
+
+  </div>
+
+  <div class="pe-10">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+      Aterrapportering
+    </h2>
+  </div>
+
+  <div class="border p-8 radius-8px mb-10 mt-10">
+    <p style="text-align:left">Search</p>
+    <div class="form-group row">
+      <div class="col-lg-3">
+
+        <div class="input-group sm-3 mb-2">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dateFrom" [(ngModel)]="dateFromFld" ngbDatepicker #d="ngbDatepicker">
+          <button class="btn btn-primary  calendar" (click)="d.toggle()" type="button"><i class="far fa-calendar"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-3">
+
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                 name="dateTo" [(ngModel)]="dateToFld" ngbDatepicker #df="ngbDatepicker">
+          <button class="btn btn-primary  calendar" (click)="df.toggle()" type="button"><i class="far fa-calendar"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-2">
+
+        <div class="input-group">
+          <input class="form-control" placeholder="ort"
+                 name="locality" [(ngModel)]="locality">
+        </div>
+      </div>
+      <div class="col-lg-1">
+        <div class="input-group">
+          <button class="btn btn-primary" (click)="reportDateSearch()">Sök</button>
+        </div>
+      </div>
+
+      <div class="col-lg-1">
+        <div class="input-group">
+          <button class="btn btn-secondary" (click)="reportDateExport()">Exportera</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="table-responsive" *ngIf="activityReports.length">
+      <table class="table table-bordered gs-7 gy-7 gx-7">
+        <thead>
+        <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Användare </span></th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Report datum </span>
+          </th>
+
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Ort </span>
+          </th>
+
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Plats </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Status </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Actions </span>
+          </th>
+
+        </tr>
+        </thead>
+        <tbody *ngIf="activityReports && activityReports.length">
+        <tr *ngFor="let report of activityReports ">
+          <td>{{report?.submittedBy ? report.submittedBy : 'N/A'}}</td>
+
+          <td>{{report?.reportDate}}</td>
+          <td>{{report?.locality}}</td>
+          <td>{{report?.location}}</td>
+          <td>{{report?.status}}</td>
+          <td>
+            <div class="row">
+              <div class="col-lg-12">
+                <button type="submit" class="btn btn-primary btn-sm me-2"
+                        (click)="approve(report.id)">Approve
+                </button>
+                <button type="submit" class="btn btn-primary btn-sm me-2" (click)="deny(report.id)">Deny</button>
+                <button type="submit" class="btn btn-primary btn-sm me-2" (click)="openEdit(report.id)">Edit</button>
+                <button type="submit" class="btn btn-primary btn-sm me-2" (click)="openView(report.id)">View</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
+        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
+        </ngb-pagination>
+      </div>
+
+    </div>
+
+    <div *ngIf="!activityReports.length">
+      <p class="mt-10">You have not reported any data or your query is wrong</p>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="pe-10">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+      Dokument
+    </h2>
+  </div>
+  <div class="border p-8 radius-8px mb-10 mt-10">
+
+    <div class="table-responsive" *ngIf="projectFiles.length">
+      <table class="table table-bordered gs-7 gy-7 gx-7">
+        <thead>
+        <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Fil </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Datum </span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Användarnamn </span>
+          </th>
+        </tr>
+
+        </thead>
+        <tbody *ngIf="projectFiles && projectFiles.length">
+        <tr *ngFor="let projectFile of projectFiles ">
+          <div class="d-flex align-items-center">
+                  <span class="fw-bold text-blue d-block fs-8 bold cursor-pointer" (click)="viewFileClick(projectFile)">{{
+                    projectFile?.fileName
+                    }}</span>
+          </div>
+          <td>{{projectFile?.createdDateTime}}</td>
+          <td>{{projectFile?.username}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!projectFiles.length">
+      <p >Inga rapport filer har laddats upp.</p>
+    </div>
+
+
+  </div>
+
+  <div class="pe-10">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+     Statistik baserad på total antal deltagare
+    </h2>
+  </div>
+  <div class="row">
+    <app-reportcharts></app-reportcharts>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12 d-flex-justify-content-end mt-10">
+      <button *ngIf="projectDetails?.projectPhase === 'REPORTING'" class="btn btn-primary" (click)="confirmCreateFinalReport()">Redovisa projekt</button>
+    </div>
+  </div>
+</div>

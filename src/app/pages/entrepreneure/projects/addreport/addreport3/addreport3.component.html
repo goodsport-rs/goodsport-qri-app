@@ -1,0 +1,39 @@
+<div class="row text-center">
+  <h2 class="fw-bolder text-dark mt-2">Add Report Data</h2>
+  </div>
+
+<form class="form" [formGroup]="form">
+    <div class="card-body">
+     <div class="form-group">
+      <label class="form-label fs-6  fw-medium">Leaders:</label>
+      <input type="number" formControlName="leaders" class="form-control form-control-solid" placeholder="Numer of leaders present">
+      <span class="form-text text-danger" *ngIf="form.controls.leaders.touched && form.controls.leaders.errors?.required">This field is required</span>
+    </div>
+     <div class="form-group">
+      <label class="form-label fs-6 fw-medium">Spectators:</label>
+       <input type="number" formControlName="spectator" class="form-control form-control-solid" placeholder="Number of spectators"/>
+       <span class="form-text text-danger" *ngIf="form.controls.spectator.touched && form.controls.spectator.errors?.required">This field is required</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label fs-6 fw-medium">Parents:</label>
+        <input type="number" formControlName="parents" class="form-control form-control-solid" placeholder="How many parents were present during the evening"/>
+        <span class="form-text text-danger" *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">This field is required</span>
+       </div>
+
+      <div class="form-group">
+        <label class="form-label fs-6 fw-medium">Duration:</label>
+        <input type="number" formControlName="duration" class="form-control form-control-solid" placeholder="How long was this activity in hours "/>
+        <span class="form-text text-danger" *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">This field is required</span>
+      </div>
+
+       <div class="form-group">
+        <label class="form-label fs-6 fw-medium">Summary:</label>
+        <textarea  class="form-control form-control-solid" formControlName="summary" id="validationTextarea" placeholder="Brief Summary"></textarea>
+       </div>
+
+    </div>
+    <div class="card-footer">
+     <button type="button" class="btn btn-primary mr-2" (click)="submit()">Submit</button>
+    </div>
+   </form>

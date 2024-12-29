@@ -1,0 +1,31 @@
+:host {
+  width: 100%;
+  @media (max-width: 1400px) {
+    .vh-100 {
+      height: auto !important;
+    }
+  }
+  @media (min-width: 992px) {
+    .login-form {
+      width: 100%;
+      max-width: 450px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.hand {
+  cursor: pointer;
+}
+
+.disable-div {
+  pointer-events: none;
+}
+
+.my-custom-class .tooltip-inner {
+  max-width: 400px; 
+  width: inherit; 
+}

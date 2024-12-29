@@ -1,0 +1,98 @@
+<div *ngIf="!(dataLoading$ | async)">
+
+  <div class="">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">{{questionnaireName}}</h2>
+  </div>
+
+
+  <mat-accordion class="card d-flex justify-content-between  mb-5 shadow-none">
+    <mat-expansion-panel *ngFor="let key of objectKeys(groupQuestions); let i = index; let isFirst = first" [expanded]="isFirst">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="text-gray-800 fw-bolder">
+          <div class="card-header">
+            <h3 class="card-title align-items-start flex-column">
+              <span class="card-label font-weight-bolder text-dark text-capitalize">{{key}}</span>
+            </h3>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+    
+      <mat-accordion>
+        <div *ngFor="let val of groupQuestions[key]" class="card-body">
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label class="form-label fw-medium text-gray-400 fs-6 mb-2" for="{{val.question}}" id="{{val.questionId}}">
+                <span [ngClass]="{'required': val.required}">{{val.question}}</span>
+                <i class="fas fa-exclamation-circle ms-2 fs-7" *ngIf="val?.description" ngbTooltip="{{ val?.description }}"
+                  tooltipClass="my-custom-class"></i>
+              </label>
+              <div *ngIf="val.answerType === 'TEXT'">
+                <!-- <input type="text" class="form-control" id="inputCity" [(ngModel)]="val.ans" [ngModelOptions]="{standalone: true}"> -->
+                <textarea id="{{val.questionId}}"
+                          [(ngModel)]="val.answer" [ngModelOptions]="{standalone: true}"
+                          class="form-control"
+                          rows="2"
+                ></textarea>
+              </div>
+              <div class="fv-row fv-plugins-icon-container" *ngIf="val?.answerType === 'FILE'">
+                <div class="row" class="alert alert-warning" role="alert">
+                  <div class="col-8">
+                    <a href="javascript:void(0)" *ngFor="let item of val?.files" (click)="onClickFile(item)">
+                      {{item.fileName}}
+                    </a>
+                  </div>
+                  <div class="col-4">
+                    <input type="file" class="form-control form-control-lg form-control-solid"
+                          (change)="onUploadFile($event, val.questionId)" style="display: none" #upload/>
+                    <button type="button" class="btn yellow-button" (click)="upload.click()"
+                            [disabled]="(uploadLoading$ | async)">
+                      <ng-container *ngIf="uploadLoading$ | async">
+                    <span class="indicator-progress" [style.display]="'block'">
+                      Please wait...
+                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
+                      </ng-container>
+                      <ng-container *ngIf="!(uploadLoading$ | async)">
+                        <span class="indicator-label">Upload</span>
+                      </ng-container>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="val.answerType === 'YES_OR_NO'">
+                <label class="checkbox-inline" for="radio1">
+                  <input type="radio" value="yes" id="radio1" name="optradio" [(ngModel)]="val.answer">Yes
+                </label>
+                <label class="checkbox-inline" for="radio2">
+                  <input type="radio" value="no" id="radio2" name="optradio" [(ngModel)]="val.answer">No
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-accordion>
+    </mat-expansion-panel>
+  </mat-accordion> 
+
+  <div class="row justify-content-center">
+    <button *ngIf="projectDetails?.projectStatus !== 'PENDING'" type="submit"
+            class="btn btn-secondary btn btn-primary me-2 px-6 mt-5 w-25" (click)="saveFinalReport()">Spara
+    </button>
+    <button *ngIf="projectDetails?.projectStatus !== 'PENDING'" type="submit"
+            class="btn btn-primary btn btn-primary me-2 px-6 mt-5 w-25" (click)="confirmSendReport()">Skicka
+    </button>
+    <button *ngIf="projectDetails?.projectStatus === 'PENDING'" type="button"
+            class="btn btn-primary btn btn-primary me-2 px-6 mt-5 w-25" [disabled]="true"
+    >
+      Rapport har skickats för granskning
+    </button>
+
+  </div>
+</div>
+
+
+<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

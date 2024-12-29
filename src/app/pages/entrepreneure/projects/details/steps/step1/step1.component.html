@@ -1,0 +1,162 @@
+<div class="pe-10">
+  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
+    {{questionnaireName}}
+  </h2>
+</div>
+<div *ngIf="!(dataLoading$ | async)" class="w-100 pe-10">
+  <div class="fv-row border p-8 radius-8px">
+    <div class="fv-row mb-5 fv-plugins-icon-container d-flex align-items-start"
+      *ngFor="let data of allAnswers; let i = index">
+      <div class="col-md-7 pe-10">
+        <label class="form-label fw-medium text-gray-400 fs-7 mb-2">
+          <span [ngClass]="{'required': data?.required===true}">{{ data?.question }}</span>
+          <i class="fas fa-exclamation-circle ms-2 fs-7" *ngIf="data?.description" ngbTooltip="{{ data?.description }}" tooltipClass="my-custom-class"></i>
+        </label>
+        <div *ngIf="data?.answerType === 'YES_OR_NO'" class="d-flex align-items-center">
+          <div class="form-radio form-check-custom form-radio-solid d-flex align-items-center px-0 me-5">
+            <div class="form-check form-check-custom form-check-inline me-3">
+              <input class="form-check-input border-0 h-15px w-15px" type="radio" id="{{ i }}" value="yes"
+                name="{{ i }}" [(ngModel)]="data.answer" [disabled]="
+                  !(projectDetails?.projectPhase === 'PLAN') ||
+                  (projectDetails?.projectPhase === 'PLAN' &&
+                    projectDetails?.projectStatus === 'PENDING')
+                " />
+            </div>
+            <label class="form-check-label" for="{{ i }}">Yes</label>
+          </div>
+          <div class="form-radio form-check-custom form-radio-solid d-flex align-items-center px-0">
+            <div class="form-check form-check-custom form-check-inline me-3">
+              <input class="form-check-input border-0 h-15px w-15px" type="radio" id="{{ i }}" value="no" name="{{ i }}"
+                [(ngModel)]="data.answer" [disabled]="
+                  !(projectDetails?.projectPhase === 'PLAN') ||
+                  (projectDetails?.projectPhase === 'PLAN' &&
+                    projectDetails?.projectStatus === 'PENDING')
+                " />
+            </div>
+            <label class="form-check-label" for="{{ i }}">No</label>
+          </div>
+        </div>
+
+        <div class="fv-row fv-plugins-icon-container" *ngIf="data?.answerType === 'TEXT'">
+          <textarea class="form-control form-control-lg form-control-solid"
+            name="data.answer" placeholder="Answer Here" [(ngModel)]="data.answer" [disabled]="
+              !(projectDetails?.projectPhase === 'PLAN') ||
+              (projectDetails?.projectPhase === 'PLAN' &&
+                projectDetails?.projectStatus === 'PENDING')">
+          </textarea>
+        </div>
+
+        <div class="fv-row fv-plugins-icon-container" *ngIf="data?.answerType === 'FILE'">
+          <div class="row" class="light-purple-badge radius-8px p-3 d-flex justify-content-between align-items-center"
+            role="alert">
+            <div class="col-8">
+              <a class="blue-color bold limit-text min-h-20px" href="javascript:void(0)"
+                *ngFor="let item of data?.files" (click)="onClickFile(item)">
+                {{ item?.fileName }}
+              </a>
+            </div>
+            <div class="">
+              <input type="file" class="form-control form-control-lg form-control-solid"
+                (change)="onUploadFile($event, data?.questionId)" style="display: none" #upload />
+              <button type="button" class="p-0 btn" (click)="upload.click()" [disabled]="
+                  (uploadLoading$ | async) ||
+                  !(projectDetails?.projectPhase === 'PLAN') ||
+                  (projectDetails?.projectPhase === 'PLAN' &&
+                    projectDetails?.projectStatus === 'PENDING')
+                ">
+                <ng-container *ngIf="uploadLoading$ | async">
+                  <span class="indicator-progress" [style.display]="'block'">
+                    Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="!(uploadLoading$ | async)">
+                  <span class="indicator-label"><span class="svg-icon purple-icon svg-icon-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                        height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <rect x="0" y="0" width="24" height="24" />
+                          <path
+                            d="M2,13 C2,12.5 2.5,12 3,12 C3.5,12 4,12.5 4,13 C4,13.3333333 4,15 4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 C2,15 2,13.3333333 2,13 Z"
+                            fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                          <rect fill="#000000" opacity="0.3" x="11" y="2" width="2" height="14" rx="1" />
+                          <path
+                            d="M12.0362375,3.37797611 L7.70710678,7.70710678 C7.31658249,8.09763107 6.68341751,8.09763107 6.29289322,7.70710678 C5.90236893,7.31658249 5.90236893,6.68341751 6.29289322,6.29289322 L11.2928932,1.29289322 C11.6689749,0.916811528 12.2736364,0.900910387 12.6689647,1.25670585 L17.6689647,5.75670585 C18.0794748,6.12616487 18.1127532,6.75845471 17.7432941,7.16896473 C17.3738351,7.57947475 16.7415453,7.61275317 16.3310353,7.24329415 L12.0362375,3.37797611 Z"
+                            fill="#000000" fill-rule="nonzero" />
+                        </g>
+                      </svg>
+                      <!--end::Svg Icon-->
+                    </span></span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5" *ngIf="data?.comments && data?.comments.length > 0">
+        <h2 class="form-label fw-medium text-gray-400 fs-7 mb-n1">Comments</h2>
+        <div class="bg-light-danger py-2 p-3 radius-8px">
+          <ul class="ps-0 mb-0">
+            <li *ngFor="let item of data?.comments" class="timeline-item d-flex">
+              <div class="timeline-badge">
+                <i class="fa fa-genderless text-warning fs-2"></i>
+              </div>
+              <span class="fw-bolder timeline-content text-dark ps-3 fs-9">
+                {{ item?.comment }}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="mt-15" *ngIf="
+      (projectDetails?.projectStatus === 'NEW' || projectDetails?.projectStatus === 'PENDING') &&
+      projectDetails?.projectPhase === 'PLAN' &&
+      projectDetails?.comment
+    ">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-3">
+      Phase Feedback
+    </h2>
+  </div>
+  <div class="row" *ngIf="
+      (projectDetails?.projectStatus === 'NEW' || projectDetails?.projectStatus === 'PENDING') &&
+      projectDetails?.projectPhase === 'PLAN' &&
+      projectDetails?.comment
+    ">
+    <div class="col border p-8 radius-8px">
+      <div class="bg-light-danger min-h-50px radius-8px p-5 fs-8 bold" role="alert">
+        {{ projectDetails?.comment }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="projectDetails?.projectPhase === 'PLAN'">
+    <div class="col text-end mt-10">
+      <button type="button" class="btn btn-light w-350px text-uppercase border border-gray-350" [disabled]="true"
+        *ngIf="projectDetails?.projectStatus === 'PENDING'">
+       Projektplan skickad för granskning
+      </button>
+      <button type="button" class="btn yellow-button w-300px text-uppercase" (click)="onClickSubmitAnswer()"
+        [disabled]="btnLoading$ | async" *ngIf="projectDetails?.projectStatus !== 'PENDING'">
+        <ng-container *ngIf="btnLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Please wait...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!(btnLoading$ | async)">
+          <span class="indicator-label">Submit Project {{ projectDetails?.projectPhase }}</span>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="col text-center data-loader mt-5" *ngIf="dataLoading$ | async">
+  <div class="spinner-border text-warning" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
