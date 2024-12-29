@@ -11,7 +11,6 @@ import { ConnectionsComponent } from './connections/connections.component';
 import {
   CardsModule,
   DropdownMenusModule,
-  WidgetsModule,
 } from '../../_metronic/partials';
 import { SharedModule } from "../../_metronic/shared/shared.module";
 
@@ -27,9 +26,7 @@ import { SharedModule } from "../../_metronic/shared/shared.module";
   imports: [
     CommonModule,
     ProfileRoutingModule,
-
     DropdownMenusModule,
-    WidgetsModule,
     CardsModule,
     SharedModule
   ],

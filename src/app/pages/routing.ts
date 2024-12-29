@@ -35,6 +35,10 @@ const Routing: Routes = [
     path:'admin/investments',
     loadChildren: () => import('./admin/investments/investment.module').then((m) => m.InvestmentModule),
   },
+  {
+    path:'admin/questionnaires',
+    loadChildren: () => import('./admin/questionnaires/questionnaires.module').then((m) => m.QuestionnairesModule),
+  },
 
   {
     path: 'apps/users',

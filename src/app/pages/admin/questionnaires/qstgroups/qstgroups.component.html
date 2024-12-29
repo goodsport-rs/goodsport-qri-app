@@ -1,0 +1,167 @@
+<h2 *ngIf="questionnaireDetails?.name"> {{ questionnaireDetails.name }} </h2>
+<div class="d-flex justify-content-end  mb-6">
+  <button type="submit" (click)="addGroup(groupAdd)" class="btn btn-sm yellow-button w-175px"
+  data-kt-menu-dismiss="true">
+  Add Group
+</button>
+</div>
+<section class="bg-light">
+  <div class="container" *ngIf="!(dataLoading$ | async)">
+    <div class="row">
+    <div class="col-10 offset-1">
+    <mat-accordion cdkDropList #QuestionnaireHeaders="cdkDropList" [cdkDropListData]="groups" (cdkDropListDropped)="drop($event)">
+      <mat-expansion-panel cdkDrag *ngFor="let q of groups; let i = index">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-gray-800 fw-bolder">
+            Group:  {{q.groupName ? q.groupName : 'N/A'}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+          <mat-accordion cdkDropList #QuestionnaireQuestions="cdkDropList" [cdkDropListData]="q.questions" (cdkDropListDropped)="drop($event)">
+            <mat-expansion-panel cdkDrag *ngFor="let v of q.questions; let j = index">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="text-gray-800 fw-bolder">
+                  {{v.question}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  <div class="card-toolbar position-absolute end-0 me-15">
+                  <!--div class="card-toolbar"-->
+                    <span class="badge light-purple-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase">
+                    {{v.answerType}}
+                    </span>
+                      <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="v?.disabled === true">
+                        Inactive
+                      </span>
+                      <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+                        *ngIf="v?.disabled === false">
+                        Active
+                      </span>
+                  </div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+                <div >
+                  <div class="mb-15" *ngIf="q.questions">
+                    <div class="form-group row justify-content-center">
+                      <label class="col-lg-3 col-form-label">Question Order:</label>
+                      <div class="col-lg-6">
+                       <span class="form-control text-muted">{{v.questionOrder}}</span>
+                      </div>
+                     </div>
+                      <div class="form-group row justify-content-center">
+                          <label class="col-lg-3 col-form-label">Question:</label>
+                          <div class="col-lg-6">
+                           <span class="form-control text-muted">{{v.question ? v.question : 'N/A' }}</span>
+                          </div>
+                         </div>
+                         <div class="form-group row justify-content-center">
+                          <label class="col-lg-3 col-form-label">Description:</label>
+                          <div class="col-lg-6">
+                           <span class="form-control text-muted">{{v.description ? v.description : 'N/A'}}</span>
+                          </div>
+                         </div>
+                    <div class="form-group row justify-content-center">
+                     <label class="col-lg-3 col-form-label">Answer Type:</label>
+                     <div class="col-lg-6">
+                      <span class="form-control text-muted">{{v.answerType}}</span>
+                     </div>
+                    </div>
+                    <div class="form-group row justify-content-center">
+                      <label class="col-lg-3 col-form-label">Required:</label>
+                      <div class="col-lg-6">
+                       <span class="form-control text-muted">{{v.required}}</span>
+                      </div>
+                     </div>
+                     <div class="form-group row justify-content-center">
+                      <label class="col-lg-3 col-form-label">KPI:</label>
+                      <div class="col-lg-6">
+                       <span class="form-control text-muted">{{v.kpi}}</span>
+                      </div>
+                     </div>
+                     <div class="form-group row justify-content-center">
+                      <label class="col-lg-3 col-form-label">Disabled:</label>
+                      <div class="col-lg-6">
+                       <span class="form-control text-muted">{{v.disabled}}</span>
+                      </div>
+                     </div>
+
+
+                     <div class="fv-row text-end mb-0 fv-plugins-icon-container mt-15">
+                      <button class="btn btn-sm yellow-button w-100px mx-5" (click)="edit(v, q)">
+                        Update
+                      </button>
+                      <button class="btn btn-sm danger-button w-100px" (click)="delete(v.id)">
+                       Delete
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="!q.questions">
+                      <h2>No Data Found</h2>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <button type="button" class="btn btn-sm blue-transparent-button  w-125px mt-5" (click)="openAddQuestion(q.groupName,i,q.questions.length)">Add Question</button>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="justify-content-end d-flex">
+      <button *ngIf="pendingUpdate" type="button" class="btn btn-sm blue-transparent-button  w-150px mt-5 me-0" (click)="onClickUpdate()"
+      [disabled]="updateLoading$ | async">
+      <ng-container *ngIf="updateLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(updateLoading$ | async)">
+        <span class="indicator-label">Update</span>
+      </ng-container>
+      </button>
+    </div>
+    <button *ngIf="(questionnaireDetails?.status === 'PENDING')&&(groups && groups.length)" type="button" class="btn btn-sm yellow-button w-125px mt-5" (click)="onClickPublish()">Publish</button>
+
+    </div>
+    </div>
+  </div>
+  <div class="col text-center data-loader mt-5 p-5 pt-7"  *ngIf="dataLoading$ | async" >
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+</section>
+
+<!--project approve modal-->
+<ng-template #groupAdd let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Add Group Name
+    </h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="grpForm">
+      <div class="mb-3">
+        <label for="inputHelp1" class="form-label">Group Name</label>
+        <input type="text" formControlName="grpName" class="form-control" id="inputHelp1" aria-describedby="grpHelp">
+        <div id="grpHelp" class="form-text text-danger" *ngIf="(grpForm.controls.grpName.touched && grpForm.controls.grpName.errors?.required)">This field is required.</div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('discard')"
+      [disabled]="statusLoading$ | async">
+      Discard
+    </button>
+    <button type="button" class="btn yellow-button w-175px" (click)="submit(modal, grpForm.controls.grpName.value)"
+      [disabled]="statusLoading$ | async">
+      <ng-container *ngIf="statusLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="!(statusLoading$ | async)">
+        <span class="indicator-label">Submit</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>

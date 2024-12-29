@@ -25,6 +25,7 @@ export class SidebarMenuComponent implements OnInit {
     { title: 'Investors', link: '/admin/investors', roles: ['ROLE_ADMIN', 'ROLE_INVESTOR'], icon: 'briefcase' },
     { title: 'Media', link: '/admin/media', roles: ['ROLE_ADMIN'], icon: 'element-11' },
     { title: 'Partners', link: '/admin/partners', roles: ['ROLE_ADMIN'], icon: 'element-11' },
+    { title: 'Questionnaire', link: '/admin/questionnaires', roles: ['ROLE_ADMIN'], icon: 'element-11' },
     { title: 'Users', link: '/apps/users', roles: ['ROLE_ADMIN'], icon: 'user' }
   ];
 
