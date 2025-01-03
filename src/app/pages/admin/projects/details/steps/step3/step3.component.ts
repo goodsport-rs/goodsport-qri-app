@@ -33,7 +33,7 @@ export class Step3Component implements OnInit {
   private dateFromFormatted: string = '';
   locality: string = '';
   location: string = '';
-  projectFiles: any;
+  public projectFiles: any;
 
   constructor(
     private service: ProjectService,
