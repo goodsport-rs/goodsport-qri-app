@@ -51,8 +51,8 @@ export class ProjectsComponent implements OnInit {
     private entrepreneurService: EntrepreneurService
   ) {
     const storageObj = this.storage.getStorage(environment.USERDATA_KEY);
-    this.entrepreneurId = storageObj.userId;
-    this.kyc = storageObj.kyc;
+    this.entrepreneurId = storageObj?.userId;
+    this.kyc = storageObj?.kyc;
     this.dataLoadingSubject = new BehaviorSubject<boolean>(false);
     this.dataLoading$ = this.dataLoadingSubject.asObservable();
     this.btnLoadingSubject = new BehaviorSubject<boolean>(false);
@@ -60,10 +60,11 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getMe();
     this.getAllProjects();
     this.initForm();
     this.getAllCategories();
-    this.getMe();
+
     this.getProjectPhases();
   }
 
@@ -79,6 +80,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getMe() {
+    console.log('getMe');
     this.dataLoadingSubject.next(true);
     this.entrepreneurService.findMe().subscribe(
       (data: any) => {
