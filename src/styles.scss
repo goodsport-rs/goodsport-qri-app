@@ -10,3 +10,86 @@
 @import "./assets/plugins/keenicons/duotone/style.css";
 @import "./assets/plugins/keenicons/outline/style.css";
 @import "./assets/plugins/keenicons/solid/style.css";
+
+
+.yellow-text {
+  color: #ffbb00;
+}
+
+.yellow-button {
+  background-color: #ffbb00;
+  color: #111;
+
+  &:hover {
+    background-color: #111;
+    color: #ffbb00;
+  }
+}
+
+.signIn-button {
+  background-color: #ffbb00;
+  color: #111;
+  width: 500px;
+
+  &:hover {
+    background-color: #111;
+    color: #ffbb00;
+  }
+}
+
+
+
+.yellow-light-bg {
+  background-color: #fff8dd !important;
+}
+
+.yellow-bg {
+  background-color: #ffbb00 !important;
+}
+
+.light-yellow-badge {
+  background-color: #fff8dd !important;
+  color: #ff8800 !important;
+}
+
+.light-blue-badge {
+  background-color: #6c63ff !important;
+  color: #fff !important;
+}
+
+.dark-yellow-badge {
+  background-color: #ffbb00;
+}
+
+.yellow-light-border {
+  border-color: #fff8dd !important;
+}
+
+.light-green-badge {
+  color: #50cd89;
+  background-color: #e8fff3;
+}
+
+.light-red-badge {
+  color: #ea1e3f;
+  background-color: #ffdde6;
+}
+
+.light-purple-badge {
+  color: #6c63ff;
+  background-color: #e2e0ff;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
+.bg-light {
+  background-color: #f5f8fa !important;
+}
+
+.form-select-solid {
+  .special {
+    font-size: 16px;
+  }
+}
