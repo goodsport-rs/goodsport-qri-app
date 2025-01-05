@@ -45,8 +45,8 @@ const Routing: Routes = [
   },
 
   {
-    path: 'apps/users',
-    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
+    path: 'admin/users',
+    loadChildren: () => import('./admin/users/users.module').then((m) => m.UsersModule),
   },
   {
     path: 'admin',

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserModel } from '../../models/user.model';
 import { environment } from '../../../../../environments/environment';
 import { AuthModel } from '../../models/auth.model';
-import {catchError, map} from "rxjs/operators";
+import {catchError, finalize, map} from "rxjs/operators";
 import {AccountModel} from "../../models/account.model";
 
 const API_USERS_URL = `${environment.apiBaseURL}`;
@@ -67,5 +67,20 @@ export class AuthHTTPService {
         return of(undefined);
       }
     ));
+  }
+
+  resetPassword(data: any) {
+    return this.http.post(`${API_USERS_URL}//users/password/reset`, data);
+  }
+
+
+  signup(data: any) {
+    let endpoint = 'investors';
+    if (data.accountType === 'entrepreneur') {
+      endpoint = 'entrepreneurs';
+    }
+    delete data.accountType;
+    return this.http
+      .post(`${API_USERS_URL}/api/${endpoint}`, data);
   }
 }

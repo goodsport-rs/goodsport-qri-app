@@ -148,4 +148,13 @@ export class AuthService implements OnDestroy {
     console.log('roles', this.roles);
     return this.roles;
   }
+
+  signup(values: any) {
+    return this.authHttpService.signup(values);
+
+  }
+
+  getUserInfo(data: any) {
+
+  }
 }
