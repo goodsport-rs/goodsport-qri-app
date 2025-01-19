@@ -55,9 +55,18 @@ export class ForgotPasswordComponent implements OnInit {
     const forgotPasswordSubscr = this.authService
       .forgotPassword(this.f.email.value)
       .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-      });
+      .subscribe(
+        (result: boolean) => {
+          this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
+        },
+        (error) => {
+          console.error('Error:', error);
+          this.errorState = ErrorStates.HasError;
+        },
+        () => {
+          console.log('Request completed with status 202 Accepted');
+        }
+      );
     this.unsubscribe.push(forgotPasswordSubscr);
   }
 }
