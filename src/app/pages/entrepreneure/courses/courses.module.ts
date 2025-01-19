@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { CoursesComponent } from './courses.component';
-import { WidgetsModule } from '../../../_metronic/partials';
 
 @NgModule({
   declarations: [CoursesComponent],
@@ -15,7 +14,6 @@ import { WidgetsModule } from '../../../_metronic/partials';
         component: CoursesComponent,
       },
     ]),
-    WidgetsModule,
   ],
 })
 export class CoursesModule {}

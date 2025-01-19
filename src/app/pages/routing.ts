@@ -36,6 +36,23 @@ const Routing: Routes = [
     loadChildren: () => import('./entrepreneure/projects/projects.module').then((m) => m.ProjectsModule),
   },
   {
+    path:'entrepreneur/courses',
+    loadChildren: () => import('./entrepreneure/courses/courses.module').then((m) => m.CoursesModule),
+  },
+  {
+    path:'entrepreneur/surveys',
+    loadChildren: () => import('./entrepreneure/surveys/survey.module').then((m) => m.SurveyModule),
+  },
+  {
+    path:'entrepreneur/policy',
+    loadChildren: () => import('../modules/publiclinks/gdpr/gdpr.module').then((m) => m.GdprModule),
+  },
+  {
+    path:'entrepreneur/gss',
+    loadChildren: () => import('../modules/publiclinks/companyInfo/company-Info.module').then((m) => m.CompanyInfoModule),
+  },
+
+  {
     path:'admin/investments',
     loadChildren: () => import('./admin/investments/investment.module').then((m) => m.InvestmentModule),
   },

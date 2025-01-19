@@ -23,6 +23,37 @@ display: block;
   color: #929292;
 }
 
-.bannerImg { 
-  width: 100%; 
+.bannerImg {
+  width: 100%;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.project-card {
+  max-width: 600px; /* Adjust the value as needed */
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.nav-tabs .nav-link {
+  font-size: 1.5rem; /* Increase font size */
+  padding: 1rem 1.5rem; /* Increase padding */
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #007bff; /* Change background color */
+  color: #fff; /* Change text color */
+  border-color: #007bff; /* Change border color */
+}
+
+.tab-content .tab-pane {
+  padding: 1.1rem; /* Increase padding */
+  font-size: 1.25rem; /* Increase font size */
 }

@@ -5,9 +5,8 @@ import { PublicLinksRoutingModule } from './publiclinks-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { InlineSVGModule } from 'ng-inline-svg';
 import { ClipboardModule } from 'ngx-clipboard';
-import { WidgetsModule } from 'src/app/_metronic/partials';
+
 
 
 
@@ -19,7 +18,6 @@ import { WidgetsModule } from 'src/app/_metronic/partials';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    InlineSVGModule,
     ClipboardModule,
     NgApexchartsModule,
     NgbModule,

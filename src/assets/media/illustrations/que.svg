@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29.686" height="28.786" viewBox="0 0 29.686 28.786">
+  <g id="Group_193" data-name="Group 193" transform="translate(-917.406 -626.516)">
+    <g id="Group_191" data-name="Group 191" transform="translate(918.686 636.8)">
+      <g id="Arrow_-_Right" data-name="Arrow - Right" transform="translate(9.904 7.671) rotate(-45)">
+        <path id="Stroke_1" data-name="Stroke 1" d="M0,13.506V0" transform="translate(5.424 0)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Stroke_3" data-name="Stroke 3" d="M10.849,0,5.425,5.447,0,0" transform="translate(0 8.059)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Arrow_-_Right-2" data-name="Arrow - Right" transform="translate(7.671 17.221) rotate(-135)">
+        <path id="Stroke_1-2" data-name="Stroke 1" d="M0,0V13.506" transform="translate(5.424 0)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Stroke_3-2" data-name="Stroke 3" d="M10.849,5.447,5.425,0,0,5.447" transform="translate(0 0)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+    </g>
+    <g id="Group_192" data-name="Group 192" transform="translate(918.686 627.796)">
+      <g id="Arrow_-_Right-3" data-name="Arrow - Right" transform="translate(19.454 0) rotate(45)">
+        <path id="Stroke_1-3" data-name="Stroke 1" d="M0,0V13.506" transform="translate(5.424 0)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Stroke_3-3" data-name="Stroke 3" d="M10.849,5.447,5.425,0,0,5.447" transform="translate(0 0)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Arrow_-_Right-4" data-name="Arrow - Right" transform="translate(17.221 9.55) rotate(135)">
+        <path id="Stroke_1-4" data-name="Stroke 1" d="M0,13.506V0" transform="translate(5.424 0)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Stroke_3-4" data-name="Stroke 3" d="M10.849,0,5.425,5.447,0,0" transform="translate(0 8.058)" fill="none" stroke="#200e32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

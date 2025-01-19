@@ -16,8 +16,8 @@ export class UserModel extends AuthModel {
   address?: AddressModel;
   socialNetworks?: SocialNetworksModel;
   // personal information
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   website: string;
 
   // account information

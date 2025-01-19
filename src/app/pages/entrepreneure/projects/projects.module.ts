@@ -24,28 +24,30 @@ import { SharemodalComponent } from './addreport/sharemodal/sharemodal.component
 import { ViewReportComponent } from './addreport/view-report/view-report.component';
 import { QuestionerPageComponent } from './questionaire/questionaierpage/questioner-page.component';
 import { MatExpansionModule } from "@angular/material/expansion";
+import {InlineSVGModule} from "ng-inline-svg-2";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ClipboardModule,
-    NgApexchartsModule,
-    NgbTooltipModule,
-    MatExpansionModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: ProjectsComponent,
-      },
-      {
-        path: 'details/:id',
-        component: ProjectDetailComponent,
-      },
-    ]),
-    NgbModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ClipboardModule,
+        NgApexchartsModule,
+        NgbTooltipModule,
+        MatExpansionModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: ProjectsComponent,
+            },
+            {
+                path: 'details/:id',
+                component: ProjectDetailComponent,
+            },
+        ]),
+        NgbModule,
+        InlineSVGModule,
+    ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
   declarations: [
     ProjectsComponent,

@@ -1,4 +1,4 @@
-<div class="col-md-12 d-flex justify-content-between bg-white card-rounded idea-card flex-stack flex-wrap p-0 mt-5">
+<div class="col-md-12 p-310 d-flex justify-content-between bg-white card flex-row card-rounded flex-stack flex-wrap p-7 mb-9 ps-15 pe-10 radius-8px mt-5">
   <div class="p-5 px-10">
     <h4 class="bold fs-5 mb-0">Ny Projekt ide ?</h4>
     <p class="fs-8">
@@ -7,7 +7,7 @@
     <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
        class="btn yellow-button fw-bolder fs-8 w-150px" (click)="openModal(content, 'new')">Skapa Projekt</a>
   </div>
-  <img src="./assets/media/illustrations/idea-bg.svg" class="h-175px" alt="idea-bg"/>
+  <img src="./assets/media/illustrations/dozzy-1/1.png" class="h-175px" alt="idea-bg"/>
 </div>
 
 <div
@@ -49,8 +49,15 @@
   </div>
 </div>
 
+<div *ngIf="allProjects.length > 0"
+     class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10 pagination-container">
+  <ngb-pagination [collectionSize]="totalPages" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
+  </ngb-pagination>
+</div>
+
+<!-- Card -->
 <div class="row g-10" *ngIf="!(dataLoading$ | async)">
-  <div class="col-md-3" *ngFor="let data of allProjects">
+  <div class="col-md-3 project-card" *ngFor="let data of allProjects">
     <a [routerLink]="['./details', data.id]" class="card h-100">
       <img class="bannerImg" src="./assets/media/categories/{{data?.categoryId}}-banner.png"/>
       <div class="card-header border-0 mb-0 ps-4 pe-4">
@@ -70,7 +77,7 @@
                 *ngIf="data?.projectStatus === 'PENDING'">
             {{ data?.projectPhase }} Submitted</span>
         </div>
-        <div class="card-toolbar">
+        <div class="card-toolbar project-card">
           <td class="text-end">
             <div class="d-flex flex-column w-100 me-2">
               <div class="d-flex flex-stack mb-2">
@@ -160,16 +167,6 @@
 
 
       <div class="card-body pt-0 pb-5 ps-4">
-        <!-- <div class="card-toolbar mb-2">
-          <span class="badge light-yellow-badge fw-bolder me-auto px-4 py-2"
-            *ngIf="data?.projectStatus === 'PENDING'">Pending</span>
-          <span class="badge light-green-badge fw-bolder me-auto px-4 py-2" *ngIf="data?.projectStatus === 'APPROVED'">
-            Approved</span>
-          <span class="badge light-red-badge fw-bolder me-auto px-4 py-2" *ngIf="data?.projectStatus === 'DECLINED'">
-            Rejected</span>
-          <span class="badge light-blue-badge fw-bolder me-auto px-4 py-2" *ngIf="data?.projectStatus === 'NEW'">
-            New</span>
-        </div> -->
         <div class="m-0">
           <span class="fs-6 text-dark bold text-hover-primary text-dark lh-base">{{ data?.title }}</span>
           <div class="fw-medium fs-9 mt-1 limit-text card-des-text">
@@ -180,6 +177,7 @@
     </a>
   </div>
 </div>
+<!-- Card -->
 
 <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
   <div class="spinner-border text-warning" role="status">
@@ -187,11 +185,7 @@
   </div>
 </div>
 
-<div *ngIf="allProjects.length > 0"
-     class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
-  <ngb-pagination [collectionSize]="totalPages" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
-  </ngb-pagination>
-</div>
+
 
 <!--create/edit modal-->
 <ng-template #content let-modal>

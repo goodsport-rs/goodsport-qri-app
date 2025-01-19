@@ -93,3 +93,27 @@
     font-size: 16px;
   }
 }
+
+
+.yellow-button {
+  background-color: #ffbb00;
+  color: #111;
+  border: 1px solid transparent !important;
+
+  &:hover {
+    background-color: transparent;
+    color: #111;
+    border-color: #ff8800 !important;
+  }
+}
+.radius-8px {
+  border-radius: 8px !important;
+}
+
+.radius-15px {
+  border-radius: 15px !important;
+}
+
+.text-justify {
+  text-align: justify;
+}
