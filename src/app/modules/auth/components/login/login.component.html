@@ -1,5 +1,5 @@
 <!--begin::Form-->
-<form class="form w-100" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+<form class="form w-500" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
   (ngSubmit)="submit()">
   <!--begin::Heading-->
   <div class="text-center mb-11">
@@ -7,9 +7,7 @@
       Sign In
     </h1>
     <!--begin::Subtitle-->
-    <div class="text-gray-500 fw-semibold fs-6">
-      Your Social Campaigns
-    </div>
+
     <!--end::Subtitle--->
     <!-- <div class="text-gray-500 fw-bold fs-4">
       New Here?
@@ -30,14 +28,7 @@
   <!--end::Separator-->
 
   <!-- begin::Alert info-->
-  <ng-container *ngIf="!hasError">
-    <div class="mb-10 bg-light-info p-8 rounded">
-      <div class="text-info">
-        Use account <strong>{{ defaultAuth.email }}</strong> and password
-        <strong>{{ defaultAuth.password }}</strong> to continue.
-      </div>
-    </div>
-  </ng-container>
+
   <!-- end::Alert info-->
 
 
@@ -52,7 +43,7 @@
   <!-- end::Alert error-->
 
   <!--begin::Form group-->
-  <div class="fv-row mb-8">
+  <div class="fv-row mb-8 w-500">
     <label class="form-label fs-6 fw-bolder text-gray-900">Email</label>
     <input class="form-control bg-transparent" type="email" name="email" formControlName="email" autocomplete="off"
       [ngClass]="{
@@ -133,16 +124,16 @@
         </span>
       </ng-container>
       <ng-container *ngIf="(isLoading$ | async) === false">
-        <span class="indicator-label">Continue</span>
+        <span class="indicator-label">Logga in</span>
       </ng-container>
     </button>
   </div>
 
   <div class="text-gray-500 text-center fw-semibold fs-6">
-    Not a Member yet?
+   Har du inget konto ?
 
     <a routerLink="/auth/sign-up" class="link-primary">
-      Sign up
+    Registrera ditt konto
     </a>
   </div>
 
