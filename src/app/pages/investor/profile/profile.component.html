@@ -20,7 +20,7 @@
                   fill="none"
                   fill-rule="evenodd"
                 >
-                  <rect x="0" y="0" width="24" height="24" />
+                  <rect x="0" y="0" width="24" height="24"/>
                   <path
                     d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z"
                     fill="#000000"
@@ -47,9 +47,10 @@
           <!--begin::Avatar-->
           <div class="symbol symbol-125px symbol-circle mb-5 profile-pic">
             <span *ngIf="!profileDetails?.imageUrl"
-              class="symbol-label fs-3x fw-bold text-white yellow-bg yellow-light-border"
+                  class="symbol-label fs-3x fw-bold text-white yellow-bg yellow-light-border"
             >
-              {{ profileDetails?.organizationName.charAt(0)
+              {{
+                profileDetails?.organizationName.charAt(0)
               }}
             </span>
             <img src="{{profileDetails?.imageUrl}}" *ngIf="profileDetails?.imageUrl">
@@ -91,7 +92,7 @@
                   fill="none"
                   fill-rule="evenodd"
                 >
-                  <rect x="0" y="0" width="24" height="24" />
+                  <rect x="0" y="0" width="24" height="24"/>
                   <path
                     d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z"
                     fill="#000000"
@@ -117,52 +118,46 @@
             class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-7 mb-3"
           >
             <tbody>
-              <tr class="">
-                <td>
+            <tr class="">
+              <td>
                   <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
-                    <img
-                      src="./assets/media/icons/briefcase.png"
-                      alt="envelope"
-                    />
+  <app-keenicon name="briefcase" class="fs-2"></app-keenicon>
                   </span>
-                  <span class="text-gray-500 fw-bold"> Name </span>
-                </td>
-                <td>
+                <span class="text-gray-500 fw-bold"> Name </span>
+              </td>
+              <td>
                   <span class="text-gray-500 fw-medium">
                     {{ profileDetails?.firstName }}
                     {{ profileDetails?.lastName }}
                   </span>
-                </td>
-              </tr>
-              <tr class="">
-                <td>
+              </td>
+            </tr>
+            <tr class="">
+              <td>
                   <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
-                    <img
-                      src="./assets/media/icons/envelope.png"
-                      alt="envelope"
-                    />
+    <app-keenicon name="user" class="fs-2"></app-keenicon>
                   </span>
-                  <span class="text-gray-500 fw-bold"> Email </span>
-                </td>
-                <td>
+                <span class="text-gray-500 fw-bold"> Email </span>
+              </td>
+              <td>
                   <span class="text-gray-500 fw-medium">
                     {{ profileDetails?.username }}
                   </span>
-                </td>
-              </tr>
-              <tr class="">
-                <td>
-                  <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
-                    <img src="./assets/media/icons/mob.png" alt="envelope" />
-                  </span>
-                  <span class="text-gray-500 fw-bold"> Phone </span>
-                </td>
-                <td>
+              </td>
+            </tr>
+            <tr class="">
+              <td>
+                 <span class="svg-icon svg-icon-gray svg-icon-2 me-5">
+                <app-keenicon name="whatsapp" class="fs-2"></app-keenicon>
+                 </span>
+                <span class="text-gray-500 fw-bold"> Phone </span>
+              </td>
+              <td>
                   <span class="text-gray-500 fw-medium">
                     {{ profileDetails?.phoneNumber }}
                   </span>
-                </td>
-              </tr>
+              </td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -190,7 +185,7 @@
               version="1.1"
             >
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <rect x="0" y="0" width="24" height="24" />
+                <rect x="0" y="0" width="24" height="24"/>
                 <path
                   d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z"
                   fill="#000000"
@@ -224,7 +219,7 @@
         />
         <span
           class="text-gray-700 d-block mt-2 fs-8 bold h-40px overflow-hidden text-center"
-          >{{ data?.name }}</span
+        >{{ data?.name }}</span
         >
       </span>
     </div>
@@ -253,7 +248,7 @@
         <div class="d-flex justify-content-between">
           <div class="d-flex flex-stack mb-2">
             <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required"
-              >First Name</label
+            >First Name</label
             >
           </div>
         </div>
@@ -279,7 +274,7 @@
         <div class="d-flex justify-content-between mt-n5">
           <div class="d-flex flex-stack mb-2">
             <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required"
-              >Last Name</label
+            >Last Name</label
             >
           </div>
         </div>
@@ -306,7 +301,7 @@
         <div class="d-flex justify-content-between mt-n5">
           <div class="d-flex flex-stack mb-2">
             <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required"
-              >Phone Number</label
+            >Phone Number</label
             >
           </div>
         </div>
@@ -341,7 +336,7 @@
         <div class="d-flex justify-content-between mt-n5">
           <div class="d-flex flex-stack mb-2">
             <label class="form-label fs-6 text-gray-400 fw-medium required mb-0"
-              >Organization Name</label
+            >Organization Name</label
             >
           </div>
         </div>
@@ -366,7 +361,7 @@
         <div class="d-flex justify-content-between mt-n5">
           <div class="d-flex flex-stack mb-2">
             <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required"
-              >Organization Number</label
+            >Organization Number</label
             >
           </div>
         </div>
@@ -495,7 +490,7 @@
     <div class="card">
       <div class="fv-row mb-10">
         <label class="form-label fs-8 text-gray-400 fw-medium fs-8 required"
-          >Image Url*</label
+        >Image Url*</label
         >
         <input
           class="form-control form-control-lg border-gray-400 h-40"

@@ -7,6 +7,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { provideNgxMask } from 'ngx-mask';
 
 import { ProfileComponent } from './profile.component';
+import {SharedModule} from "../../../_metronic/shared/shared.module";
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -22,6 +23,7 @@ import { ProfileComponent } from './profile.component';
     FormsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
+    SharedModule,
   ],
   providers: [
     provideNgxMask({
