@@ -157,39 +157,38 @@
       <div class="bg-white rounded shadow-sm pb-20  mx-auto w-100 radius-15px overflow-hidden">
         <ul class="nav nav-tabs" id="projectTabs" role="tablist">
           <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="currentStep$.value === 1" (click)="currentStep$.next(1)" id="idea-tab" data-bs-toggle="tab"  role="tab" aria-controls="idea" aria-selected="true">1. Idea</a>
+            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 1" (click)="currentStep$.next(1)" id="idea-tab" data-bs-toggle="tab" role="tab" aria-controls="idea" aria-selected="true">1. Idea</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="currentStep$.value === 2" [class.disabled]="currentPhase < 1" (click)="currentStep$.next(2)" id="plan-tab" data-bs-toggle="tab"  role="tab" aria-controls="plan" aria-selected="false">2. Plan</a>
+            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 2" [class.disabled]="currentPhase < 1" (click)="currentStep$.next(2)" id="plan-tab" data-bs-toggle="tab" role="tab" aria-controls="plan" aria-selected="false">2. Plan</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="currentStep$.value === 3" [class.disabled]="currentPhase < 2" (click)="currentStep$.next(3)" id="funding-tab" data-bs-toggle="tab"  role="tab" aria-controls="funding" aria-selected="false">3. Funding</a>
+            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 3" [class.disabled]="currentPhase < 2" (click)="currentStep$.next(3)" id="funding-tab" data-bs-toggle="tab" role="tab" aria-controls="funding" aria-selected="false">3. Funding</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="currentStep$.value === 4" [class.disabled]="currentPhase < 3" (click)="currentStep$.next(4)" id="aterrapportering-tab" data-bs-toggle="tab"  role="tab" aria-controls="aterrapportering" aria-selected="false">4. Aterrapportering</a>
+            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 4" [class.disabled]="currentPhase < 3" (click)="currentStep$.next(4)" id="aterrapportering-tab" data-bs-toggle="tab" role="tab" aria-controls="aterrapportering" aria-selected="false">4. Aterrapportering</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" [class.active]="currentStep$.value === 5" [class.disabled]="currentPhase < 4" (click)="currentStep$.next(5)" id="gri-report-tab" data-bs-toggle="tab" role="tab" aria-controls="gri-report" aria-selected="false">5. GRI Report</a>
+            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 5" [class.disabled]="currentPhase < 4" (click)="currentStep$.next(5)" id="gri-report-tab" data-bs-toggle="tab" role="tab" aria-controls="gri-report" aria-selected="false">5. GRI Report</a>
           </li>
         </ul>
         <div class="tab-content p-5" id="projectTabsContent">
-          <div class="tab-pane fade" [class.show]="currentStep$.value === 1" [class.active]="currentStep$.value === 1" id="idea" role="tabpanel" aria-labelledby="idea-tab">
+          <div class="tab-pane fade" *ngIf="isStepValid(1)" [class.show]="currentStep$.value === 1" [class.active]="currentStep$.value === 1" id="idea" role="tabpanel" aria-labelledby="idea-tab">
             <app-signup-step0 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step0>
           </div>
-          <div class="tab-pane fade" [class.show]="currentStep$.value === 2" [class.active]="currentStep$.value === 2" id="plan" role="tabpanel" aria-labelledby="plan-tab">
+          <div class="tab-pane fade" *ngIf="isStepValid(2)" [class.show]="currentStep$.value === 2" [class.active]="currentStep$.value === 2" id="plan" role="tabpanel" aria-labelledby="plan-tab">
             <app-signup-step1 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step1>
           </div>
-          <div class="tab-pane fade" [class.show]="currentStep$.value === 3" [class.active]="currentStep$.value === 3" id="funding" role="tabpanel" aria-labelledby="funding-tab">
+          <div class="tab-pane fade" *ngIf="isStepValid(3)" [class.show]="currentStep$.value === 3" [class.active]="currentStep$.value === 3" id="funding" role="tabpanel" aria-labelledby="funding-tab">
             <app-signup-step2 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step2>
           </div>
-          <div class="tab-pane fade" [class.show]="currentStep$.value === 4" [class.active]="currentStep$.value === 4" id="aterrapportering" role="tabpanel" aria-labelledby="aterrapportering-tab">
+          <div class="tab-pane fade" *ngIf="isStepValid(4)" [class.show]="currentStep$.value === 4" [class.active]="currentStep$.value === 4" id="aterrapportering" role="tabpanel" aria-labelledby="aterrapportering-tab">
             <app-signup-step3 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step3>
           </div>
-          <div class="tab-pane fade" [class.show]="currentStep$.value === 5" [class.active]="currentStep$.value === 5" id="gri-report" role="tabpanel" aria-labelledby="gri-report-tab">
+          <div class="tab-pane fade" *ngIf="isStepValid(5)" [class.show]="currentStep$.value === 5" [class.active]="currentStep$.value === 5" id="gri-report" role="tabpanel" aria-labelledby="gri-report-tab">
             <app-signup-step4 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step4>
           </div>
         </div>
-      </div>
       <!--end::Content body-->
     </div>
     <!--end::Content-->
