@@ -2,10 +2,9 @@
 <form class="form w-500" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
   (ngSubmit)="submit()">
   <!--begin::Heading-->
-  <div class="text-center mb-11">
-    <h1 class="text-gray-900 fw-bolder mb-3">
-      Sign In
-    </h1>
+  <div class="mb-11">
+
+    <h1 class="fw-bolder text-dark multicolor-border pb-5 mb-10">Logga  in</h1>
     <!--begin::Subtitle-->
 
     <!--end::Subtitle--->
@@ -44,7 +43,7 @@
 
   <!--begin::Form group-->
   <div class="fv-row mb-8 w-500">
-    <label class="form-label fs-6 fw-bolder text-gray-900">Email</label>
+    <label class="form-label fs-6 fw-bolder text-gray-900">Epost</label>
     <input class="form-control bg-transparent" type="email" name="email" formControlName="email" autocomplete="off"
       [ngClass]="{
         'is-invalid': loginForm.controls['email'].invalid,
@@ -76,7 +75,7 @@
   <!--begin::Form group-->
   <div class="fv-row mb-3">
 
-    <label class="form-label fw-bolder text-gray-900 fs-6 mb-0">Password</label>
+    <label class="form-label fw-bolder text-gray-900 fs-6 mb-0">Lösenord</label>
 
     <input class="form-control bg-transparent" type="password" name="password" autocomplete="off"
       formControlName="password" [ngClass]="{
@@ -108,7 +107,7 @@
 
     <!--begin::Link-->
     <a routerLink="/auth/forgot-password" class="link-primary">
-      Forgot Password ?
+      Glömt lösenord ?
     </a>
     <!--end::Link-->
   </div>

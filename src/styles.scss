@@ -183,3 +183,19 @@
     color: #ffbb00 !important;
   }
 }
+
+.multicolor-border {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 70px;
+    height: 5px;
+    background-image: url("./assets/media/illustrations/border.png");
+    background-size: 100%;
+  }
+}
+
