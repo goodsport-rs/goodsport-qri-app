@@ -65,6 +65,20 @@ const Routing: Routes = [
     path: 'admin/users',
     loadChildren: () => import('./admin/users/users.module').then((m) => m.UsersModule),
   },
+
+  {
+    path: 'investor/projects',
+    loadChildren: () => import('./investor/projects/projects.module').then((m) => m.ProjectsModule),
+  },
+  {
+    path: 'investor/investments',
+    loadChildren: () => import('./investor/investments/investment.module').then((m) => m.InvestmentModule),
+  },
+  {
+    path: 'investor/profile',
+    loadChildren: () => import('./investor/profile/profile.module').then((m) => m.ProfileModule),
+  },
+
   {
     path: 'admin',
     canActivate: [PortalGuard],

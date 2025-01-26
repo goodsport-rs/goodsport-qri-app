@@ -4,14 +4,9 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { provideNgxMask } from 'ngx-mask';
 
-import { WidgetsModule } from '../../../_metronic/partials';
 import { ProfileComponent } from './profile.component';
-
-const maskConfig: Partial<IConfig> = {
-  validation: true,
-};
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -23,12 +18,15 @@ const maskConfig: Partial<IConfig> = {
         component: ProfileComponent,
       },
     ]),
-    WidgetsModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    NgxMaskModule.forRoot(maskConfig),
+  ],
+  providers: [
+    provideNgxMask({
+      validation: true,
+    }),
   ],
 })
 export class ProfileModule {}

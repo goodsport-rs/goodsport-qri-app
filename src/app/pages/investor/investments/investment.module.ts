@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TimeagoModule } from 'ngx-timeago';
 
-import { WidgetsModule } from '../../../_metronic/partials';
 import { InvestmentComponent } from './investment.component';
 
 
@@ -19,10 +17,8 @@ import { InvestmentComponent } from './investment.component';
         component: InvestmentComponent,
       },
     ]),
-    WidgetsModule,
     FormsModule,
     NgbModule,
-    TimeagoModule.forChild(),
   ],
 })
 export class InvestmentModule {}

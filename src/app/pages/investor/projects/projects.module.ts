@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { WidgetsModule } from '../../../_metronic/partials';
 import { ProjectsComponent } from './projects.component';
 import { ProjectDetailComponent } from './details/details.component';
+import {InlineSVGModule} from "ng-inline-svg-2";
 
 
 
@@ -24,10 +24,10 @@ import { ProjectDetailComponent } from './details/details.component';
         component: ProjectDetailComponent,
       },
     ]),
-    WidgetsModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    InlineSVGModule,
 
   ],
 })
