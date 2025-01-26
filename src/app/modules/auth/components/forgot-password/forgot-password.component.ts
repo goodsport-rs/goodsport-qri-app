@@ -56,7 +56,9 @@ export class ForgotPasswordComponent implements OnInit {
       .forgotPassword(this.f.email.value)
       .pipe(first())
       .subscribe(
-        (result: boolean) => {
+        (result: any) => {
+          console.log(result.code());
+
           this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
         },
         (error) => {
