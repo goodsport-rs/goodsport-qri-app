@@ -1,13 +1,11 @@
 :host {
   width: 100%;
-  @media (min-width: 992px) {
-    .login-form {
-      width: 100%;
-      max-width: 600px;
+  .login-form {
+    width: 100%;
+    max-width: 1200px; // Increase the max-width to make the form wider
 
-      .mat-form-field {
-        width: 100%;
-      }
+    .mat-form-field {
+      width: 100%;
     }
   }
 }
