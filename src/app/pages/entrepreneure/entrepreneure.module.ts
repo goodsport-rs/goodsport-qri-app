@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import {InlineSVGModule} from "ng-inline-svg-2";
 import {SharedModule} from "../../_metronic/shared/shared.module";
+import {NgxMaskDirective} from "ngx-mask";
 @NgModule({
     imports: [
         NgModule,
@@ -19,6 +20,7 @@ import {SharedModule} from "../../_metronic/shared/shared.module";
         HttpClientModule,
         InlineSVGModule,
         SharedModule,
+        NgxMaskDirective,
     ],
   declarations: [HomeComponent, ProfileComponent],
   providers: [],

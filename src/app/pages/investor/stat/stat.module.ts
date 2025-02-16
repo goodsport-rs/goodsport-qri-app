@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { StatComponent } from './stat.component';
-import { WidgetsModule } from '../../../_metronic/partials';
 
 @NgModule({
   declarations: [StatComponent],
@@ -16,7 +15,6 @@ import { WidgetsModule } from '../../../_metronic/partials';
         component: StatComponent,
       },
     ]),
-    WidgetsModule,
     NgApexchartsModule,
   ],
 })

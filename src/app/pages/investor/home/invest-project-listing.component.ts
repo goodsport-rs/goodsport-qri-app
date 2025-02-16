@@ -52,9 +52,9 @@ export class InvestProjectListingComponent implements OnInit, OnDestroy {
     this.investorService.findMe().subscribe(
       (data: any) => {
         this.profile = data;
-        const userInfo = this.storage.getStorage(environment.userKey);
+        const userInfo = this.storage.getStorage(environment.USERDATA_KEY);
         this.isUserVerified = data.verified;
-        this.storage.setStorage(environment.userKey, userInfo);
+        this.storage.setStorage(environment.USERDATA_KEY, userInfo);
         this.dataLoadingSubject.next(false);
       },
       (error) => {
@@ -100,7 +100,7 @@ export class InvestProjectListingComponent implements OnInit, OnDestroy {
 
   resendVerificationMail() {
     this.dataLoadingSubject.next(true);
-    const userInfo = this.storage.getStorage(environment.userKey);
+    const userInfo = this.storage.getStorage(environment.USERDATA_KEY);
     this.verifyService.resendEmail(userInfo.email).subscribe(
       (data: any) => {
         this.dataLoadingSubject.next(false);

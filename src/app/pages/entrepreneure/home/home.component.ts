@@ -4,12 +4,13 @@ import {Observable, BehaviorSubject, Subscription} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {EntrepreneurService} from 'src/app/core/services/entrepreneurs.service';
-import {StorageService} from 'src/app/core/services/storage.service';
+
 import {environment} from 'src/environments/environment';
 import {QuestionnairesService} from 'src/app/core/services/questionnaires.service';
 import {ProjectService} from 'src/app/core/services/project.service';
 import {SweetAlertService} from 'src/app/core/services/alert.service';
 import {VerifyService} from "../../../core/services/verify.service";
+import { StorageService } from 'src/app/auth/guards/storage.service';
 
 @Component({
   selector: 'app-home',
@@ -49,15 +50,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.dataLoading$ = this.dataLoadingSubject.asObservable();
     this.btnPrefLoadingSubject = new BehaviorSubject<boolean>(false);
     this.btnPrefLoading$ = this.btnPrefLoadingSubject.asObservable();
-    const storageObj = this.storage.getStorage(environment.userKey);
-    this.entrepreneurId = storageObj.userId;
-    this.kyc = storageObj.kyc;
+
   }
 
   ngOnInit(): void {
     this.getMe();
     this.initForm();
     this.getAllCategories();
+
+    const storageObj = this.storage.getStorage(environment.USERDATA_KEY);
+
   }
 
   initForm() {
@@ -68,16 +70,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+
   getMe() {
     this.dataLoadingSubject.next(true);
     this.entrepreneurService.findMe().subscribe(
       (data: any) => {
         this.profile = data;
-        const userInfo = this.storage.getStorage(environment.userKey);
-        userInfo.kyc = data.organizationKYCDone;
-
+        let userInfo = this.storage.getStorage(environment.USERDATA_KEY);
+        if (!userInfo) {
+          userInfo = { userId: data.id, kyc: data.organizationKYCDone, email: data.email }; // Set default values
+        } else {
+          userInfo.kyc = data.organizationKYCDone;
+        }
         this.isUserVerified = data.verified;
-        this.storage.setStorage(environment.userKey, userInfo);
+        this.storage.setStorage(environment.USERDATA_KEY, userInfo);
         this.showKyc = userInfo.kyc;
         this.kyc = userInfo.kyc;
         this.getAllProjects();
@@ -213,7 +219,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   resendVerificationMail() {
     this.dataLoadingSubject.next(true);
-    const userInfo = this.storage.getStorage(environment.userKey);
+    const userInfo = this.storage.getStorage(environment.USERDATA_KEY);
     this.verifyService.resendEmail(userInfo.email).subscribe(
       (data: any) => {
         this.dataLoadingSubject.next(false);

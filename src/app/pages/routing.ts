@@ -31,6 +31,11 @@ const Routing: Routes = [
     path:'admin/projects',
     loadChildren: () => import('./admin/projects/projects.module').then((m) => m.ProjectsModule),
   },
+
+  {
+    path:'entrepreneur/home',
+    loadChildren: () => import('./entrepreneure/home/home.module').then((m) => m.HomeModule),
+  },
   {
     path:'entrepreneur/projects',
     loadChildren: () => import('./entrepreneure/projects/projects.module').then((m) => m.ProjectsModule),

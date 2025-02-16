@@ -144,7 +144,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   onClickSubmit(modal: any) {
-    const user = this.storage.getStorage(environment.userKey);
+    const user = this.storage.getStorage(environment.USERDATA_KEY);
     const obj = {
       projectId: this.projectId,
       investorId: user.userId,

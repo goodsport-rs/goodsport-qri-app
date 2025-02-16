@@ -34,13 +34,16 @@ export class PortalGuard implements CanActivate {
     const path = this.url.split('/')[1];
     console.log('role  ===>', role);
     if (role === 'ROLE_ADMIN' && path !== 'admin') {
+      console.log('admin routing to admin');
       this.router.navigate(['/admin']);
       return false;
     } else if (role === 'ROLE_ENTREPRENEUR' && path !== 'entrepreneure') {
-      this.router.navigate(['/entrepreneure']);
+      console.log('entrepreneur routing to entrepreneur');
+      this.router.navigate(['/entrepreneure/home']);
       return false;
     } else if (role === 'ROLE_INVESTOR' && path !== 'investor') {
-      this.router.navigate(['/investor']);
+      console.log('investor routing to investor');
+      this.router.navigate(['/investor/home']);
       return false;
     }
     return true;

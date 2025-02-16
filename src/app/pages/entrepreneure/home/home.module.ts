@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InlineSVGModule } from 'ng-inline-svg';
+
 
 import { HomeComponent } from './home.component';
-import { WidgetsModule } from '../../../_metronic/partials';
+
 
 import { ProjectDetailComponent } from './details/details.component';
 import {
@@ -39,11 +39,9 @@ import {
         component: ProjectDetailComponent,
       },
     ]),
-    WidgetsModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    InlineSVGModule,
   ],
 })
 export class HomeModule {}

@@ -5,9 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProjectService } from 'src/app/core/services/project.service';
 import { SweetAlertService } from 'src/app/core/services/alert.service';
-import { StorageService } from 'src/app/core/services/storage.service';
 import { environment } from 'src/environments/environment';
 import { findIndex } from 'lodash';
+import { StorageService } from 'src/app/auth/guards/storage.service';
 
 @Component({
   selector: 'app-signup-step0',
@@ -31,7 +31,7 @@ export class Step0Component implements OnInit, OnDestroy {
   ) {
     this.btnLoadingSubject = new BehaviorSubject<boolean>(false);
     this.btnLoading$ = this.btnLoadingSubject.asObservable();
-    this.storageObj = this.storage.getStorage(environment.userKey);
+    this.storageObj = this.storage.getStorage(environment.USERDATA_KEY);
   }
 
   ngOnInit() {
