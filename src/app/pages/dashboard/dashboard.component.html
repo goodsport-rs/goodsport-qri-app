@@ -41,6 +41,10 @@
         </div>
         <div class="card-body">
           <p>This is a big widget with some text content.</p>
+          <apx-chart [series]="categoryChart.series" [chart]="categoryChart.chart" [dataLabels]="categoryChart.dataLabels"
+                     [plotOptions]="categoryChart.plotOptions" [yaxis]="categoryChart.yaxis" [legend]="categoryChart.legend"
+                     [fill]="categoryChart.fill" [stroke]="categoryChart.stroke" [tooltip]="categoryChart.tooltip"
+                     [xaxis]="categoryChart.xaxis" [colors]="categoryChart.colors"></apx-chart>
         </div>
       </div>
       <!--end::Widget-->
