@@ -1,63 +1,52 @@
-<!--begin::Row-->
-<div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-  <!--begin::Col-->
-  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+<!--begin::Dashboard-->
+<div class="container-xxl">
+  <!--begin::Row-->
+  <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+    <!--begin::Col-->
+    <div *ngIf="cards.length === 0" class="col-12">
+      <div class="alert alert-warning" role="alert">
+        No data available.
+      </div>
+    </div>
+    <div *ngFor="let card of cards" class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
+      <!--begin::Widget-->
+      <div class="card card-flush h-md-100">
+        <div class="card-header">
+          <h3 class="card-title">{{ card.title }}</h3>
+        </div>
+        <div class="card-body">
+          <h1>{{ card.value }}</h1>
+          <p>{{ card.description }}</p>
+        </div>
+      </div>
+      <!--end::Widget-->
+    </div>
+    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <!--end::Col-->
   </div>
-  <!--end::Col-->
+  <!--end::Row-->
 
-  <!--begin::Col-->
-  <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-
+  <!--begin::Row-->
+  <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
+    <!--begin::Col-->
+    <div class="col-12">
+      <!--begin::Widget-->
+      <div class="card card-flush h-md-100">
+        <div class="card-header">
+          <h3 class="card-title">Monthly stats</h3>
+        </div>
+        <div class="card-body">
+          <p>This is a big widget with some text content.</p>
+        </div>
+      </div>
+      <!--end::Widget-->
+    </div>
+    <!--end::Col-->
   </div>
-  <!--end::Col-->
-
-
-  <!--begin::Col-->
-
-  <!--end::Col-->
+  <!--end::Row-->
 </div>
-<!--end::Row-->
-
-<!--begin::Row-->
-<div class="row gx-5 gx-xl-10">
-  <!--begin::Col-->
-  <div class="col-xxl-6 mb-5 mb-xl-10">
-
-  </div>
-  <!--end::Col-->
-
-  <!--begin::Col-->
-  <div class="col-xxl-6 mb-5 mb-xl-10">
-
-  <!--end::Col-->
-</div>
-<!--end::Row-->
-
-<!-- begin::Row -->
-<div class="row gy-5 gx-xl-8">
-  <div class="col-xxl-4">
-
-  </div>
-  <div class="col-xl-8">
-
-  </div>
-</div>
-<!-- end::Row -->
-
-<!-- begin::Row -->
-<div class="row gy-5 g-xl-8">
-
-</div>
-<!-- end::Row -->
-
-<div class="row g-5 gx-xxl-8">
-
-</div>
-
-<!-- begin:: Modal example -->
-<!-- <app-modal #modal [modalConfig]="modalConfig">
-  Modal body html
-</app-modal>
-<button class="btn btn-primary" (click)="openModal()">Open modal</button> -->
-<!-- Note: Don't forget import ModalsModule (from _metronic/partials) into your module -->
-<!-- end:: Modal example -->
+<!--end::Dashboard-->
