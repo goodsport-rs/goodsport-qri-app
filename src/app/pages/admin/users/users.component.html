@@ -76,18 +76,16 @@
               >
           </td>
           <td>
-            <i *ngIf="user?.accountLocked" class="fa fa-regular fa-lock"></i>
-            <i *ngIf="!user?.accountLocked" style="color:forestgreen" class="fa fa-regular fa-unlock"></i>
-
+            <app-keenicon *ngIf="user?.accountLocked" name="cross-circle" class="fs-2 text-primary me-4"></app-keenicon>
+            <app-keenicon *ngIf="!user?.accountLocked" name="user-tick" class="fs-2 text-success me-4"></app-keenicon>
           </td>
           <td>
-            <i *ngIf="!user?.accountEnabled" class="fa fa-regular fa-lock"></i>
-            <i *ngIf="user?.accountEnabled" style="color:forestgreen" class="fa fa-regular fa-check"></i>
+            <app-keenicon *ngIf="!user?.accountEnabled" name="cross-circle" class="fs-2 text-primary me-4"></app-keenicon>
+            <app-keenicon *ngIf="user?.accountEnabled" name="check" class="fs-2 text-success me-4"></app-keenicon>
           </td>
-
           <td>
-            <i *ngIf="!user?.verified" style="color:mediumvioletred" class="fa fa-regular fa-lock"></i>
-            <i *ngIf="user?.verified" style="color:forestgreen" class="fa fa-regular fa-check"></i>
+            <app-keenicon *ngIf="!user?.verified" name="cross-circle" class="fs-2 text-danger me-4"></app-keenicon>
+            <app-keenicon *ngIf="user?.verified" name="check" class="fs-2 text-success me-4"></app-keenicon>
           </td>
 
         </tr>
