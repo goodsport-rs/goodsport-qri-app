@@ -205,22 +205,22 @@ export class DashboardComponent implements OnInit {
           {
             title: 'Total Users',
             value: data.totalEntrepreneur,
-            description: 'Total number of users',
+            description: 'Antal användare',
           },
           {
             title: 'Total Projects',
             value: data.totalProjects,
-            description: 'Total number of projects',
+            description: 'Antal projekt',
           },
           {
             title: 'Total Participants',
             value: data.totalParticipants,
-            description: 'Total number of categories',
+            description: 'Total deltagare',
           },
           {
             title: 'Total Investors',
             value: data.totalInvestors,
-            description: 'Total number of questions',
+            description: 'Total antal investerare',
           }
         );
         console.log('Cards array after push:', this.cards);
