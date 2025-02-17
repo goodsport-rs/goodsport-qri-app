@@ -30,7 +30,7 @@ export class SidebarMenuComponent implements OnInit {
     { title: 'Users', link: '/admin/users', roles: ['ROLE_ADMIN'], icon: 'user' },
     //Investor
     { title: 'Home', link: '/investor/home', roles: ['ROLE_INVESTOR'], icon: 'element-11' },
-    { title: 'Profile', link: '/investor/profile', roles: ['ROLE_INVESTOR'], icon: 'element-12' },
+    { title: 'Profile', link: '/investor/profile', roles: ['ROLE_INVESTOR'], icon: 'user-square' },
     { title: 'Projects', link: '/investor/projects', roles: ['ROLE_INVESTOR'], icon: 'briefcase' },
     { title: 'Investments', link: '/investor/investments', roles: ['ROLE_INVESTOR'], icon: 'finance-calculator' },
 

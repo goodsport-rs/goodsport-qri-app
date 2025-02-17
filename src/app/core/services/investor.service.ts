@@ -51,7 +51,7 @@ export class InvestorService {
   findInvestorProjectsByState(search: string, state: string, page: number, size: number) {
     const pageNumber = page - 1;
     return this.http.get(
-      `${this.investorUrl}/projects/?name=${search}&state=${state}&page=${pageNumber}&size=${size}&sort=createdDateTime,desc`
+      `${this.investorUrl}/projects?name=${search}&state=${state}&page=${pageNumber}&size=${size}&sort=createdDateTime,desc`
     );
   }
 }

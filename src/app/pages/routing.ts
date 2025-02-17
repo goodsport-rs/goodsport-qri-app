@@ -8,6 +8,10 @@ const Routing: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
+    path: 'welcome',
+    loadChildren: () => import('./welcome/welcome.module').then((m) => m.WelcomeModule),
+  },
+  {
     path:'admin/categories',
     loadChildren: () => import('./admin/categories/category.module').then((m) => m.CategoryModule),
   },
@@ -73,6 +77,9 @@ const Routing: Routes = [
   {
     path: 'admin/users',
     loadChildren: () => import('./admin/users/users.module').then((m) => m.UsersModule),
+  },  {
+    path: 'investor/home',
+    loadChildren: () => import('./investor/home/invest-project-listing.module').then((m) =>  m.InvestProjectListingModule),
   },
 
   {
@@ -99,7 +106,7 @@ const Routing: Routes = [
   },
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/welcome',
     pathMatch: 'full',
   },
 ];
