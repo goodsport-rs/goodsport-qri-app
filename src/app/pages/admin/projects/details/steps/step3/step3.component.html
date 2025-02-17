@@ -77,12 +77,12 @@
       <tbody *ngIf="activityReports && activityReports.length">
       <tr *ngFor="let v of activityReports">
 
-        <td>{{v?.reportDate  |  date: "yyyy-MM-dd"}}</td>
-        <td>{{v?.submittedBy ? v.submittedBy : 'N/A'}}</td>
-        <td>{{v?.participants}} / {{v?.leaders}}</td>
-        <td>{{v?.locality}} / {{v?.location}}</td>
+        <td>{{ v?.reportDate  |  date: "yyyy-MM-dd" }}</td>
+        <td>{{ v?.submittedBy ? v.submittedBy : 'N/A' }}</td>
+        <td>{{ v?.participants }} / {{ v?.leaders }}</td>
+        <td>{{ v?.locality }} / {{ v?.location }}</td>
 
-        <td>{{v?.status}}</td>
+        <td>{{ v?.status }}</td>
         <td>
           <div class="row">
             <div class="col-lg-12">
@@ -164,16 +164,16 @@
       </tr>
 
       </thead>
-      <tbody >
+      <tbody>
       <tr *ngFor="let projectFile of projectFiles ">
         <div class="d-flex align-items-center">
                   <span class="fw-bold text-blue d-block fs-8 bold cursor-pointer"
                         (click)="onClickViewIcon(projectFile)">{{
-                    projectFile?.fileName
+                      projectFile?.fileName
                     }}</span>
         </div>
-        <td>{{projectFile?.createdDateTime}}</td>
-        <td>{{projectFile?.username}}</td>
+        <td>{{ projectFile?.createdDateTime }}</td>
+        <td>{{ projectFile?.username }}</td>
       </tr>
       </tbody>
     </table>
@@ -193,6 +193,7 @@
     Statistik baserad på total antal deltagare
   </h2>
 </div>
+<app-reportcharts></app-reportcharts>
 
 
 <div class="row" *ngIf="projectDetails && projectDetails.projectPhase !== 'FINAL_REPORT'">

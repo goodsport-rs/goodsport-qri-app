@@ -29,6 +29,8 @@ import {MatButton} from "@angular/material/button";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {ReportchartsComponent} from "./details/reportcharts/reportcharts.component";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 @NgModule({
   imports: [
@@ -67,20 +69,22 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
     MatHeaderRowDef,
     MatRowDef,
     MatTabGroup,
-    MatTab
+    MatTab,
+    NgApexchartsModule
   ],
-  declarations: [
-    ProjectsComponent,
-    ProjectDetailComponent,
-    Step0Component,
-    Step1Component,
-    Step2Component,
-    QuestionnaireText1Component,
-    Step3Component,
-    Step4Component,
-    ViewgriComponent,
-    AdmingrireportComponent
-  ],
+    declarations: [
+        ProjectsComponent,
+        ProjectDetailComponent,
+        Step0Component,
+        Step1Component,
+        Step2Component,
+        QuestionnaireText1Component,
+        Step3Component,
+        Step4Component,
+        ViewgriComponent,
+        AdmingrireportComponent,
+        ReportchartsComponent
+    ],
   providers: [DatePipe],
 })
 export class ProjectsModule { }

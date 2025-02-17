@@ -39,6 +39,7 @@ export class SidebarMenuComponent implements OnInit {
 
     //Entrepreneur
     { title: 'Home', link: '/entrepreneur/home', roles: ['ROLE_ENTREPRENEUR'], icon: 'element-11' },
+    { title: 'My Profile', link: '/entrepreneur/profile', roles: ['ROLE_ENTREPRENEUR'], icon: 'user-square' },
     { title: 'Projects', link: '/entrepreneur/projects', roles: ['ROLE_ENTREPRENEUR'], icon: 'briefcase' },
     { title: 'Courses', link: '/entrepreneur/courses', roles: ['ROLE_ENTREPRENEUR'], icon: 'teacher' },
     { title: 'Surveys', link: '/entrepreneur/surveys', roles: ['ROLE_ENTREPRENEUR'], icon: 'note-2' },

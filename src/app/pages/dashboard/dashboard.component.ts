@@ -259,10 +259,7 @@ export class DashboardComponent implements OnInit {
         this.dataLoadingSubject.next(false);
         data.forEach((val: any) => {
           this.categoryChart.xaxis.categories.push(val.categoryNumber);
-//        this.categoryChart.series[0].desc.push(val.projectCount);
           this.categoryChart.series[0].data.push(val.projectCount);
-          //this.pieChart.labels.push(val.categoryName);
-          //this.pieChart.series.push(val.projectCount);
         });
       },
       (error) => {

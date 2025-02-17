@@ -13,8 +13,6 @@ export class StatisticsService {
     return this.http.get(`${this.url}/project-count-date`);
   }
 
-
-
   findProjectCategoryCount() {
     return this.http.get(`${this.url}/project-count-category`);
   }
