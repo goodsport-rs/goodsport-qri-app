@@ -8,7 +8,7 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
   apiUrl: 'api',
-  //apiBaseURL: 'https://apiv2.challengenow.se',
+
 
   baseUrl: 'https://goodsport-prod-api-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
   rootUrl: 'https://goodsport-prod-api-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
