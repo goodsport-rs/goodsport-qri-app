@@ -13,7 +13,7 @@ export const environment = {
   baseUrl: 'https://goodsportqri-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
   rootUrl: 'https://goodsportqri-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
   apiBaseURL: 'https://goodsportqri-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io',
-  appThemeName: 'Metronic',
+  appThemeName: 'Goodsports AB',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration:
     'https://preview.keenthemes.com/metronic8/demo1/documentation/base/helpers/flex-layouts.html',

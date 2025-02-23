@@ -100,13 +100,13 @@ export class LinkreportComponent implements OnInit {
       })
     } else {
       this.projService.postReportLink(this.id, payload).subscribe((res) => {
-        this.sweetAlert.successMessage('Report added successfully');
+
         setTimeout(() => {
           window.location.reload();
         }, 1500);
         // window.location.reload();
       }, (err) => {
-        this.sweetAlert.errorMessage(err);
+
       })
     }
   }
