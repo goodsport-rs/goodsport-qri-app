@@ -10,9 +10,9 @@ export const environment = {
   apiUrl: 'api',
   //apiBaseURL: 'https://apiv2.challengenow.se',
 
-  baseUrl: 'https://goodsportqri-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
-  rootUrl: 'https://goodsportqri-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
-  apiBaseURL: 'https://goodsportqri-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io',
+  baseUrl: 'https://goodsport-prod-api-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
+  rootUrl: 'https://goodsport-prod-api-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io/api',
+  apiBaseURL: 'https://goodsport-prod-api-v2.livelywater-2979fbec.swedencentral.azurecontainerapps.io',
   appThemeName: 'Goodsports AB',
   appPurchaseUrl: 'https://1.envato.market/EA4JP',
   appHTMLIntegration:
