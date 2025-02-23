@@ -28,6 +28,8 @@ export class SidebarMenuComponent implements OnInit {
     { title: 'Partners', link: '/admin/partners', roles: ['ROLE_ADMIN'], icon: 'heart-circle' },
     { title: 'Questionnaire', link: '/admin/questionnaires', roles: ['ROLE_ADMIN'], icon: 'book' },
     { title: 'Users', link: '/admin/users', roles: ['ROLE_ADMIN'], icon: 'user' },
+    { title: 'Reports', link: '/admin/reports', roles: ['ROLE_ADMIN'], icon: 'rocket' },
+
     //Investor
     { title: 'Home', link: '/investor/home', roles: ['ROLE_INVESTOR'], icon: 'element-11' },
     { title: 'Profile', link: '/investor/profile', roles: ['ROLE_INVESTOR'], icon: 'user-square' },
