@@ -19,6 +19,16 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./_metronic/layout/layout.module').then((m) => m.LayoutModule),
   },
+  {
+    path: 'reports/:id',
+    loadChildren: () =>
+      import('./modules/publiclinks/publiclinks.module').then((m) => m.PubliclinksModule),
+  },
+  {
+    path: 'verify/:id',
+    loadChildren: () =>
+      import('./modules/publiclinks/verify/verify-email.module').then((m) => m.VerifyEmailModule),
+  },
   { path: '**', redirectTo: 'error/404' },
 ];
 

@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {InlineSVGModule} from 'ng-inline-svg';
 import {VerifyEmailComponent} from "./verify-email.component";
 
 
@@ -22,7 +21,6 @@ import {VerifyEmailComponent} from "./verify-email.component";
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    InlineSVGModule,
   ],
 })
 export class VerifyEmailModule {}

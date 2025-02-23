@@ -196,6 +196,10 @@ export class ProjectService {
     return this.http.post(`${this.reportUrl}/${id}`, data);
   }
 
+  postReportLink(id: string, data: any) {
+    return this.http.post(`${this.reportUrl}/${id}`, data);
+  }
+
   resetReport(projectId: any) {
     return this.http.delete(`${this.projectsUrl}/id/${projectId}/final`);
   }
