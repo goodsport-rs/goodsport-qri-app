@@ -14,7 +14,7 @@ export class ProjectService {
   surveysUrl = `${environment.baseUrl}/media/surveys`;
   mediaUrl = `${environment.baseUrl}/media`;
   categoryUrl = `${environment.baseUrl}/categories`;
-  reportUrl = `${environment.rootUrl}/reports`;
+  reportUrl = `${environment.baseUrl}/reports`;
 
   public continueTo: BehaviorSubject<string> = new BehaviorSubject<string>('');
   public reportsData = {
