@@ -1,5 +1,5 @@
 import {Component, OnInit,} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
 import {NgbActiveModal, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {ProjectService} from 'src/app/core/services/project.service';
 import {ActivatedRoute} from '@angular/router';
@@ -64,19 +64,56 @@ export class LinkreportComponent implements OnInit {
       location: ['', [Validators.required]],
       title: ['', [Validators.required]],
       femaleParticipants: ['', [Validators.required]],
-      newFemaleParticipants: ['', [Validators.required]],
+      newFemaleParticipants: ['', [Validators.required, this.validateNewParticipants('femaleParticipants')]],
       unaccompaniedMinors: ['', [Validators.required]],
-      newUnaccompaniedMinors: ['', [Validators.required]],
-      newMaleParticipants: ['', [Validators.required]],
+      newUnaccompaniedMinors: ['', [Validators.required, this.validateNewParticipants('unaccompaniedMinors')]],
+      newMaleParticipants: ['', [Validators.required, this.validateNewParticipants('maleParticipants')]],
       maleParticipants: ['', [Validators.required]],
+      children: ['', [Validators.required]],
+      youth: ['', [Validators.required]],
+      adults: ['', [Validators.required]],
       leaders: [''],
       spectator: [''],
       parents: [''],
       duration: [''],
       summary: ['']
-    })
+    }, { validators: this.participantsSumValidator });
   }
 
+  validateNewParticipants(baseControlName: string) {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const baseControl = control.parent ? control.parent.get(baseControlName) : null;
+      if (baseControl && control.value > baseControl.value) {
+        return { 'newParticipantsInvalid': true };
+      }
+      return null;
+    };
+  }
+  
+  participantsSumValidator(formGroup: FormGroup) {
+    const femaleParticipants = formGroup.get('femaleParticipants')?.value;
+    const maleParticipants = formGroup.get('maleParticipants')?.value;
+    const youth = formGroup.get('youth')?.value;
+    const adults = formGroup.get('adults')?.value;
+    const children = formGroup.get('children')?.value;
+  
+    if (femaleParticipants === null || maleParticipants === null || youth === null || adults === null || children === null) {
+      // Handle null values if needed
+      return null; // or return an error if it's not acceptable
+    }
+  
+    const sumParticipants = femaleParticipants + maleParticipants;
+    const sumAgeGroups = youth + adults + children;
+    
+    if (sumParticipants !== sumAgeGroups) {
+      console.log('sumParticipants:', sumParticipants);
+      console.log('sumAgeGroups:', sumAgeGroups);
+      return { 'participantsSumInvalid': { sumParticipants: sumParticipants, sumAgeGroups: sumAgeGroups } };
+    }
+  
+    return null;
+  }
+  
   continue(val: string): void {
     console.log("Sending report " + val);
     this.btnStatus = val;
@@ -92,22 +129,19 @@ export class LinkreportComponent implements OnInit {
     payload.reportDate = moment(finalDt).format('YYYY-MM-DD HH:mm:ss');
     // payload.reportDate = finalDt;
     console.log("adding report")
-    if (this.editData && this.editData.status === 'edit') {
-      this.projService.updateProjectReport(payload, this.editData.reportId, this.editData.projectId).subscribe((res) => {
-        this.sweetAlert.successMessage('Report updated successfully');
-      }, (err) => {
-        this.sweetAlert.errorMessage(err);
-      })
-    } else {
-      this.projService.postReportLink(this.id, payload).subscribe((res) => {
 
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-        // window.location.reload();
-      }, (err) => {
+    this.projService.saveReportFromField(this.id, payload).subscribe((res) => {
 
-      })
-    }
+      this.sweetAlert.successMessage("Rapporten har skickats");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 5000);
+
+    }, (err) => {
+      console.log("failed to add report")
+      this.sweetAlert.errorMessage(err);
+    })
   }
+
 }

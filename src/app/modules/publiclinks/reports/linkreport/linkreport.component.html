@@ -62,6 +62,16 @@
                   <span class="form-text text-danger"
                         *ngIf="form.controls.location.touched && form.controls.location.errors?.required">Detta fält är obligatoriskt</span>
                 </div>
+                <div class="col-12 mb-6">
+                  <div class="form-group">
+                    <label class="form-label fs-6 fw-medium">Aktivitets tid i minuter</label>
+                    <input type="number" formControlName="duration" class="form-control form-control-solid"
+                           placeholder="Hur månaga minuter var aktiviteteng"/>
+                    <span class="form-text text-danger"
+                          *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">Detta fält är obligatoriskt</span>
+                  </div>
+                </div>
+
               </div>
 
 
@@ -84,15 +94,6 @@
               </div>
               <div class="col-12 mb-6">
                 <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Nya killar:</label>
-                  <input type="number" formControlName="newMaleParticipants" class="form-control form-control-solid"
-                         placeholder="Number of new boys"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.newMaleParticipants.touched && form.controls.newMaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
                   <label class="form-label fs-6 fw-medium">Total tjejer:</label>
                   <input type="number" formControlName="femaleParticipants" class="form-control form-control-solid"
                          placeholder="Total Number of girls"/>
@@ -100,18 +101,47 @@
                         *ngIf="form.controls.femaleParticipants.touched && form.controls.femaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
                 </div>
               </div>
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Ledare:</label>
+                  <input type="number" formControlName="leaders" class="form-control form-control-solid"
+                         placeholder="Total Number of Leaders"/>
+                </div>
+              </div>
+
+              <div class="col-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6 fw-medium">Varav nya killar:</label>
+                  <input type="number" formControlName="newMaleParticipants" class="form-control form-control-solid"
+                         placeholder="Number of new boys"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.newMaleParticipants.touched && (form.controls.newMaleParticipants.errors?.required || form.controls.newMaleParticipants.errors?.newParticipantsInvalid)">
+                    <!-- Error message for required validation -->
+                    <span *ngIf="form.controls.newMaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                    <!-- Error message for custom validation -->
+                    <span *ngIf="form.controls.newMaleParticipants.errors?.newParticipantsInvalid">Antalet nya killar måste vara mindre än eller lika med det totala antalet killar</span>
+                  </span>
+                </div>
+              </div>
+
               <div class="col-md-12 mb-6">
                 <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Nya tjejer:</label>
+                  <label class="form-label fs-6 fw-medium">Varav nya tjejer:</label>
                   <input type="number" formControlName="newFemaleParticipants" class="form-control form-control-solid"
                          placeholder="Number of new girls"/>
                   <span class="form-text text-danger"
-                        *ngIf="form.controls.newFemaleParticipants.touched && form.controls.newFemaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                        *ngIf="form.controls.newFemaleParticipants.touched && (form.controls.newFemaleParticipants.errors?.required || form.controls.newFemaleParticipants.errors?.newParticipantsInvalid)">
+                    <!-- Error message for required validation -->
+                    <span *ngIf="form.controls.newFemaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
+                    <!-- Error message for custom validation -->
+                    <span *ngIf="form.controls.newFemaleParticipants.errors?.newParticipantsInvalid">Antalet nya tjejer måste vara mindre än eller lika med det totala antalet tjejer</span>
+                  </span>                       
                 </div>
               </div>
+
               <div class="col-md-12 mb-6">
                 <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Total barn ensamkommande:</label>
+                  <label class="form-label fs-6  fw-medium">Varav barn ensamkommande:</label>
                   <input type="number" formControlName="unaccompaniedMinors" class="form-control form-control-solid"
                          placeholder="Total Number of unaccompanied children"/>
                   <span class="form-text text-danger"
@@ -120,33 +150,70 @@
               </div>
               <div class="col-md-12 mb-6">
                 <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Nya barn ensamkommande:</label>
+                  <label class="form-label fs-6  fw-medium">Varav nya barn ensamkommande:</label>
                   <input type="number" formControlName="newUnaccompaniedMinors" class="form-control form-control-solid"
                          placeholder="Number of new unaccompanied children"/>
                   <span class="form-text text-danger"
-                        *ngIf="form.controls.newUnaccompaniedMinors.touched && form.controls.newUnaccompaniedMinors.errors?.required">Detta fält är obligatoriskt</span>
+                        *ngIf="form.controls.newUnaccompaniedMinors.touched && (form.controls.newUnaccompaniedMinors.errors?.required || form.controls.newUnaccompaniedMinors.errors?.newParticipantsInvalid)">
+                    <!-- Error message for required validation -->
+                    <span *ngIf="form.controls.newUnaccompaniedMinors.errors?.required">Detta fält är obligatoriskt</span>
+                    <!-- Error message for custom validation -->
+                    <span *ngIf="form.controls.newUnaccompaniedMinors.errors?.newParticipantsInvalid">Antalet nya barn måste vara mindre än eller lika med det totala antalet barn</span>
+                  </span>                        
                 </div>
               </div>
+              <div class="col-md-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Varav antal barn (0 - 12)</label>
+                  <input type="number" formControlName="children" class="form-control form-control-solid"
+                         placeholder="Number of new children"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.newUnaccompaniedMinors.touched && form.controls.children.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-md-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Varav antal ungdomar (13 - 25)</label>
+                  <input type="number" formControlName="youth" class="form-control form-control-solid"
+                         placeholder="Number of new youth"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.youth.touched && form.controls.youth.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+              <div class="col-md-12 mb-6">
+                <div class="form-group">
+                  <label class="form-label fs-6  fw-medium">Varav antal vuxna (26+)</label>
+                  <input type="number" formControlName="adults" class="form-control form-control-solid"
+                         placeholder="Number of adults"/>
+                  <span class="form-text text-danger"
+                        *ngIf="form.controls.adults.touched && form.controls.adults.errors?.required">Detta fält är obligatoriskt</span>
+                </div>
+              </div>
+
+              <span class="form-text text-danger"
+                    *ngIf="((this.form.controls.femaleParticipants.valid
+                    && this.form.controls.maleParticipants.valid
+                    && this.form.controls.children.valid                    
+                    && this.form.controls.youth.valid
+                    && this.form.controls.adults.valid) && 
+                    form.errors?.participantsSumInvalid)">
+                    Summan av killar och tjejer ({{ form.errors?.participantsSumInvalid.sumParticipants }}) 
+                    ska vara lika med summan av barn, ungdomar och vuxna ({{ form.errors?.participantsSumInvalid.sumAgeGroups }})
+                  </span>
+
               <button type="submit" class="continue-link btn btn-primary w-25" [disabled]="!(this.form.controls.femaleParticipants.valid
               && this.form.controls.newFemaleParticipants.valid
               && this.form.controls.unaccompaniedMinors.valid
               && this.form.controls.newUnaccompaniedMinors.valid
               && this.form.controls.newMaleParticipants.valid
-              && this.form.controls.maleParticipants.valid)"
-                      (click)="continue('rep3')">Continue
+              && this.form.controls.maleParticipants.valid
+              && !form.errors?.participantsSumInvalid)"
+                      (click)="continue('rep3')">Fortsätt
               </button>
             </div>
 
             <div class="row gutters" *ngIf="btnStatus == 'rep3'">
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Ledare:</label>
-                  <input type="number" formControlName="leaders" class="form-control form-control-solid"
-                         placeholder="Numer of leaders present">
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.leaders.touched && form.controls.leaders.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
+
               <div class="col-12 mb-6">
                 <div class="form-group">
                   <label class="form-label fs-6 fw-medium">Publik:</label>
@@ -167,15 +234,7 @@
                 </div>
               </div>
 
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Aktivitets tid i minuter</label>
-                  <input type="number" formControlName="duration" class="form-control form-control-solid"
-                         placeholder="Hur månaga minuter var aktiviteteng"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
+
 
               <div class="col-12 mb-6">
                 <div class="form-group">
