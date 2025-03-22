@@ -1,6 +1,9 @@
 <form class="form" *ngIf="!(dataLoading$ | async)">
-  <div class="card-body">
+  <div class="card-header p-4">
     <h3 class="font-size-lg text-center text-dark font-weight-bold mb-6">Report Info:</h3>
+  </div>
+  <div class="card-body p-4">
+
     <div class="mb-15" *ngIf="viewData">
 
       <div class="form-group row justify-content-center">
@@ -85,7 +88,7 @@
     </div>
     <div class="card-footer">
       <div class="mt-5 text-center">
-        <button class="btn btn-primary profile-button" type="button" (click)="close()">Close</button>
+        <button class="btn btn-primary profile-button" type="button" (click)="close()">Stäng</button>
       </div>
     </div>
   </div>
