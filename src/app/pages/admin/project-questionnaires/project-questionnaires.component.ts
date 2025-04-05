@@ -4,7 +4,8 @@ import {FormBuilder, FormGroup, FormsModule} from "@angular/forms";
 import { ReportsService } from "../../../core/services/reports.service";
 import { NgbModal, NgbPagination } from "@ng-bootstrap/ng-bootstrap";
 import { SweetAlertService } from "../../../core/services/alert.service";
-import { AsyncPipe, NgForOf } from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-project-questionnaires',
@@ -13,7 +14,9 @@ import { AsyncPipe, NgForOf } from "@angular/common";
     NgForOf,
     AsyncPipe,
     NgbPagination,
-    FormsModule
+    FormsModule,
+    RouterLink,
+    NgIf
   ],
   templateUrl: './project-questionnaires.component.html',
   styleUrl: './project-questionnaires.component.scss'
@@ -55,6 +58,7 @@ export class ProjectQuestionnairesComponent {
 
   getAllPartners() {
     this.reports = [];
+    console.log(this.selectedPhase);
     this.dataLoadingSubject.next(true);
     const sub = this.reportService.getAllProjectPhaseWithQuestionnaries(this.selectedPhase).subscribe(
       (data: any) => {

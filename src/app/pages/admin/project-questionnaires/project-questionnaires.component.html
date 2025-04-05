@@ -1,29 +1,50 @@
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    <h3>Search</h3>
+    <form class="form-inline">
+      <div class="row w-100">
+        <div class="col-md-6">
+          <div class="form-group me-3 w-100">
+            <select id="phaseSelect" class="form-control w-100" name="phaseSelect" [(ngModel)]="selectedPhase" (change)="onPhaseChange()">
+              <option *ngFor="let phase of phases" [value]="phase">{{ phase }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group me-3 w-100">
+            <input type="text" name="search" placeholder="Search by Project..." class="form-control w-100" [(ngModel)]="search" (keyup.enter)="onEnterSearch()"/>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary mt-3" (click)="onEnterSearch()">Search</button>
+    </form>
+  </div>
+</div>
+
 <div class="card">
   <div class="card-body">
-    <div class="form-group">
-      <label for="phaseSelect">Select Phase:</label>
-      <select id="phaseSelect" class="form-control" [(ngModel)]="selectedPhase" (change)="onPhaseChange()">
-        <option *ngFor="let phase of phases" [value]="phase">{{ phase }}</option>
-      </select>
-    </div>
     <div class="table-responsive">
       <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
         <thead>
         <tr>
-          <th><span class="text-gray-500 fs-8 bold">Project ID</span></th>
-          <th><span class="text-gray-500 fs-8 bold">Title</span></th>
-          <th><span class="text-gray-500 fs-8 bold">Name</span></th>
-          <th><span class="text-gray-500 fs-8 bold">ID</span></th>
+          <th><span class="text-gray-500 fs-8 bold">Project</span></th>
+          <th><span class="text-gray-500 fs-8 bold">Template</span></th>
           <th><span class="text-gray-500 fs-8 bold">Questionnaire ID</span></th>
           <th><span class="text-gray-500 fs-8 bold">Project Phase</span></th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let report of reports">
-          <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.projectId }}</span></td>
-          <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.title }}</span></td>
-          <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.name }}</span></td>
-          <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.questionnaireId }}</span></td>
+          <td>
+            <a
+              [routerLink]="['/admin/projects/details', report.projectId]"
+              class="text-muted fw-bold text-muted d-block fs-11">{{ report?.title }}</a>
+          </td>
+          <td>
+            <a
+              [routerLink]="['/admin/questionnaires/details', report.questionnaireId]"
+              class="text-muted fw-bold text-muted d-block fs-11">{{ report?.name }}</a>
+          </td>
           <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.id }}</span></td>
           <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.projectPhase }}</span></td>
         </tr>

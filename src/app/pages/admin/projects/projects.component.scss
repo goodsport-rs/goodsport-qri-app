@@ -6,3 +6,34 @@
   max-height: 15px;
   margin-bottom: 0;
 }
+
+.card {
+  border-radius: 0.5rem;
+  border: 1px solid #e3e6f0;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  border-radius: 0.35rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-primary {
+  background-color: #4e73df;
+  border-color: #4e73df;
+  padding: 0.5rem 1rem;
+  border-radius: 0.35rem;
+}
