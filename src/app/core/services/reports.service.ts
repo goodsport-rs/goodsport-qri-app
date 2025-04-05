@@ -17,4 +17,8 @@ export class ReportsService {
     const pageNumber = page - 1;
     return this.http.get(`${this.reportsUrl}/id/${projectId}/reports?page=${pageNumber}`);
   }
+
+  getAllProjectPhaseWithQuestionnaries(phase: string) {
+    return this.http.get(`${this.reportsUrl}/questionnaires/phase/${phase}`);
+  }
 }

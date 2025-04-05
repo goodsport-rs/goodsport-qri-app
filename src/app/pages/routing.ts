@@ -24,6 +24,10 @@ const Routing: Routes = [
     loadChildren: () => import('./admin/investors/investor.module').then((m) => m.InvestorModule),
   },
   {
+    path:'admin/project-questionnaires',
+    loadChildren: () => import('./admin/project-questionnaires/project-questionnaires.module').then((m) => m.ProjectQuestionnairesModule),
+  },
+  {
     path:'admin/media',
     loadChildren: () => import('./admin/media/media.module').then((m) => m.MediaModule),
   },
