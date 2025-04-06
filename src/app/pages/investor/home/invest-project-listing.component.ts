@@ -25,7 +25,7 @@ export class InvestProjectListingComponent implements OnInit, OnDestroy {
   totalPages = 0;
   profile: any;
   isUserVerified = true;
-  state: 'fund';
+  state: string = 'fund';
 
   constructor(
     private projectService: ProjectService,
@@ -44,6 +44,7 @@ export class InvestProjectListingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getMe();
+    this.state = 'fund';
     this.getAllProjects();
   }
 
