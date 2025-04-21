@@ -1,91 +1,71 @@
-<div class="row text-center">
-    <h2 class="fw-bolder text-dark mt-2" *ngIf="!isEdit">Add question</h2>
-    <h2 class="fw-bolder text-dark mt-2" *ngIf="isEdit">Edit question</h2>
-    </div>
-    
-    <form class="form" [formGroup]="form">
-        <div class="card-body">
-            <div class="form-group mb-5">
-                <label class="form-label fs-6  fw-medium">Questionnaire Name:</label>
-                <input type="text"  class="form-control form-control-solid" placeholder="Questionnaire Name" formControlName="question"/>
-                <span class="form-text text-danger" *ngIf="false">This field is required</span>
-            </div>
-         <div class="form-group mb-5">
-          <label class="form-label fs-6  fw-medium">Questionnaire Description:</label>
-          <textarea rows="5" class="form-control form-control-lg form-control-solid px-4 fs-8 border-gray-200"
-          placeholder="Questionnaire Description" name="description" formControlName="description">
+<div class="row text-center p-3">
+  <h2 class="fw-bolder text-dark mt-2" *ngIf="!isEdit">Add question</h2>
+  <h2 class="fw-bolder text-dark mt-2" *ngIf="isEdit">Edit question</h2>
+</div>
+<div class="p-3">
+  <form class="form" [formGroup]="form">
+    <div class="card-body p-3">
+      <div class="form-group mb-4">
+        <label class="form-label fs-6 fw-medium">Questionnaire Name:</label>
+        <input type="text" class="form-control form-control-solid" placeholder="Questionnaire Name"
+               formControlName="question" />
+        <span class="form-text text-danger" *ngIf="false">This field is required</span>
+      </div>
+      <div class="form-group mb-4">
+        <label class="form-label fs-6 fw-medium">Questionnaire Description:</label>
+        <textarea rows="5" class="form-control form-control-lg form-control-solid px-4 fs-8 border-gray-200"
+                  placeholder="Questionnaire Description" name="description" formControlName="description">
         </textarea>
-          <span class="form-text text-danger" *ngIf="false">This field is required</span>
-         </div>
+        <span class="form-text text-danger" *ngIf="false">This field is required</span>
+      </div>
 
-         <div class="form-group mb-5">
-            <label class="form-label fs-6 fw-medium">Answer Type</label>
-            <select id="inputState" class="form-select form-control-solid" formControlName="type"  name="select-decision">
-              <option [value]="'TEXT'" >TEXT</option>
-              <option [value]="'YES_OR_NO'" >YES_OR_NO</option>
-              <option [value]="'FILE'">FILE</option>
-            </select> 
-            </div>
+      <div class="form-group mb-4">
+        <label class="form-label fs-6 fw-medium">Answer Type</label>
+        <select id="inputState" class="form-select form-control-solid" formControlName="type"
+                name="select-decision">
+          <option [value]="'TEXT'">TEXT</option>
+          <option [value]="'YES_OR_NO'">YES_OR_NO</option>
+          <option [value]="'FILE'">FILE</option>
+        </select>
+      </div>
 
-         <div class="form-group mb-5">
-          <label class="form-label fs-6 fw-medium">KPI:</label>
-          <input type="text" class="form-control form-control-lg form-control-solid fs-8" name="kpi"
-                placeholder="KPI" formControlName="kpi" /> 
-          </div>
+      <div class="form-group mb-4">
+        <label class="form-label fs-6 fw-medium">KPI:</label>
+        <input type="text" class="form-control form-control-lg form-control-solid fs-8" name="kpi"
+               placeholder="KPI" formControlName="kpi" />
+      </div>
 
-          <div>
-            <span class="form-label fs-6 fw-medium me-3">Required</span>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                [value]="true"
-                formControlName="required"
-               
-              />
-              <label class="form-check-label" >Yes</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                [value]="false"
-                formControlName="required"
-              />
-              <label class="form-check-label">No</label>
-            </div>
-          </div>
-
-          <div>
-            <span class="form-label fs-6 fw-medium me-3">Disabled</span>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                [value]="true"
-                formControlName="disabled"
-               
-              />
-              <label class="form-check-label" >Yes</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                [value]="false"
-                formControlName="disabled"
-              />
-              <label class="form-check-label">No</label>
-            </div>
-          </div>
-
+      <div class="mb-4">
+        <span class="form-label fs-6 fw-medium me-3">Required</span>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" [value]="true" formControlName="required" />
+          <label class="form-check-label">Yes</label>
         </div>
-        <div class="card-footer">
-            <div class="container">
-                <div class="col-md-12 text-center">
-                  <button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="update()">Update</button>
-                  <button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="save()">Submit</button>
-                </div>
-            </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" [value]="false" formControlName="required" />
+          <label class="form-check-label">No</label>
         </div>
-       </form>
+      </div>
+
+      <div class="mb-4">
+        <span class="form-label fs-6 fw-medium me-3">Disabled</span>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" [value]="true" formControlName="disabled" />
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" [value]="false" formControlName="disabled" />
+          <label class="form-check-label">No</label>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer p-3">
+      <div class="container">
+        <div class="col-md-12 text-center">
+          <button *ngIf="isEdit" type="button" class="btn btn-primary" (click)="update()">Update</button>
+          <button *ngIf="!isEdit" type="button" class="btn btn-primary" (click)="save()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
