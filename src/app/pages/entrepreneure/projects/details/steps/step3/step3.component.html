@@ -99,44 +99,69 @@
         <thead>
         <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
           <th>
-            <span class="text-gray-500 fs-8 bold"> Användare </span></th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Report datum </span>
-          </th>
-
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Ort </span>
-          </th>
-
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Plats </span>
+            <span class="text-gray-500 fs-8 bold">Användare</span>
           </th>
           <th>
-            <span class="text-gray-500 fs-8 bold"> Status </span>
+            <span class="text-gray-500 fs-8 bold">Report datum</span>
           </th>
           <th>
-            <span class="text-gray-500 fs-8 bold"> Actions </span>
+            <span class="text-gray-500 fs-8 bold">Ort</span>
           </th>
-
+          <th>
+            <span class="text-gray-500 fs-8 bold">Plats</span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold">Status</span>
+          </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold">Actions</span>
+          </th>
         </tr>
         </thead>
         <tbody *ngIf="activityReports && activityReports.length">
-        <tr *ngFor="let report of activityReports ">
-          <td>{{report?.submittedBy ? report.submittedBy : 'N/A'}}</td>
-
-          <td>{{report?.reportDate}}</td>
-          <td>{{report?.locality}}</td>
-          <td>{{report?.location}}</td>
-          <td>{{report?.status}}</td>
+        <tr *ngFor="let report of activityReports">
+          <td>{{ report?.submittedBy ? report.submittedBy : 'N/A' }}</td>
+          <td>{{ report?.reportDate }}</td>
+          <td>{{ report?.locality }}</td>
+          <td>{{ report?.location }}</td>
+          <td>{{ report?.status }}</td>
           <td>
             <div class="row">
               <div class="col-lg-12">
-                <button type="submit" class="btn btn-primary btn-sm me-2"
-                        (click)="approve(report.id)">Approve
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm me-2"
+                  (click)="approve(report.id)"
+                  [disabled]="report.status === 'APPROVED'"
+                  [ngClass]="{'btn-secondary': report.status === 'Godkänd'}"
+                >
+                  Approve
                 </button>
-                <button type="submit" class="btn btn-primary btn-sm me-2" (click)="deny(report.id)">Deny</button>
-                <button type="submit" class="btn btn-primary btn-sm me-2" (click)="openEdit(report.id)">Edit</button>
-                <button type="submit" class="btn btn-primary btn-sm me-2" (click)="openView(report.id)">View</button>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm me-2"
+                  (click)="deny(report.id)"
+                  [disabled]="report.status === 'DECLINED' || report.status === 'Avvisad'"
+                  [ngClass]="{'btn-secondary': report.status === 'Avvisad'}"
+                >
+                  Deny
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm me-2"
+                  (click)="openEdit(report.id)"
+                  [disabled]="report.status === 'Godkänd' || report.status === 'Avvisad'"
+                  [ngClass]="{'btn-secondary': report.status === 'Godkänd' || report.status === 'Avvisad'}"
+                >
+                  Edit
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-sm me-2"
+                  (click)="openView(report.id)"
+                >
+                  View
+                </button>
               </div>
             </div>
           </td>
