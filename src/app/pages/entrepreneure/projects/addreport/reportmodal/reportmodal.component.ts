@@ -44,11 +44,30 @@ export class ReportmodalComponent implements OnInit {
   }
 
   makeEditForm() {
-    this.form.patchValue({
-      id: this.editData.data.id,
-      locality: this.editData.data.locality,
-    });
-    this.setReportDate(this.editData.data);
+    if (this.editData && this.editData.data) {
+      this.form.patchValue({
+        id: this.editData.data.id,
+        locality: this.editData.data.locality,
+        location: this.editData.data.location,
+        title: this.editData.data.title,
+        femaleParticipants: this.editData.data.femaleParticipants,
+        newFemaleParticipants: this.editData.data.newFemaleParticipants,
+        unaccompaniedMinors: this.editData.data.unaccompaniedMinors,
+        newUnaccompaniedMinors: this.editData.data.newUnaccompaniedMinors,
+        newMaleParticipants: this.editData.data.newMaleParticipants,
+        maleParticipants: this.editData.data.maleParticipants,
+        children: this.editData.data.children,
+        youth: this.editData.data.youth,
+        adults: this.editData.data.adults,
+        leaders: this.editData.data.leaders,
+        spectator: this.editData.data.spectator,
+        parents: this.editData.data.parents,
+        duration: this.editData.data.duration,
+        summary: this.editData.data.summary,
+        email: this.editData.data.email
+      });
+      this.setReportDate(this.editData.data);
+    }
   }
 
   setReportDate(val: any) {

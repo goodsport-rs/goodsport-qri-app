@@ -162,8 +162,9 @@ export class Step3Component implements OnInit {
     const obj = {projectId: this.projectId, reportId: id, status: 'edit', data: null};
     this.service.getProjectReport(obj).subscribe((val: any) => {
       obj.data = val;
-      const modalRef = this.modalService.open(ReportmodalComponent, {size: 'lg'});
       this.service.setEditReport(obj)
+      const modalRef = this.modalService.open(ReportmodalComponent, {size: 'lg'});
+      modalRef.componentInstance.reportId = this.reportUUID;
       modalRef.result.then((data) => {
         // on close
         this.service.setContinueTo('');
@@ -188,7 +189,7 @@ export class Step3Component implements OnInit {
         this.getActivityReports();
         this.dataLoadingSubject.next(false);
       }, err => {
-        this.sweetAlert.errorMessage(err);
+        this.sweetAlert.errorMessage("Det gick inte att godkänna rapporten");
         this.dataLoadingSubject.next(false);
       })
     });
@@ -202,7 +203,7 @@ export class Step3Component implements OnInit {
         this.sweetAlert.successMessage('Rapporten har avvisats');
         this.getActivityReports();
       }, err => {
-        this.sweetAlert.errorMessage(err);
+        this.sweetAlert.errorMessage("Det gick inte att avvisa rapporten");
         this.dataLoadingSubject.next(false);
       })
     });
