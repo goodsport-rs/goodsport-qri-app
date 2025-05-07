@@ -39,6 +39,7 @@ export class Step3Component implements OnInit {
   private uploadLoadingSubject: any;
   fileName: string;
   projectFiles: any;
+  reportUUID: string;
 
   constructor(
     private service: ProjectService,
@@ -94,6 +95,7 @@ export class Step3Component implements OnInit {
 
   shareReportLink() {
     this.service.getReportLink(this.projectId).subscribe((res: any) => {
+      this.reportUUID = res.uuid;
       this.shareLink = `${window.location.origin}/reports/${res.uuid}`;
       //    this.sweetAlert.successMessage('Shared link');
     }, err => this.sweetAlert.errorMessage('Failed to share'));
@@ -207,8 +209,11 @@ export class Step3Component implements OnInit {
   }
 
 
+
   openModal() {
+
     const modalRef = this.modalService.open(ReportmodalComponent, {size: 'lg'});
+    modalRef.componentInstance.reportId = this.reportUUID;
     modalRef.result.then((data) => {
       // on close
       this.service.setContinueTo('');

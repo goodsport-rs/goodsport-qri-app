@@ -128,4 +128,8 @@ export class ProjectDetailComponent implements OnInit {
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
+  isStepValid(step: number): boolean {
+    const phaseIndex = this.projectPhases.indexOf(this.projectDetails?.projectPhase);
+    return phaseIndex >= step - 1;
+  }
 }

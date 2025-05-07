@@ -1,32 +1,31 @@
 .w-40 {
-    width: 35% !important;
+  width: 35% !important;
 }
 
 
-    .report-screen {
-        position: relative;
-        box-shadow: 0px 30px 50px #c4d2e2;
-        background: #ffffff;
-        margin: 60px auto;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        border-radius: 8px;
-    }
-    
-    .report-screen .login-logo {
-        margin: 20px 0 30px 0;
-        display: block;
-    }
-        
-    .report-screen .report-box {
-        padding: 30px 30px;
-    }  
-    
-    .continue-link {
-        text-decoration: none;
-        margin: 30px auto 0 auto;
-        text-align: center;
-        display: block;
-    }
-        
-  
+.report-screen {
+  position: relative;
+  box-shadow: 0px 30px 50px #c4d2e2;
+  background: #ffffff;
+  margin: 60px auto;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.report-screen .login-logo {
+  margin: 20px 0 30px 0;
+  display: block;
+}
+
+.report-screen .report-box {
+  padding: 30px 30px;
+}
+
+.continue-link {
+  text-decoration: none;
+  margin: 30px auto 0 auto;
+  text-align: center;
+  display: block;
+}
+
