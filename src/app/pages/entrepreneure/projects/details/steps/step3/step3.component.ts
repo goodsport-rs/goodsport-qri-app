@@ -64,14 +64,14 @@ export class Step3Component implements OnInit {
 
   onPageChange() {
 
-    if (this.dateToFormatted === undefined
-      || this.dateFromFormatted === ''
-      || this.dateFromFormatted == undefined) {
+    if (this.dateToFormatted === ''
+      || this.dateFromFormatted === '') {
       console.log("onPageChange is empty");
       this.getActivityReports();
-    } else
+    } else {
       console.log("onPageChange date not empty ");
       this.reportDateSearch();
+    }
 
   }
 

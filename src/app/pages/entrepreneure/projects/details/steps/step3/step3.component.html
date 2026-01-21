@@ -94,7 +94,7 @@
     </div>
 
 
-    <div class="table-responsive" *ngIf="activityReports.length">
+    <div *ngIf="activityReports.length && !(dataLoading$ | async)" class="table-responsive">
       <table class="table table-bordered gs-7 gy-7 gx-7">
         <thead>
         <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
@@ -175,7 +175,7 @@
 
     </div>
 
-    <div *ngIf="!activityReports.length">
+    <div *ngIf="!activityReports.length && !(dataLoading$ | async)">
       <p class="mt-10">You have not reported any data or your query is wrong</p>
     </div>
 

@@ -53,7 +53,7 @@ export class Step3Component implements OnInit {
 
   onPageChange() {
     console.log("onPageChange" + this.dateToFormatted);
-    if (this.dateToFormatted === undefined || this.dateFromFormatted == undefined) {
+    if (this.dateToFormatted === '' || this.dateFromFormatted === '') {
       console.log("onPageChange is empty");
       this.getActivityReports();
     } else

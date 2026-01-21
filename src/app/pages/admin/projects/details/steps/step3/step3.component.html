@@ -45,7 +45,12 @@
 </div>
 
 <div class="border p-8 radius-8px mb-10">
-  <div class="table-responsive" *ngIf="activityReports.length > 0">
+  <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="table-responsive" *ngIf="activityReports.length > 0 && !(dataLoading$ | async)">
     <table class="table gs-7 gy-7 gx-7">
       <thead>
       <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
@@ -133,7 +138,7 @@
     </div>
 
   </div>
-  <div *ngIf="activityReports.length == 0">
+  <div *ngIf="activityReports.length == 0 && !(dataLoading$ | async)">
     <div class="col-md-4">
       <h4>There is no report for this period</h4>
     </div>
