@@ -85,6 +85,36 @@
 
               <td class="text-end"></td>
             </tr>
+            <tr class="">
+              <td>
+                <span class="text-gray-500 fw-bold"> Locked </span>
+              </td>
+              <td>
+                <app-keenicon *ngIf="userDetails?.accountLocked" name="cross-circle" class="fs-2 text-primary me-4 cursor-pointer" (click)="onToggleState('lock')"></app-keenicon>
+                <app-keenicon *ngIf="!userDetails?.accountLocked" name="user-tick" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState('lock')"></app-keenicon>
+              </td>
+              <td class="text-end"></td>
+            </tr>
+            <tr class="">
+              <td>
+                <span class="text-gray-500 fw-bold"> Enabled {{userDetails?.accountEnabled}}</span>
+              </td>
+              <td>
+                <app-keenicon *ngIf="!userDetails?.accountEnabled" name="cross-circle" class="fs-2 text-primary me-4 cursor-pointer" (click)="onToggleState('enable')"></app-keenicon>
+                <app-keenicon *ngIf="userDetails?.accountEnabled" name="check" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState('enable')"></app-keenicon>
+              </td>
+              <td class="text-end"></td>
+            </tr>
+            <tr class="">
+              <td>
+                <span class="text-gray-500 fw-bold"> Verified </span>
+              </td>
+              <td>
+                <app-keenicon *ngIf="!userDetails?.verified" name="cross-circle" class="fs-2 text-danger me-4 cursor-pointer" (click)="onToggleState('verify')"></app-keenicon>
+                <app-keenicon *ngIf="userDetails?.verified" name="check" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState('verify')"></app-keenicon>
+              </td>
+              <td class="text-end"></td>
+            </tr>
             </tbody>
           </table>
         </div>

@@ -1,9 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Observable, BehaviorSubject, Subscription} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {SweetAlertService} from 'src/app/core/services/alert.service';
 import {UsersService} from "../../../core/services/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-investors',
@@ -43,7 +44,6 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   getAllUsers() {
     console.log('Fetching all users');
-    this.allUsers = [];
     this.dataLoadingSubject.next(true);
     const sub = this.service.findAllUsers(this.search, this.page).subscribe(
       (data: any) => {
@@ -66,6 +66,32 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   onPageChange() {
     this.getAllUsers();
+  }
+
+  onToggleState(user: any, state: 'enable' | 'lock' | 'expire' | 'verify') {
+    if (!user?.id) {
+      return;
+    }
+
+    this.dataLoadingSubject.next(true);
+
+    const sub = this.service.toggleUserState(user.id, state).pipe(
+      switchMap(() => this.service.findAllUsers(this.search, this.page))
+    ).subscribe(
+      (data: any) => {
+        this.allUsers = data.content;
+        this.totalItems = data.totalElements;
+        this.totalPages = data.totalPages;
+        this.dataLoadingSubject.next(false);
+        this.sweetAlert.successMessage('User state updated successfully!');
+      },
+      (_error) => {
+        this.dataLoadingSubject.next(false);
+        this.sweetAlert.errorMessage('Failed to update user state');
+      }
+    );
+
+    this.unsubscribe.push(sub);
   }
 
   ngOnDestroy(): void {
@@ -107,7 +133,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             modal.close('');
             this.form.reset();
           },
-          (error) => {
+          (_error) => {
             this.btnLoadingSubject.next(false);
             this.sweetAlert.errorMessage(
               'Process could not be completed. Make sure you have entered the valid input.'

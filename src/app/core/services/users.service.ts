@@ -21,6 +21,13 @@ export class UsersService {
     return this.http.post(this.url, data);
   }
 
+  toggleUserState(id: number, state: 'enable' | 'lock' | 'expire' | 'verify') {
+    return this.http.get(`${this.url}/id/${id}/state/${state}`, {
+      // Endpoint returns no JSON body.
+      responseType: 'text' as 'json',
+    });
+  }
+
   verifyEmail(verificationToken: any) {
 
   }

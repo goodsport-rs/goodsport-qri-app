@@ -44,6 +44,9 @@
           <th>
             <span class="text-gray-500 fs-8 bold"> Verified </span>
           </th>
+          <th>
+            <span class="text-gray-500 fs-8 bold"> Last Seen </span>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -76,16 +79,19 @@
               >
           </td>
           <td>
-            <app-keenicon *ngIf="user?.accountLocked" name="cross-circle" class="fs-2 text-primary me-4"></app-keenicon>
-            <app-keenicon *ngIf="!user?.accountLocked" name="user-tick" class="fs-2 text-success me-4"></app-keenicon>
+            <app-keenicon *ngIf="user?.accountLocked" name="cross-circle" class="fs-2 text-primary me-4 cursor-pointer" (click)="onToggleState(user, 'lock')"></app-keenicon>
+            <app-keenicon *ngIf="!user?.accountLocked" name="user-tick" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState(user, 'lock')"></app-keenicon>
           </td>
           <td>
-            <app-keenicon *ngIf="!user?.accountEnabled" name="cross-circle" class="fs-2 text-primary me-4"></app-keenicon>
-            <app-keenicon *ngIf="user?.accountEnabled" name="check" class="fs-2 text-success me-4"></app-keenicon>
+            <app-keenicon *ngIf="!user?.accountEnabled" name="cross-circle" class="fs-2 text-primary me-4 cursor-pointer" (click)="onToggleState(user, 'enable')"></app-keenicon>
+            <app-keenicon *ngIf="user?.accountEnabled" name="check" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState(user, 'enable')"></app-keenicon>
           </td>
           <td>
-            <app-keenicon *ngIf="!user?.verified" name="cross-circle" class="fs-2 text-danger me-4"></app-keenicon>
-            <app-keenicon *ngIf="user?.verified" name="check" class="fs-2 text-success me-4"></app-keenicon>
+            <app-keenicon *ngIf="!user?.verified" name="cross-circle" class="fs-2 text-danger me-4 cursor-pointer" (click)="onToggleState(user, 'verify')"></app-keenicon>
+            <app-keenicon *ngIf="user?.verified" name="check" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState(user, 'verify')"></app-keenicon>
+          </td>
+          <td>
+            <span class="text-muted fw-bold d-block fs-8">{{ user?.lastSeenTimestamp || '-' }}</span>
           </td>
 
         </tr>
@@ -180,7 +186,7 @@
           <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
         </span>
       </ng-container>
-      <ng-container *ngIf="!(btnLoading$ | async)">
+      <ng-container *ngIf="(btnLoading$ | async) === false">
         <span class="indicator-label">Save</span>
       </ng-container>
     </button>

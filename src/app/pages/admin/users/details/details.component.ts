@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { InvestorService } from 'src/app/core/services/investor.service';
 import { SweetAlertService } from 'src/app/core/services/alert.service';
@@ -56,6 +57,28 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       (error) => {
         this.dataLoadingSubject.next(false);
         this.sweetAlert.errorMessage(error);
+      }
+    );
+    this.unsubscribe.push(sub);
+  }
+
+  onToggleState(state: 'enable' | 'lock' | 'expire' | 'verify') {
+    if (!this.userDetails?.id) {
+      return;
+    }
+
+    this.dataLoadingSubject.next(true);
+    const sub = this.service.toggleUserState(this.userDetails.id, state).pipe(
+      switchMap(() => this.service.findUserById(this.userId))
+    ).subscribe(
+      (data: any) => {
+        this.userDetails = data;
+        this.dataLoadingSubject.next(false);
+        this.sweetAlert.successMessage('User state updated successfully!');
+      },
+      (_error) => {
+        this.dataLoadingSubject.next(false);
+        this.sweetAlert.errorMessage('Failed to update user state');
       }
     );
     this.unsubscribe.push(sub);
