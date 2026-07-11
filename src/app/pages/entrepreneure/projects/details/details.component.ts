@@ -34,6 +34,13 @@ export class ProjectDetailComponent implements OnInit {
   projectId: string;
   projectDetails: any;
   projectPhases = ['IDEA', 'PLAN', 'FUNDING', 'REPORTING', 'FINAL_REPORT'];
+  projectSteps = [
+    { step: 1, title: 'Idea', phase: 'IDEA', paneId: 'idea' },
+    { step: 2, title: 'Plan', phase: 'PLAN', paneId: 'plan' },
+    { step: 3, title: 'Funding', phase: 'FUNDING', paneId: 'funding' },
+    { step: 4, title: 'Återrapportering', phase: 'REPORTING', paneId: 'aterrapportering' },
+    { step: 5, title: 'GRI Report', phase: 'FINAL_REPORT', paneId: 'gri-report' },
+  ];
   currentPhase: any = 0;
 
   constructor(
@@ -131,5 +138,17 @@ export class ProjectDetailComponent implements OnInit {
   isStepValid(step: number): boolean {
     const phaseIndex = this.projectPhases.indexOf(this.projectDetails?.projectPhase);
     return phaseIndex >= step - 1;
+  }
+
+  selectProjectStep(step: number) {
+    if (!this.isStepValid(step)) {
+      return;
+    }
+
+    this.currentStep$.next(step);
+  }
+
+  isStepComplete(step: number): boolean {
+    return step - 1 < this.currentPhase;
   }
 }
