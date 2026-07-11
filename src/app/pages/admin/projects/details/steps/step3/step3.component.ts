@@ -11,6 +11,7 @@ import * as moment from "moment";
 @Component({
   selector: 'app-signup-step3',
   templateUrl: './step3.component.html',
+  styleUrls: ['./step3.component.scss'],
 })
 export class Step3Component implements OnInit {
   @Input() projectDetails: any;

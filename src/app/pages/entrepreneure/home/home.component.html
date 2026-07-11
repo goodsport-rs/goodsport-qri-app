@@ -1,52 +1,170 @@
-<div *ngIf="!showKyc"
-     class="col-md-12 d-flex justify-content-between yellow-light-bg card-rounded radius-8px flex-stack flex-wrap p-5 mt-5">
-  <span class="fs-8 bold">
-    <img class="h-30px me-3" src="./assets/media/illustrations/info.svg" alt="info"/>
-    You need to answer few questions about your organisation!</span>
+<div class="ent-dash">
+  <div class="ent-head">
+    <div>
+      <h1 class="ent-title">Hej{{ displayName ? ', ' + displayName : '' }} 👋</h1>
+      <p class="ent-sub mb-0">Här är en översikt över dina projekt och din påverkan.</p>
+    </div>
 
-  <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
-     class="btn yellow-button fw-bolder fs-8 w-150px" (click)="openModal(content, 'kyc')">Answer Now</a>
-</div>
-
-<div *ngIf="!isUserVerified"
-     class="col-md-12 d-flex justify-content-between yellow-light-bg card-rounded radius-8px flex-stack flex-wrap p-5 mt-5">
-  <span class="fs-8 bold">
-    <img class="h-30px me-3" src="./assets/media/illustrations/info.svg" alt="info"/>
-   Your account is not verified please verify your email {{profile.username}}</span>
-  <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
-     class="btn yellow-button fw-bolder fs-8 w-150px" (click)="resendVerificationMail()">Resend mail</a>
-</div>
-
-
-<div class="col-md-12 d-flex justify-content-between bg-white card-rounded idea-card flex-stack flex-wrap p-0 mt-5">
-  <div class="p-5 px-10">
-    <h4 class="bold fs-5 mb-0">Vi hjälper dig med din nästa projekt ide</h4>
-    <p class="fs-8">
-      Vi matchar intressenter med projekt som stiftelser, näringsliv och privatpersoner med kvalitativa samhällsnyttiga
-      verksamheter och projekt.
-    </p>
-    <a [routerLink]="'/entrepreneur/projects'" data-bs-toggle="modal" data-bs-target="#kt_modal_new_ticket"
-       class="btn yellow-button fw-bolder fs-8">Visa projekt</a>
   </div>
-  <img src="./assets/media/illustrations/idea-bg.svg" class="h-175px" alt="idea-bg"/>
-</div>
-
-
-<!--  *ngIf="!(dataLoading$ | async) && allProjects.length === 0"-->
-<div class="text-center mt-15">
-  <img src="./assets/media/illustrations/project-icon.svg" alt="project-icon"/>
-  <h4 class="fw-bolder fs-3 mt-5 mb-2">Behöver du hjälp ?</h4>
-  <p>
-    Lär dig mer om projekten med hjälp av våra online <a class="blue-color" href="/entrepreneur/courses">kurser.</a>
-
-
-  </p>
-</div>
-
-<div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
-  <div class="spinner-border text-warning" role="status">
-    <span class="visually-hidden">Loading...</span>
+  <!--begin::Alerts-->
+  <div *ngIf="!showKyc" class="ent-alert ent-alert--kyc">
+    <span class="ent-alert-icon"><i class="bi bi-clipboard-check"></i></span>
+    <div class="ent-alert-body">
+      <span class="ent-alert-title">Slutför din organisationsprofil</span>
+      <span class="ent-alert-text">Svara på några frågor om din organisation för att komma igång.</span>
+    </div>
+    <a href="javascript:void(0)" class="btn btn-primary ent-alert-btn" (click)="openModal(content, 'kyc')">Svara nu</a>
   </div>
+
+  <div *ngIf="!isUserVerified" class="ent-alert ent-alert--verify">
+    <span class="ent-alert-icon"><i class="bi bi-envelope-exclamation"></i></span>
+    <div class="ent-alert-body">
+      <span class="ent-alert-title">Verifiera din e-post</span>
+      <span class="ent-alert-text">Ditt konto är inte verifierat — kontrollera {{ profile?.username }}.</span>
+    </div>
+    <a href="javascript:void(0)" class="btn btn-primary ent-alert-btn" (click)="resendVerificationMail()">Skicka igen</a>
+  </div>
+  <!--end::Alerts-->
+
+  <!--begin::Header-->
+  <!--end::Header-->
+
+  <!--begin::Stat tiles-->
+  <div class="ent-stats">
+    <div class="card stat-tile">
+      <div class="card-body">
+        <div class="stat-top">
+          <span class="stat-icon"><i class="bi bi-kanban"></i></span>
+          <span class="stat-label">Projekt</span>
+        </div>
+        <div class="stat-value">{{ totalProjects }}</div>
+        <div class="stat-desc">Totalt antal projekt</div>
+      </div>
+    </div>
+
+    <div class="card stat-tile">
+      <div class="card-body">
+        <div class="stat-top">
+          <span class="stat-icon"><i class="bi bi-tags"></i></span>
+          <span class="stat-label">Kategorier</span>
+        </div>
+        <div class="stat-value">{{ allCategories?.length || 0 }}</div>
+        <div class="stat-desc">Tillgängliga kategorier</div>
+      </div>
+    </div>
+
+    <div class="card stat-tile">
+      <div class="card-body">
+        <div class="stat-top">
+          <span class="stat-icon"><i class="bi bi-patch-check"></i></span>
+          <span class="stat-label">Konto</span>
+        </div>
+        <div class="stat-value fs-4" [class.text-danger-brand]="!isUserVerified">
+          {{ isUserVerified ? 'Verifierad' : 'Ej verifierad' }}
+        </div>
+        <div class="stat-desc">Kontostatus</div>
+      </div>
+    </div>
+
+    <div class="card stat-tile">
+      <div class="card-body">
+        <div class="stat-top">
+          <span class="stat-icon"><i class="bi bi-building-check"></i></span>
+          <span class="stat-label">Organisation</span>
+        </div>
+        <div class="stat-value fs-4" [class.text-danger-brand]="!kyc">
+          {{ kyc ? 'Klar' : 'Ofullständig' }}
+        </div>
+        <div class="stat-desc">Organisationsprofil</div>
+      </div>
+    </div>
+  </div>
+  <!--end::Stat tiles-->
+
+  <!--begin::Loader-->
+  <div class="text-center data-loader my-10" *ngIf="dataLoading$ | async">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <!--end::Loader-->
+
+  <!--begin::Recent projects-->
+  <div class="ent-section" *ngIf="!(dataLoading$ | async) && allProjects?.length > 0">
+    <div class="ent-section-head">
+      <h3 class="ent-section-title">Senaste projekt</h3>
+      <a [routerLink]="'/entrepreneur/projects'" class="ent-link">Visa alla <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+    <div class="ent-projects">
+      <a *ngFor="let data of recentProjects" [routerLink]="['details', data.id]" class="card ent-project">
+        <div class="ent-project-banner"
+             [style.background-image]="'url(./assets/media/categories/' + data?.categoryId + '-banner.png)'">
+          <span class="badge light-yellow-badge ent-badge" *ngIf="data?.projectStatus === 'NEW'">{{ data?.projectPhase }} · Pending</span>
+          <span class="badge light-green-badge ent-badge" *ngIf="data?.projectStatus === 'APPROVED'">Godkänt</span>
+          <span class="badge light-blue-badge ent-badge" *ngIf="data?.projectStatus === 'ACCEPTED'">Öppet för investering</span>
+          <span class="badge light-red-badge ent-badge" *ngIf="data?.projectStatus === 'DECLINED'">Avvisat</span>
+          <span class="badge light-purple-badge ent-badge" *ngIf="data?.projectStatus === 'PENDING'">{{ data?.projectPhase }} · Inskickat</span>
+        </div>
+        <div class="card-body">
+          <h4 class="ent-project-title">{{ data?.title }}</h4>
+          <span class="ent-project-phase"><i class="bi bi-diagram-3 me-1"></i>{{ data?.projectPhase }}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!--end::Recent projects-->
+
+  <!--begin::Empty state (no projects)-->
+  <div class="ent-empty" *ngIf="!(dataLoading$ | async) && allProjects?.length === 0">
+    <div class="ent-empty-grid">
+      <div class="ent-start-banner">
+        <div class="ent-start-content">
+          <span class="ent-start-kicker">Kom ig&aring;ng</span>
+          <h4 class="ent-start-title">Skapa ditt f&ouml;rsta projekt</h4>
+          <p class="ent-start-text">
+            Beskriv id&eacute;n, v&auml;lj kategori och samla underlag s&aring; att projektet kan granskas och f&ouml;ljas upp.
+          </p>
+          <button type="button" class="btn btn-primary ent-start-btn" (click)="openModal(createProject, 'project')">
+            <i class="bi bi-plus-lg me-2"></i> Skapa projekt
+          </button>
+        </div>
+      </div>
+
+      <div class="ent-course-card">
+        <span class="ent-course-icon"><i class="bi bi-mortarboard"></i></span>
+        <div>
+          <h4 class="ent-course-title">Beh&ouml;ver du hj&auml;lp?</h4>
+          <p class="ent-course-text">G&aring; igenom korta guider innan du skickar in projektet.</p>
+        </div>
+        <a routerLink="/entrepreneur/courses" class="btn btn-light ent-course-link">
+          Visa kurser <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="card idea-card ent-idea d-none">
+      <div class="ent-idea-body">
+        <h4 class="ent-idea-title">Vi hjälper dig med din nästa projektidé</h4>
+        <p class="ent-idea-text">
+          Vi matchar stiftelser, näringsliv och privatpersoner med kvalitativa samhällsnyttiga
+          verksamheter och projekt.
+        </p>
+        <a [routerLink]="'/entrepreneur/projects'" class="btn btn-primary">Visa projekt</a>
+      </div>
+      <img src="./assets/media/illustrations/idea-bg.svg" class="ent-idea-img" alt="idea"/>
+    </div>
+
+    <div class="ent-help d-none">
+      <img src="./assets/media/illustrations/project-icon.svg" alt="project-icon" class="ent-help-img"/>
+      <h4 class="ent-help-title">Behöver du hjälp?</h4>
+      <p class="ent-help-text">
+        Lär dig mer om projekten med hjälp av våra online
+        <a routerLink="/entrepreneur/courses">kurser</a>.
+      </p>
+    </div>
+  </div>
+  <!--end::Empty state-->
+
 </div>
 
 <!--

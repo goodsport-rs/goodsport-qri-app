@@ -1,3 +1,165 @@
 :host {
   height: 100%;
 }
+
+/* =====================================================================
+   Modern split-screen auth — black · red · white
+   ===================================================================== */
+
+.auth-shell {
+  background: #ffffff;
+}
+
+/* ---- Form column (left) ---- */
+.auth-form-col {
+  background: #ffffff;
+}
+
+.auth-wordmark {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: #111318;
+
+  .text-danger-brand {
+    color: var(--gs-red, #c91523);
+  }
+}
+
+.auth-copyright p {
+  color: var(--gs-muted, #6b7280) !important;
+}
+
+/* ---- Aside (right) : full-bleed photo + brand gradient ---- */
+.auth-aside {
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Black → red brand gradient for mood + legibility over the photo */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(17, 19, 24, 0.92) 0%,
+      rgba(17, 19, 24, 0.78) 32%,
+      rgba(var(--gs-red-rgb, 201, 21, 35), 0.62) 100%
+    );
+  }
+
+  /* Subtle vignette at the bottom for the feature row */
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 45%;
+    background: linear-gradient(to top, rgba(17, 19, 24, 0.55), transparent);
+  }
+}
+
+.auth-aside-inner {
+  position: relative;
+  z-index: 1;
+  justify-content: space-between;
+  padding: 3.5rem clamp(2rem, 4vw, 4.5rem);
+  color: #fff;
+}
+
+/* Top wordmark on the photo */
+.auth-aside-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  .auth-wordmark {
+    color: #fff;
+  }
+}
+
+.auth-aside-tagline {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* Headline block */
+.auth-aside-headline {
+  max-width: 30rem;
+}
+
+.auth-aside-title {
+  margin-bottom: 1.1rem;
+  color: #fff;
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+.auth-aside-text {
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.auth-aside-quote {
+  display: inline-block;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--gs-red, #c91523);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Global goals (FN:s 17 globala mål) */
+.auth-aside-goals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.auth-aside-goals-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.auth-aside-goals-img {
+  display: block;
+  width: 100%;
+  max-width: 540px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+/* ---- Responsive : aside becomes a compact banner on top ---- */
+@media (max-width: 991.98px) {
+  .auth-aside {
+    min-height: 260px;
+  }
+
+  .auth-aside-inner {
+    padding: 2rem 1.75rem;
+    gap: 1.25rem;
+  }
+
+  .auth-aside-goals {
+    display: none;
+  }
+}

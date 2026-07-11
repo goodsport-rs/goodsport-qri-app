@@ -10,14 +10,15 @@ export class EntrepreneurService {
 
   constructor(private http: HttpClient) {}
 
-  findAllEntrepreneurs(search: string, page: number) {
+  findAllEntrepreneurs(search: string, page: number, size: number = 20) {
     const pageNumber = page - 1;
-    return this.http.get(`${this.url}?name=${search}&page=${pageNumber}`);
+    return this.http.get(`${this.url}?name=${search}&page=${pageNumber}&size=${size}`);
   }
 
   findEntrepreneurById(id: string) {
     return this.http.get(`${this.url}/id/${id}`);
   }
+
 
   findMe() {
     return this.http.get(`${this.url}/me`);

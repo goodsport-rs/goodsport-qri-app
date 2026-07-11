@@ -152,27 +152,44 @@
   </div>
   <div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed banner-bg">
     <!--begin::Content-->
-    <div class="d-flex flex-center flex-column flex-column-fluid vh-xxl-100">
+    <div class="d-flex flex-column flex-column-fluid">
       <!--begin::Content body-->
-      <div class="bg-white rounded shadow-sm pb-20  mx-auto w-100 radius-15px overflow-hidden">
-        <ul class="nav nav-tabs" id="projectTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 1" (click)="currentStep$.next(1)" id="idea-tab" data-bs-toggle="tab" role="tab" aria-controls="idea" aria-selected="true">1. Idea</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 2" [class.disabled]="currentPhase < 1" (click)="currentStep$.next(2)" id="plan-tab" data-bs-toggle="tab" role="tab" aria-controls="plan" aria-selected="false">2. Plan</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 3" [class.disabled]="currentPhase < 2" (click)="currentStep$.next(3)" id="funding-tab" data-bs-toggle="tab" role="tab" aria-controls="funding" aria-selected="false">3. Funding</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 4" [class.disabled]="currentPhase < 3" (click)="currentStep$.next(4)" id="aterrapportering-tab" data-bs-toggle="tab" role="tab" aria-controls="aterrapportering" aria-selected="false">4. Aterrapportering</a>
-          </li>
-          <li class="nav-item" role="presentation">
-            <a class="nav-link cursor-pointer" [class.active]="currentStep$.value === 5" [class.disabled]="currentPhase < 4" (click)="currentStep$.next(5)" id="gri-report-tab" data-bs-toggle="tab" role="tab" aria-controls="gri-report" aria-selected="false">5. GRI Report</a>
-          </li>
-        </ul>
-        <div class="tab-content p-5" id="projectTabsContent">
+      <div class="project-detail-shell">
+        <div class="project-stepper" id="projectTabs" role="tablist" aria-label="Project phases">
+            <button
+              *ngFor="let item of projectSteps"
+              type="button"
+              class="project-step"
+              role="tab"
+              [id]="item.paneId + '-tab'"
+              [attr.aria-controls]="item.paneId"
+              [attr.aria-selected]="currentStep$.value === item.step"
+              [attr.aria-current]="currentStep$.value === item.step ? 'step' : null"
+              [disabled]="!isStepValid(item.step)"
+              [class.active]="currentStep$.value === item.step"
+              [class.complete]="isStepComplete(item.step)"
+              [class.locked]="!isStepValid(item.step)"
+              (click)="selectProjectStep(item.step)">
+              <span class="project-step-index">
+                <ng-container *ngIf="isStepComplete(item.step); else stepNumber">
+                  <i class="bi bi-check-lg"></i>
+                </ng-container>
+                <ng-template #stepNumber>{{ item.step }}</ng-template>
+              </span>
+              <span class="d-flex flex-column min-w-0 gap-1">
+                <span class="fw-bolder lh-sm text-truncate">{{ item.title }}</span>
+                <span class="fw-bold text-uppercase fs-8 text-gray-500 lh-sm">
+                  <ng-container *ngIf="currentStep$.value === item.step">Current phase</ng-container>
+                  <ng-container *ngIf="currentStep$.value !== item.step && isStepComplete(item.step)">Completed</ng-container>
+                  <ng-container *ngIf="currentStep$.value !== item.step && !isStepComplete(item.step) && isStepValid(item.step)">Available</ng-container>
+                  <ng-container *ngIf="!isStepValid(item.step)">Locked</ng-container>
+                </span>
+              </span>
+            </button>
+        </div>
+        <div class="project-workspace">
+          <section class="project-content-panel">
+            <div class="tab-content project-tab-content" id="projectTabsContent">
           <div class="tab-pane fade" *ngIf="isStepValid(1)" [class.show]="currentStep$.value === 1" [class.active]="currentStep$.value === 1" id="idea" role="tabpanel" aria-labelledby="idea-tab">
             <app-signup-step0 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step0>
           </div>
@@ -182,13 +199,16 @@
           <div class="tab-pane fade" *ngIf="isStepValid(3)" [class.show]="currentStep$.value === 3" [class.active]="currentStep$.value === 3" id="funding" role="tabpanel" aria-labelledby="funding-tab">
             <app-signup-step2 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step2>
           </div>
-          <div class="tab-pane fade" *ngIf="isStepValid(4)" [class.show]="currentStep$.value === 4" [class.active]="currentStep$.value === 4" id="aterrapportering" role="tabpanel" aria-labelledby="aterrapportering-tab">
+          <div class="tab-pane fade" *ngIf="isStepValid(4)" [class.show]="currentStep$.value === 4" [class.active]="currentStep$.value === 4" id="reporting" role="tabpanel" aria-labelledby="reporting-tab">
             <app-signup-step3 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step3>
           </div>
           <div class="tab-pane fade" *ngIf="isStepValid(5)" [class.show]="currentStep$.value === 5" [class.active]="currentStep$.value === 5" id="gri-report" role="tabpanel" aria-labelledby="gri-report-tab">
             <app-signup-step4 class="w-100" [projectDetails]="projectDetails" (updateParent)="notifyChild($event)"></app-signup-step4>
           </div>
         </div>
+          </section>
+        </div>
+      </div>
       <!--end::Content body-->
     </div>
     <!--end::Content-->

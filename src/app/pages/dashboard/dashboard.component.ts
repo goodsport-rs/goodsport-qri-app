@@ -6,6 +6,7 @@ interface CardData {
   title: string;
   value: number;
   description: string;
+  icon: string;
 }
 
 @Component({
@@ -46,35 +47,45 @@ export class DashboardComponent implements OnInit {
   categoryChart: any = {
     series: [
       {
-        name: 'Project Count',
+        name: 'Projects',
         data: [],
-//      desc: [],
       },
     ],
     chart: {
       type: 'bar',
-      height: 350,
+      height: 340,
+      fontFamily: 'Inter, Helvetica, sans-serif',
       toolbar: {
-        show: true,
+        show: false,
       },
     },
-    colors: ['#ffbb00'],
+    colors: ['#c91523'],
     plotOptions: {
       bar: {
         horizontal: true,
-        columnWidth: '10%',
-        endingShape: 'rounded',
+        barHeight: '55%',
+        borderRadius: 6,
+        borderRadiusApplication: 'end',
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      style: {
+        colors: ['#ffffff'],
+        fontWeight: 700,
+        fontSize: '12px',
+      },
+      offsetX: -6,
+    },
+    grid: {
+      borderColor: '#eef0f3',
+      strokeDashArray: 4,
+      xaxis: { lines: { show: true } },
+      yaxis: { lines: { show: false } },
     },
     stroke: {
-      show: true,
-      width: 20,
-      colors: ['transparent'],
+      show: false,
     },
-
     xaxis: {
       categories: [],
       title: {
@@ -82,11 +93,13 @@ export class DashboardComponent implements OnInit {
         style: {
           fontSize: '12px',
           fontWeight: '600',
+          color: '#6b7280',
         },
       },
       labels: {
         style: {
           fontWeight: 600,
+          colors: '#6b7280',
         },
       },
     },
@@ -96,11 +109,13 @@ export class DashboardComponent implements OnInit {
         style: {
           fontSize: '12px',
           fontWeight: '600',
+          color: '#6b7280',
         },
       },
       labels: {
         style: {
           fontWeight: 600,
+          colors: '#111318',
         },
       },
     },
@@ -108,11 +123,7 @@ export class DashboardComponent implements OnInit {
       opacity: 1,
     },
     tooltip: {
-//      custom: function(opts: any) {
-//        const desc =
-//          opts.ctx.w.config.series[opts.seriesIndex].desc[opts.dataPointIndex]
-//        return desc;
-//      },
+      theme: 'light',
       y: {
         formatter: function (val: any) {
           return val;
@@ -124,39 +135,57 @@ export class DashboardComponent implements OnInit {
   columnChart: any = {
     series: [
       {
-        name: 'Project Count',
+        name: 'Projects',
         data: [],
       },
     ],
     chart: {
-      type: 'bar',
-      height: 350,
+      type: 'area',
+      height: 340,
+      fontFamily: 'Inter, Helvetica, sans-serif',
       toolbar: {
         show: false,
       },
     },
-    colors: ['#ffbb00'],
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: '10%',
-        endingShape: 'rounded',
-      },
-    },
+    colors: ['#c91523'],
     dataLabels: {
       enabled: false,
     },
     stroke: {
-      show: true,
-      width: 20,
-      colors: ['transparent'],
+      curve: 'smooth',
+      width: 3,
+      colors: ['#c91523'],
     },
-
+    markers: {
+      size: 0,
+      colors: ['#c91523'],
+      strokeColors: '#ffffff',
+      strokeWidth: 2,
+      hover: { size: 6 },
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.35,
+        opacityTo: 0.02,
+        stops: [0, 90, 100],
+      },
+    },
+    grid: {
+      borderColor: '#eef0f3',
+      strokeDashArray: 4,
+      xaxis: { lines: { show: false } },
+      yaxis: { lines: { show: true } },
+    },
     xaxis: {
       categories: [],
+      axisBorder: { show: false },
+      axisTicks: { show: false },
       labels: {
         style: {
           fontWeight: 600,
+          colors: '#6b7280',
         },
       },
     },
@@ -166,18 +195,18 @@ export class DashboardComponent implements OnInit {
         style: {
           fontSize: '12px',
           fontWeight: '600',
+          color: '#6b7280',
         },
       },
       labels: {
         style: {
           fontWeight: 600,
+          colors: '#6b7280',
         },
       },
     },
-    fill: {
-      opacity: 1,
-    },
     tooltip: {
+      theme: 'light',
       y: {
         formatter: function (val: any) {
           return val;
@@ -206,21 +235,25 @@ export class DashboardComponent implements OnInit {
             title: 'Total Users',
             value: data.totalEntrepreneur,
             description: 'Antal användare',
+            icon: 'bi-people-fill',
           },
           {
             title: 'Total Projects',
             value: data.totalProjects,
             description: 'Antal projekt',
+            icon: 'bi-kanban-fill',
           },
           {
             title: 'Total Participants',
             value: data.totalParticipants,
             description: 'Total deltagare',
+            icon: 'bi-person-check-fill',
           },
           {
             title: 'Total Investors',
             value: data.totalInvestors,
             description: 'Total antal investerare',
+            icon: 'bi-graph-up-arrow',
           }
         );
         console.log('Cards array after push:', this.cards);

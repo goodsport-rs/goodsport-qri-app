@@ -1,4 +1,16 @@
-<div class="col-md-12 p-310 d-flex justify-content-between bg-white card flex-row card-rounded flex-stack flex-wrap p-7 mb-9 ps-15 pe-10 radius-8px mt-5">
+<div class="ent-projects-page">
+<div class="projects-hero">
+  <div class="projects-hero__content">
+    <span class="projects-hero__kicker">Projekt</span>
+    <h1>Skapa och f&ouml;lj dina projekt</h1>
+    <p>Tillsammans kan vi n&aring; de globala m&aring;len 2030 med tydliga projekt, dokumentation och uppf&ouml;ljning.</p>
+    <button type="button" class="btn btn-primary projects-hero__btn" (click)="openModal(content, 'new')">
+      <i class="bi bi-plus-lg me-2"></i> Skapa projekt
+    </button>
+  </div>
+</div>
+
+<div class="legacy-project-hero col-md-12 p-310 d-flex justify-content-between bg-white card flex-row card-rounded flex-stack flex-wrap p-7 mb-9 ps-15 pe-10 radius-8px mt-5">
   <div class="p-5 px-10">
     <h4 class="bold fs-5 mb-0">Ny Projekt ide ?</h4>
     <p class="fs-8">
@@ -10,8 +22,8 @@
   <img src="./assets/media/illustrations/dozzy-1/1.png" class="h-175px" alt="idea-bg"/>
 </div>
 
-<div
-  class="col-md-12 d-flex justify-content-between bg-white card flex-row card-rounded flex-stack flex-wrap p-7 mb-9 ps-15 pe-10 radius-8px mt-5">
+<div *ngIf="!(dataLoading$ | async) && allProjects.length > 0"
+  class="projects-toolbar col-md-12 d-flex justify-content-between bg-white card flex-row card-rounded flex-stack flex-wrap p-7 mb-9 ps-15 pe-10 radius-8px mt-5">
   <span class="fs-1 bold">Sök projekt</span>
 
 
@@ -183,6 +195,8 @@
   <div class="spinner-border text-warning" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
+</div>
+
 </div>
 
 

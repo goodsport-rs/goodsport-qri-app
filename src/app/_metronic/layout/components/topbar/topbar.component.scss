@@ -1,0 +1,58 @@
+.topbar-user {
+  justify-content: space-between;
+  min-height: 40px;
+  min-width: 250px;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.topbar-user__identity {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.topbar-user .symbol-label {
+  border-radius: 50%;
+}
+
+.topbar-user__meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  min-width: 90px;
+  max-width: 180px;
+}
+
+.topbar-user__name,
+.topbar-user__role {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar-user__name {
+  font-size: 0.85rem;
+}
+
+.topbar-user__role {
+  font-size: 0.72rem;
+}
+
+.topbar-user__logout {
+  flex: 0 0 auto;
+  height: 34px;
+  width: 34px;
+}
+
+@media (max-width: 575.98px) {
+  .topbar-user {
+    min-width: 190px;
+  }
+
+  .topbar-user__meta {
+    min-width: 72px;
+    max-width: 120px;
+  }
+}

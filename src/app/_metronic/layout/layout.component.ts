@@ -79,6 +79,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     // define layout type and load layout
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        document.body.classList.toggle('admin-theme', event.urlAfterRedirects.startsWith('/admin'));
+
         const currentLayoutType = this.layout.currentLayoutTypeSubject.value;
 
         const nextLayoutType: LayoutType =
@@ -395,6 +397,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    document.body.classList.remove('admin-theme');
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

@@ -1,51 +1,247 @@
-:host {
-  width: 100%;
-  @media (max-width: 1400px) {
-    .vh-100 {
-      height: auto !important;
-    }
-  }
-  @media (min-width: 992px) {
-    .login-form {
-      width: 100%;
-      max-width: 450px;
-
-      .mat-form-field {
-        width: 100%;
-      }
-    }
-  }
-}
-
-.disable-div {
-  pointer-events: none;
-}
-
-.my-custom-class .tooltip-inner {
-  max-width: 400px;
-  width: inherit;
-}
+:host { width: 100%; }
 
 .text-style{
   white-space: pre-wrap;
 }
 
-.nav-tabs .nav-link {
-  font-size: 1.5rem; /* Increase font size */
-  padding: 1rem 1.5rem; /* Increase padding */
+.project-detail-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
 }
 
-.nav-tabs .nav-link.active {
-  background-color: #007bff; /* Change background color */
-  color: #fff; /* Change text color */
-  border-color: #007bff; /* Change border color */
+.project-stepper {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  width: 100%;
+  overflow: hidden;
+  background: var(--gs-surface, #ffffff);
+  border: 1px solid var(--gs-border, #e5e7eb);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(17, 19, 24, 0.05);
 }
 
-.tab-content .tab-pane {
-  padding: 1.1rem; /* Increase padding */
-  font-size: 1.25rem; /* Increase font size */
+.project-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 62px;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  color: var(--gs-black, #111318);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--gs-border, #e5e7eb);
+  border-radius: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  /* Red active-indicator bar (animates in when the tab is active) */
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--gs-red, #c91523);
+    transform: scaleX(0);
+    transition: transform 0.18s ease;
+  }
+
+  &:not(:disabled):hover {
+    color: var(--gs-black, #111318);
+    background: var(--gs-red-light, #fff1f2);
+  }
+
+  &.active {
+    color: var(--gs-black, #111318);
+    background: var(--gs-surface, #ffffff);
+
+    &::after {
+      transform: scaleX(1);
+    }
+
+    /* Emphasise the "Current phase" caption in brand red */
+    .fs-8 {
+      color: var(--gs-red, #c91523) !important;
+    }
+  }
+
+  &.complete:not(.active) {
+    color: var(--gs-black, #111318);
+  }
+
+  &.locked,
+  &:disabled {
+    cursor: not-allowed;
+    color: #9ca3af;
+    background: #fafbfc;
+
+    &::after {
+      display: none;
+    }
+  }
 }
 
-.cursor-pointer {
-  cursor: pointer;
+.project-step-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  color: var(--gs-red, #c91523);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1;
+  background: var(--gs-red-light, #fff1f2);
+  border: 1px solid rgba(var(--gs-red-rgb, 201, 21, 35), 0.22);
+  border-radius: 50%;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Active = solid red bubble with a soft focus halo */
+.project-step.active .project-step-index {
+  color: #fff;
+  background: var(--gs-red, #c91523);
+  border-color: var(--gs-red, #c91523);
+  box-shadow: 0 0 0 4px rgba(var(--gs-red-rgb, 201, 21, 35), 0.12);
+}
+
+/* Complete = red check on white (outlined) — distinct from the tinted "available" bubble */
+.project-step.complete:not(.active) .project-step-index {
+  color: var(--gs-red, #c91523);
+  background: #fff;
+  border-color: var(--gs-red, #c91523);
+}
+
+/* Locked = neutral grey, clearly disabled */
+.project-step.locked .project-step-index,
+.project-step:disabled .project-step-index {
+  color: #9ca3af;
+  background: #eff2f5;
+  border-color: var(--gs-border, #e5e7eb);
+}
+
+.project-workspace {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.project-content-panel {
+  min-width: 0;
+  padding: 1.25rem;
+}
+
+.project-tab-content {
+  padding: 0;
+}
+
+.project-tab-content > .tab-pane {
+  background: transparent;
+}
+
+.project-tab-content app-signup-step0,
+.project-tab-content app-signup-step1,
+.project-tab-content app-signup-step2,
+.project-tab-content app-signup-step3,
+.project-tab-content app-signup-step4 {
+  display: block;
+}
+
+.project-tab-content .pe-10,
+.project-tab-content .w-100.pe-10 {
+  padding-right: 0 !important;
+}
+
+.project-tab-content h2.fs-5 {
+  margin-bottom: 1rem !important;
+  color: #111318 !important;
+  font-size: 1.05rem !important;
+  font-weight: 800;
+}
+
+.project-tab-content .fv-row.border,
+.project-tab-content .border.p-8,
+.project-tab-content .card-body {
+  padding: 1.25rem !important;
+  background: #fff;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+}
+
+.project-tab-content .fv-row.border .fv-row.border {
+  padding: 1rem !important;
+  margin-bottom: 1rem;
+  background: #f9fafb;
+  border-color: #edf0f3 !important;
+}
+
+.project-tab-content .row.mt-5,
+.project-tab-content .row.mt-10 {
+  margin-top: 1rem !important;
+}
+
+.project-tab-content .row .col.d-flex.justify-content-end {
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.project-tab-content .idea-card {
+  overflow: hidden;
+  max-height: 360px;
+  background: #111318 !important;
+  border-radius: 8px !important;
+}
+
+.project-tab-content .idea-card img {
+  display: block;
+  height: 320px;
+  object-fit: cover;
+}
+
+.project-tab-content .text-style {
+  padding: 1.25rem;
+  color: #374151;
+  line-height: 1.7;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+@media (max-width: 1199.98px) {
+  .project-stepper {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .project-content-panel {
+    padding: 1rem;
+  }
+
+  .project-stepper {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .project-step {
+    min-height: 64px;
+  }
+
+  .project-tab-content .idea-card img {
+    height: 220px;
+  }
 }

@@ -1,0 +1,252 @@
+.profile-page {
+  padding: 1rem 0 2rem;
+}
+
+.profile-shell {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+}
+
+.profile-main {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.profile-main > .col-lg-4,
+.profile-main > .col-lg-8 {
+  width: 100%;
+  max-width: 100%;
+}
+
+.profile-card,
+.info-card,
+.kyc-card {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--gs-border, #e5e7eb);
+  box-shadow: 0 14px 34px rgba(17, 19, 24, .06);
+}
+
+.profile-cover {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  background: linear-gradient(120deg, rgba(17, 19, 24, .98), rgba(201, 21, 35, .78));
+}
+
+.profile-card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 210px;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.profile-avatar {
+  position: relative;
+  width: 116px;
+  height: 116px;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.profile-avatar img,
+.profile-avatar-initials {
+  display: grid;
+  width: 116px;
+  height: 116px;
+  place-items: center;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  background: var(--gs-red, #c91523);
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 900;
+  object-fit: cover;
+}
+
+.profile-avatar-edit {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 34px;
+  height: 34px;
+  color: #fff;
+  background: var(--gs-red, #c91523);
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.profile-summary {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-name,
+.info-title,
+.kyc-title {
+  color: var(--gs-black, #111318);
+  font-weight: 900;
+}
+
+.profile-name {
+  margin: .25rem 0;
+  color: #fff;
+  font-size: 1.45rem;
+}
+
+.profile-card .profile-org,
+.profile-card .profile-badge,
+.info-sub,
+.info-label,
+.kyc-sub,
+.kyc-question {
+  color: rgba(255, 255, 255, .78);
+}
+
+.info-sub,
+.info-label,
+.kyc-sub,
+.kyc-question {
+  color: var(--gs-muted, #6b7280);
+}
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-top: .9rem;
+  padding: .42rem .8rem;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.is-verified {
+  color: #fff;
+  background: rgba(255, 255, 255, .16);
+}
+
+.is-unverified {
+  color: #fff;
+  background: var(--gs-red, #c91523);
+}
+
+.profile-edit-image {
+  width: auto;
+  margin-top: 1rem;
+  color: #fff;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .3);
+  font-weight: 800;
+}
+
+.info-card,
+.kyc-card {
+  padding: 1.8rem;
+}
+
+.info-head,
+.kyc-head,
+.info-row {
+  display: flex;
+  align-items: center;
+}
+
+.info-head {
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-grid,
+.kyc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.info-row,
+.kyc-item {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.info-icon,
+.kyc-head-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  margin-right: .85rem;
+  color: #fff;
+  background: var(--gs-red, #c91523);
+  border-radius: 50%;
+}
+
+.info-icon i,
+.kyc-head-icon i,
+.profile-badge i,
+.profile-edit-image i {
+  color: #fff !important;
+}
+
+.info-text,
+.kyc-item {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.info-label {
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.info-value,
+.kyc-answer {
+  color: var(--gs-black, #111318);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.kyc-card {
+  margin-top: 1.5rem;
+}
+
+.kyc-head {
+  margin-bottom: 1.35rem;
+}
+
+.kyc-head-icon {
+  background: var(--gs-black, #111318);
+}
+
+.kyc-item {
+  border-left: 4px solid var(--gs-red, #c91523);
+}
+
+@media (max-width: 767.98px) {
+  .profile-card-body {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .info-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .info-grid,
+  .kyc-grid {
+    grid-template-columns: 1fr;
+  }
+}

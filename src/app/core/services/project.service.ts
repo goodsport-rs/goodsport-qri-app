@@ -27,13 +27,21 @@ export class ProjectService {
   constructor(private http: HttpClient) {
   }
 
-  findAllProjects(search: string, phase: string, status: string, page: number, size: number) {
+  findAllProjects(search: string, phase: string, status: string, page: number, size: number, entrepreneurId: string = '') {
     const pageNumber = page - 1;
-    return this.http.get(
-      `${this.projectsUrl}?name=${search}&phase=${phase}&status=${status}&page=${pageNumber}&size=${size}&sort=createdDateTime,desc`
-    );
+    let url = `${this.projectsUrl}?name=${search}&phase=${phase}&status=${status}&page=${pageNumber}&size=${size}&sort=createdDateTime,desc`;
+    if (entrepreneurId) {
+      url += `&entrepreneurId=${entrepreneurId}`;
+    }
+    return this.http.get(url);
   }
 
+  findProjectsByEntrepreneurId(entrepreneurId: string, page: number = 1, size: number = 100) {
+    const pageNumber = page - 1;
+    return this.http.get(
+      `${this.projectsUrl}?entrepreneurId=${entrepreneurId}&page=${pageNumber}&size=${size}&sort=createdDateTime,desc`
+    );
+  }
 
   findProjectById(id: string) {
     return this.http.get(`${this.projectsUrl}/id/${id}`);

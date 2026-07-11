@@ -1,5 +1,11 @@
 <div class="card">
-  <div class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0">
+  <div class="d-flex justify-content-between align-items-center p-8 pb-0">
+    <h3 class="fw-bolder m-0">Entrepreneurs</h3>
+    <button type="button" class="btn btn-sm btn-primary text-nowrap" (click)="openCreateModal(createEntrepreneurModal)">
+      <i class="bi bi-plus-lg me-1"></i> Add Entrepreneur
+    </button>
+  </div>
+  <div class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap px-8 pt-4 pb-0">
     <form data-kt-search-element="form" autocomplete="off"
       class="position-relative mb-3 bg-light px-5 w-100 radius-8px">
       <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
@@ -89,3 +95,162 @@
     </div>
   </div>
 </div>
+
+<!--create entrepreneur modal-->
+<ng-template #createEntrepreneurModal let-modal>
+  <div class="modal-header px-7">
+    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+      Add New Entrepreneur
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" autocomplete="off" novalidate>
+
+      <!-- Email -->
+      <div class="fv-row fv-plugins-icon-container mb-7">
+        <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Email</label>
+        <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+               type="email" name="username" placeholder="Email address" formControlName="username" />
+        <div *ngIf="form.get('username')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('username')?.hasError('required')">
+            Email is required
+          </div>
+          <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('username')?.hasError('pattern')">
+            Invalid email address
+          </div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="fv-row fv-plugins-icon-container mb-7">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Password</label>
+            <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                   type="password" name="password" placeholder="Password" formControlName="password" />
+            <div *ngIf="form.get('password')?.touched">
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('password')?.hasError('required')">
+                Password is required
+              </div>
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('password')?.hasError('minlength')">
+                Minimum 8 characters
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="fv-row fv-plugins-icon-container mb-7">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Confirm Password</label>
+            <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                   type="password" name="confirmPassword" placeholder="Confirm password" formControlName="confirmPassword" />
+            <div *ngIf="form.get('confirmPassword')?.touched">
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('confirmPassword')?.hasError('required')">
+                Confirm password is required
+              </div>
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('confirmPassword')?.hasError('ConfirmPassword')">
+                Passwords don't match
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- First Name / Last Name -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="fv-row fv-plugins-icon-container mb-7">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">First Name</label>
+            <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                   type="text" name="firstName" placeholder="First name" formControlName="firstName" />
+            <div *ngIf="form.get('firstName')?.touched">
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('firstName')?.hasError('required')">
+                First name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="fv-row fv-plugins-icon-container mb-7">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Last Name</label>
+            <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                   type="text" name="lastName" placeholder="Last name" formControlName="lastName" />
+            <div *ngIf="form.get('lastName')?.touched">
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('lastName')?.hasError('required')">
+                Last name is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="fv-row fv-plugins-icon-container mb-7">
+        <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Phone Number</label>
+        <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+               type="text" name="phoneNumber" placeholder="Phone number" formControlName="phoneNumber" />
+        <div *ngIf="form.get('phoneNumber')?.touched">
+          <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('phoneNumber')?.hasError('required')">
+            Phone number is required
+          </div>
+          <div class="fv-plugins-message-container invalid-feedback"
+               *ngIf="form.get('phoneNumber')?.hasError('maxlength') || form.get('phoneNumber')?.hasError('minlength') || form.get('phoneNumber')?.hasError('pattern')">
+            Invalid phone number
+          </div>
+        </div>
+      </div>
+
+      <!-- Organization Name / Number -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="fv-row fv-plugins-icon-container mb-7">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Organization Name</label>
+            <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                   type="text" name="organizationName" placeholder="Organization name" formControlName="organizationName" />
+            <div *ngIf="form.get('organizationName')?.touched">
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('organizationName')?.hasError('required')">
+                Organization name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="fv-row fv-plugins-icon-container mb-7">
+            <label class="form-label fw-medium text-gray-400 fs-6 mb-1 required">Organization Number</label>
+            <input class="form-control form-control-lg form-control-solid border-gray-200 h-40 px-4 fs-6 h-40px"
+                   type="text" name="organizationNumber" placeholder="e.g. 123456-7890" formControlName="organizationNumber" />
+            <div *ngIf="form.get('organizationNumber')?.touched">
+              <div class="fv-plugins-message-container invalid-feedback" *ngIf="form.get('organizationNumber')?.hasError('required')">
+                Organization number is required
+              </div>
+              <div class="fv-plugins-message-container invalid-feedback"
+                   *ngIf="form.get('organizationNumber')?.hasError('maxlength') || form.get('organizationNumber')?.hasError('minlength')">
+                Invalid organization number
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-light w-175px" (click)="modal.close('Cancel')"
+            [disabled]="btnLoading$ | async">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary w-175px" (click)="onClickSubmit(modal)"
+            [disabled]="btnLoading$ | async">
+      <ng-container *ngIf="btnLoading$ | async">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="(btnLoading$ | async) === false">
+        <span class="indicator-label">Create</span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+<!--end create entrepreneur modal-->

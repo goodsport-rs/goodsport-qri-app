@@ -75,7 +75,7 @@
           </td>
           <td>
               <span class="fw-bold text-dark d-block fs-8">
-                {{ user?.roles[0].role }}</span
+                {{ user?.roles?.length > 0 ? user.roles[0].role : '—' }}</span
               >
           </td>
           <td>

@@ -1,45 +1,26 @@
 
 
-
-
-
-<!--begin::Chat
-<div class="app-navbar-item" [ngClass]="itemClass">
-  <div [ngClass]="btnClass" class="position-relative" id="kt_drawer_chat_toggle">
-    <app-keenicon name="message-text-2" class="fs-2"></app-keenicon>
-    <span
-      class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink">
-    </span>
-  </div>
-</div>
-end::Chat-->
-
-<!--begin::Quick links
-<div class="app-navbar-item" [ngClass]="itemClass">
-
-  <div [ngClass]="btnClass" data-kt-menu-trigger="click" data-kt-menu-attach="parent"
-    data-kt-menu-placement="bottom-end">
-    <app-keenicon name="element-11" class="fs-2"></app-keenicon>
-  </div>
-
-  <app-quick-links-inner></app-quick-links-inner>
-</div>
-end::Quick links-->
-
-<!--begin::Theme mode
-<div class="app-navbar-item" [ngClass]="itemClass">
-  <app-theme-mode-switcher [toggleBtnClass]="btnClass" toggleBtnClass="{`btn-active-light-primary btn-custom ${toolbarButtonHeightClass}`}"></app-theme-mode-switcher>
-</div>
-end::Theme mode-->
-
 <!--begin::User menu-->
 <div class="app-navbar-item" [ngClass]="itemClass">
-  <!--begin::Menu wrapper-->
-  <div class="cursor-pointer symbol" [ngClass]="userAvatarClass" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-    <img src="./assets/media/avatars/blank.png" />
+  <div class="navbar-user d-flex align-items-center">
+    <ng-container *ngIf="user$ | async as user">
+      <span class="navbar-user__identity">
+        <span class="symbol symbol-circle" [ngClass]="userAvatarClass">
+          <span class="symbol-label bg-light-primary text-primary fw-bolder">
+            {{ getInitials(user) }}
+          </span>
+        </span>
+        <span class="navbar-user__meta ms-2">
+          <span class="navbar-user__name text-gray-800 fw-bolder">
+            {{ getUsername(user) }}
+          </span>
+          <span class="navbar-user__role text-muted fw-bold">
+            {{ getRoleLabel(user) }}
+          </span>
+        </span>
+      </span>
+    </ng-container>
   </div>
-  <app-user-inner data-kt-menu='true'></app-user-inner>
-  <!--end::Menu wrapper-->
 </div>
 <!--end::User menu-->
 
