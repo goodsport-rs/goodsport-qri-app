@@ -96,9 +96,9 @@
       <a [routerLink]="'/entrepreneur/projects'" class="ent-link">Visa alla <i class="bi bi-arrow-right ms-1"></i></a>
     </div>
     <div class="ent-projects">
-      <a *ngFor="let data of recentProjects" [routerLink]="['details', data.id]" class="card ent-project">
+      <a *ngFor="let data of recentProjects" [routerLink]="['/entrepreneur/projects/details', data.id]" class="card ent-project">
         <div class="ent-project-banner"
-             [style.background-image]="'url(./assets/media/categories/' + data?.categoryId + '-banner.png)'">
+             [style.background-image]="'url(' + (data?.imageUrl || 'https://res.cloudinary.com/goodsports/image/upload/v1663533990/project-banner-default.jpg') + ')'" >
           <span class="badge light-yellow-badge ent-badge" *ngIf="data?.projectStatus === 'NEW'">{{ data?.projectPhase }} · Pending</span>
           <span class="badge light-green-badge ent-badge" *ngIf="data?.projectStatus === 'APPROVED'">Godkänt</span>
           <span class="badge light-blue-badge ent-badge" *ngIf="data?.projectStatus === 'ACCEPTED'">Öppet för investering</span>
@@ -108,6 +108,8 @@
         <div class="card-body">
           <h4 class="ent-project-title">{{ data?.title }}</h4>
           <span class="ent-project-phase"><i class="bi bi-diagram-3 me-1"></i>{{ data?.projectPhase }}</span>
+          <span *ngIf="data?.category" class="ent-project-category"><i class="bi bi-tag me-1"></i>{{ data?.category }}</span>
+          <p *ngIf="data?.description" class="ent-project-description">{{ data?.description }}</p>
         </div>
       </a>
     </div>

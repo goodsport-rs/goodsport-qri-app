@@ -35,8 +35,6 @@
     <span></span>
     <input type="file" name="file" class="form-control form-control file form-control-solid"
            (change)="onUploadFile($event)" style="display: none" #upload/>
-    <img *ngIf="projectDetails?.imageUrl" class="w-100 cursor-pointer" src="{{projectDetails?.imageUrl}}"  (click)="upload.click()" alt="idea-bg" />
-    <img *ngIf="!projectDetails?.imageUrl" class="w-100 cursor-pointer" src="https://res.cloudinary.com/goodsports/image/upload/v1663533990/project-banner-default.jpg"  (click)="upload.click()" alt="idea-bg" />
   </div>
   <div class="mt-5">
     <p class="text-gray-700 fs-7 text-justify first-let">

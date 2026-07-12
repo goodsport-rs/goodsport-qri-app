@@ -1,7 +1,7 @@
 .reporting-page {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .reporting-panel,
@@ -10,6 +10,20 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
+}
+
+.reporting-controls-panel {
+  background: #fbfcfd;
+}
+
+.reporting-list-panel,
+.reporting-documents-panel,
+.reporting-stats-panel {
+  background: #fff;
+}
+
+.reporting-action-panel {
+  background: #f9fafb;
 }
 
 .reporting-section-header,
@@ -21,7 +35,9 @@
 }
 
 .reporting-section-header {
+  padding-bottom: 1rem;
   margin-bottom: 1rem;
+  border-bottom: 1px solid #edf0f3;
 }
 
 .reporting-title {
@@ -56,6 +72,10 @@
   align-items: end;
 }
 
+.reporting-field {
+  min-width: 0;
+}
+
 .reporting-field label {
   display: block;
   margin-bottom: 0.35rem;
@@ -73,8 +93,27 @@
   gap: 0.5rem;
 }
 
+.reporting-actions {
+  padding-left: 0.25rem;
+
+  .btn {
+    min-width: 104px;
+    white-space: nowrap;
+  }
+}
+
+.reporting-table-wrap {
+  margin-top: 0;
+}
+
 .reporting-table {
   margin-bottom: 0;
+
+  tr,
+  th,
+  td {
+    border-radius: 0 !important;
+  }
 
   th {
     color: #6b7280;
@@ -87,6 +126,12 @@
 
 .reporting-row-actions {
   flex-wrap: wrap;
+
+  .btn-icon {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+  }
 }
 
 .reporting-file-link {
@@ -96,6 +141,10 @@
   text-align: left;
   background: transparent;
   border: 0;
+}
+
+.reporting-finalize {
+  padding: 1rem 1.25rem;
 }
 
 .reporting-empty {
@@ -129,6 +178,8 @@
 
   .reporting-actions {
     justify-content: flex-start;
+    grid-column: 1 / -1;
+    padding-left: 0;
   }
 }
 

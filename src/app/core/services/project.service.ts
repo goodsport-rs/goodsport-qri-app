@@ -204,6 +204,10 @@ export class ProjectService {
     return this.http.post(`${this.reportUrl}/${id}`, data);
   }
 
+  getPublicReportContext(id: string) {
+    return this.http.get(`${this.reportUrl}/${id}`);
+  }
+
   postReportLink(id: string, data: any) {
     return this.http.post(`${this.reportUrl}/${id}`, data);
   }

@@ -14,12 +14,6 @@ export const routes: Routes = [
       import('./modules/errors/errors.module').then((m) => m.ErrorsModule),
   },
   {
-    path: '',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('./_metronic/layout/layout.module').then((m) => m.LayoutModule),
-  },
-  {
     path: 'reports/:id',
     loadChildren: () =>
       import('./modules/publiclinks/publiclinks.module').then((m) => m.PubliclinksModule),
@@ -28,6 +22,12 @@ export const routes: Routes = [
     path: 'verify/:id',
     loadChildren: () =>
       import('./modules/publiclinks/verify/verify-email.module').then((m) => m.VerifyEmailModule),
+  },
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./_metronic/layout/layout.module').then((m) => m.LayoutModule),
   },
   { path: '**', redirectTo: 'error/404' },
 ];

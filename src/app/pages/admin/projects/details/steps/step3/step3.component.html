@@ -1,11 +1,10 @@
 <div class="reporting-page">
-  <section class="reporting-panel reporting-filter-panel">
+  <section class="reporting-panel reporting-controls-panel">
     <div class="reporting-section-header">
       <div>
-        <h3 class="reporting-title">Activity reports</h3>
-        <p class="reporting-subtitle">Review submitted activity reports, filter by date or locality, and export the current period.</p>
+        <h3 class="reporting-title">Report controls</h3>
+        <p class="reporting-subtitle">Filter submitted activity reports by date or locality, then export the current period.</p>
       </div>
-      <span class="reporting-count">{{ totalItems }} reports</span>
     </div>
 
     <div class="reporting-filters">
@@ -37,13 +36,25 @@
       </div>
 
       <div class="reporting-actions">
-        <button class="btn btn-primary" (click)="reportDateSearch()">Search</button>
-        <button class="btn btn-light" (click)="reportDateExport()">Export</button>
+        <button class="btn btn-primary" (click)="reportDateSearch()">
+          <i class="bi bi-search me-2"></i>Search
+        </button>
+        <button class="btn btn-light" (click)="reportDateExport()">
+          <i class="bi bi-download me-2"></i>Export
+        </button>
       </div>
     </div>
   </section>
 
-  <section class="reporting-panel">
+  <section class="reporting-panel reporting-list-panel">
+    <div class="reporting-section-header">
+      <div>
+        <h3 class="reporting-title">Activity reports</h3>
+        <p class="reporting-subtitle">Review, edit, approve, or deny submitted reports.</p>
+      </div>
+      <span class="reporting-count">{{ totalItems }} reports</span>
+    </div>
+
     <div class="col text-center data-loader my-5 p-5" *ngIf="dataLoading$ | async">
       <div class="spinner-border text-warning" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -51,7 +62,7 @@
     </div>
 
     <ng-container *ngIf="!(dataLoading$ | async)">
-      <div class="table-responsive" *ngIf="activityReports.length > 0; else noReports">
+      <div class="table-responsive reporting-table-wrap" *ngIf="activityReports.length > 0; else noReports">
         <table class="table reporting-table align-middle">
           <thead>
           <tr>
@@ -70,7 +81,7 @@
             <td>{{ v?.participants }} / {{ v?.leaders }}</td>
             <td>{{ v?.locality }} / {{ v?.location }}</td>
             <td>
-              <span class="badge rounded-pill text-uppercase"
+              <span class="badge text-uppercase"
                     [ngClass]="{
                       'light-green-badge': v?.status === 'APPROVED',
                       'light-red-badge': v?.status === 'DECLINED',
@@ -79,18 +90,28 @@
                 {{ v?.status }}
               </span>
             </td>
-            <td>
+            <td class="text-end">
               <div class="reporting-row-actions">
-                <button type="button" class="btn btn-sm btn-light" (click)="openView(v.id)">View</button>
-                <button type="button" class="btn btn-sm btn-light" (click)="openEdit(v.id)">Edit</button>
-                <button type="button" class="btn btn-sm btn-primary"
+                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="View"
+                        aria-label="View report" (click)="openView(v.id)">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="Edit"
+                        aria-label="Edit report" (click)="openEdit(v.id)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-sm btn-primary"
                         [disabled]="v.status === 'APPROVED'"
                         [ngbTooltip]="v.status === 'APPROVED' ? 'Already approved' : null"
-                        (click)="approve(v.id)">Approve</button>
-                <button type="button" class="btn btn-sm btn-outline-danger"
+                        aria-label="Approve report" (click)="approve(v.id)">
+                  <i class="bi bi-check2"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-sm btn-outline-danger"
                         [disabled]="v.status === 'DECLINED'"
                         [ngbTooltip]="v.status === 'DECLINED' ? 'Already denied' : null"
-                        (click)="deny(v.id)">Deny</button>
+                        aria-label="Deny report" (click)="deny(v.id)">
+                  <i class="bi bi-x-lg"></i>
+                </button>
               </div>
             </td>
           </tr>
@@ -112,7 +133,7 @@
     </ng-template>
   </section>
 
-  <section class="reporting-panel">
+  <section class="reporting-panel reporting-documents-panel">
     <div class="reporting-section-header">
       <div>
         <h3 class="reporting-title">Documents</h3>
@@ -120,7 +141,7 @@
       </div>
     </div>
 
-    <div class="table-responsive" *ngIf="projectFiles && projectFiles.length; else noFiles">
+    <div class="table-responsive reporting-table-wrap" *ngIf="projectFiles && projectFiles.length; else noFiles">
       <table class="table reporting-table align-middle">
         <thead>
         <tr>
@@ -151,7 +172,7 @@
     </ng-template>
   </section>
 
-  <section class="reporting-panel">
+  <section class="reporting-panel reporting-stats-panel">
     <div class="reporting-section-header">
       <div>
         <h3 class="reporting-title">Participant statistics</h3>
@@ -161,7 +182,7 @@
     <app-reportcharts></app-reportcharts>
   </section>
 
-  <section class="reporting-finalize" *ngIf="projectDetails && projectDetails.projectPhase !== 'FINAL_REPORT'">
+  <section class="reporting-finalize reporting-action-panel" *ngIf="projectDetails && projectDetails.projectPhase !== 'FINAL_REPORT'">
     <div>
       <h3 class="reporting-title">Finalize reporting</h3>
       <p class="reporting-subtitle">Create the GRI report when reporting review is complete.</p>

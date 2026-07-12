@@ -555,6 +555,206 @@ a.text-primary,
 }
 
 /* =====================================================================
+   Entrepreneur static content pages
+   ===================================================================== */
+
+.gs-static-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.gs-static-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, .65fr);
+  min-height: 260px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(17, 19, 24, .96), rgba(17, 19, 24, .74)), url('/assets/media/illustrations/gs_background_4.jpg') center/cover;
+}
+
+.gs-static-hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 760px;
+  padding: 2.5rem;
+}
+
+.gs-static-hero__kicker {
+  color: #ffd35f;
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.gs-static-hero h1 {
+  margin: .7rem 0;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.gs-static-hero p {
+  max-width: 620px;
+  margin: 0;
+  color: rgba(255, 255, 255, .78);
+  line-height: 1.6;
+}
+
+.gs-static-hero__media {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding: 1.5rem 2rem 0;
+}
+
+.gs-static-hero__media img {
+  width: min(260px, 100%);
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.gs-static-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.gs-static-card,
+.gs-static-feature {
+  background: #fff;
+  border: 1px solid var(--gs-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(17, 19, 24, .05);
+}
+
+.gs-static-card__body {
+  padding: 1.5rem;
+}
+
+.gs-static-copy {
+  color: var(--gs-muted);
+  font-size: .95rem;
+  line-height: 1.75;
+}
+
+.gs-static-copy h2,
+.gs-static-copy h3,
+.gs-static-copy strong {
+  color: var(--gs-black);
+}
+
+.gs-static-copy h2,
+.gs-static-copy h3 {
+  margin: 1.25rem 0 .6rem;
+  font-weight: 900;
+}
+
+.gs-static-copy h2:first-child,
+.gs-static-copy h3:first-child {
+  margin-top: 0;
+}
+
+.gs-static-copy p {
+  margin-bottom: .9rem;
+}
+
+.gs-static-aside {
+  position: sticky;
+  top: 90px;
+  padding: 1.25rem;
+}
+
+.gs-static-aside h3 {
+  color: var(--gs-black);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.gs-static-list {
+  display: grid;
+  gap: .75rem;
+  padding: 0;
+  margin: 1rem 0 0;
+  list-style: none;
+}
+
+.gs-static-list li {
+  display: flex;
+  gap: .65rem;
+  color: var(--gs-muted);
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.gs-static-list i,
+.gs-static-feature i {
+  color: var(--gs-red);
+}
+
+.gs-static-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.gs-static-feature {
+  padding: 1.15rem;
+}
+
+.gs-static-feature i {
+  font-size: 1.4rem;
+}
+
+.gs-static-feature h3 {
+  margin: .7rem 0 .35rem;
+  color: var(--gs-black);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.gs-static-feature p {
+  margin: 0;
+  color: var(--gs-muted);
+  font-size: .84rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 991.98px) {
+  .gs-static-hero,
+  .gs-static-grid,
+  .gs-static-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gs-static-hero__media {
+    display: none;
+  }
+
+  .gs-static-aside {
+    position: static;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .gs-static-hero {
+    min-height: 230px;
+  }
+
+  .gs-static-hero__content,
+  .gs-static-card__body {
+    padding: 1.35rem;
+  }
+
+  .gs-static-hero h1 {
+    font-size: 1.55rem;
+  }
+}
+
+/* =====================================================================
    Shared surface & navigation polish — applied everywhere for a single,
    consistent look (was previously scoped to admin routes only).
    ===================================================================== */

@@ -132,6 +132,24 @@ export class ProjectDetailComponent implements OnInit {
     this.projectDetails = event;
   }
 
+  onUploadImage(event: any) {
+    if (event?.target?.files?.length > 0) {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+      this.service.uploadImage(this.projectDetails.id, formData).subscribe(
+        (data: any) => {
+          this.projectDetails = data;
+          this.sweetAlert.successMessage('Image updated successfully!');
+        },
+        (error) => {
+          const msg = error?.error?.message || error?.message || 'Failed to upload image. Please try again.';
+          this.sweetAlert.errorMessage(msg);
+        }
+      );
+    }
+  }
+
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
