@@ -3,244 +3,218 @@
   Copied
 </ngb-toast>
 
-<div class="col text-center data-loader mt-5" *ngIf="(dataLoading$ | async)">
-  <div class="spinner-border text-warning" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+<div class="reporting-page">
+  <section class="reporting-panel reporting-list-panel">
+    <div class="reporting-section-header">
+      <div>
+        <h3 class="reporting-title">Activity reports</h3>
+        <p class="reporting-subtitle">Create, filter, export, share, and review submitted reports.</p>
+      </div>
+      <div class="reporting-toolbar">
+        <span class="reporting-count">{{ totalItems }} reports</span>
+        <button type="button" class="btn btn-primary" (click)="openModal()">
+          <i class="bi bi-plus-lg me-2"></i>Report activity
+        </button>
+        <button type="button" class="btn btn-light" (click)="shareModal()">
+          <i class="bi bi-envelope me-2"></i>Share by email
+        </button>
+        <button type="button" class="btn btn-light" ngxClipboard [cbContent]="shareLink" (cbOnSuccess)="linkCopied()">
+          <i class="bi bi-link-45deg me-2"></i>Copy report link
+        </button>
+        <a class="btn btn-light" [href]="shareLink" target="_blank" rel="noopener">
+          <i class="bi bi-box-arrow-up-right me-2"></i>Open report link
+        </a>
+      </div>
+    </div>
 
-<div class="card-body" *ngIf="!(dataLoading$ | async)" >
-
-  <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-    <!--begin::Filter-->
-    <button type="button" (click)="openModal()" class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
-            data-kt-menu-placement="bottom-end">
-      Rapportera aktivitet
-    </button>
-
-
-    <input type="file" name="file" class="form-control form-control file form-control-solid"
-           (change)="onUploadFile($event)" style="display: none" #upload/>
-    <button type="button" class="btn btn-light-primary me-3" (click)="upload.click()"
-            [disabled]="(uploadLoading$ | async)">
-      <ng-container *ngIf="uploadLoading$ | async">
-                <span class="indicator-progress" [style.display]="'block'">
-                <p> {{fileName || "No file uploaded yet."}}</p>
-                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-      </ng-container>
-      <ng-container *ngIf="!(uploadLoading$ | async)">
-        <span class="indicator-label">Ladda upp rapport</span>
-      </ng-container>
-    </button>
-
-    <button type="button"  (click)="shareModal()" class="btn btn-light-primary me-3" data-kt-menu-trigger="click"
-            data-kt-menu-placement="bottom-end">
-      Share Report link
-    </button>
-
-    <button type="button" class="btn btn-secondary" ngxClipboard [cbContent]="shareLink"
-            (cbOnSuccess)="linkCopied()">
-      Kopiera rapportlänk
-    </button>
-
-  </div>
-
-  <div class="pe-10">
-    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
-      Aterrapportering
-    </h2>
-  </div>
-
-  <div class="border p-8 radius-8px mb-10 mt-10">
-    <p style="text-align:left">Search</p>
-    <div class="form-group row">
-      <div class="col-lg-3">
-
-        <div class="input-group sm-3 mb-2">
+    <div class="reporting-filters">
+      <div class="reporting-field">
+        <label>Date from</label>
+        <div class="input-group">
           <input class="form-control" placeholder="yyyy-mm-dd"
                  name="dateFrom" [(ngModel)]="dateFromFld" ngbDatepicker #d="ngbDatepicker">
-          <button class="btn btn-primary  calendar" (click)="d.toggle()" type="button"><i class="far fa-calendar"></i>
+          <button class="btn btn-primary calendar" (click)="d.toggle()" type="button">
+            <i class="far fa-calendar"></i>
           </button>
         </div>
       </div>
-      <div class="col-lg-3">
 
+      <div class="reporting-field">
+        <label>Date to</label>
         <div class="input-group">
           <input class="form-control" placeholder="yyyy-mm-dd"
                  name="dateTo" [(ngModel)]="dateToFld" ngbDatepicker #df="ngbDatepicker">
-          <button class="btn btn-primary  calendar" (click)="df.toggle()" type="button"><i class="far fa-calendar"></i>
+          <button class="btn btn-primary calendar" (click)="df.toggle()" type="button">
+            <i class="far fa-calendar"></i>
           </button>
         </div>
       </div>
-      <div class="col-lg-2">
 
-        <div class="input-group">
-          <input class="form-control" placeholder="ort"
-                 name="locality" [(ngModel)]="locality">
-        </div>
-      </div>
-      <div class="col-lg-1">
-        <div class="input-group">
-          <button class="btn btn-primary" (click)="reportDateSearch()">Sök</button>
-        </div>
+      <div class="reporting-field">
+        <label>Locality</label>
+        <input class="form-control" placeholder="Search locality" name="locality" [(ngModel)]="locality">
       </div>
 
-      <div class="col-lg-1">
-        <div class="input-group">
-          <button class="btn btn-secondary" (click)="reportDateExport()">Exportera</button>
-        </div>
+      <div class="reporting-actions">
+        <button class="btn btn-primary" (click)="reportDateSearch()">
+          <i class="bi bi-search me-2"></i>Search
+        </button>
+        <button class="btn btn-light" (click)="reportDateExport()">
+          <i class="bi bi-download me-2"></i>Export
+        </button>
       </div>
     </div>
 
+    <div class="col text-center data-loader my-5 p-5" *ngIf="dataLoading$ | async">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
-    <div *ngIf="activityReports.length && !(dataLoading$ | async)" class="table-responsive">
-      <table class="table table-bordered gs-7 gy-7 gx-7">
-        <thead>
-        <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
-          <th>
-            <span class="text-gray-500 fs-8 bold">Användare</span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold">Report datum</span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold">Ort</span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold">Plats</span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold">Status</span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold">Actions</span>
-          </th>
-        </tr>
-        </thead>
-        <tbody *ngIf="activityReports && activityReports.length">
-        <tr *ngFor="let report of activityReports">
-          <td>{{ report?.submittedBy ? report.submittedBy : 'N/A' }}</td>
-          <td>{{ report?.reportDate }}</td>
-          <td>{{ report?.locality }}</td>
-          <td>{{ report?.location }}</td>
-          <td>{{ report?.status }}</td>
-          <td>
-            <div class="row">
-              <div class="col-lg-12">
-                <button
-                  type="submit"
-                  class="btn btn-primary btn-sm me-2"
-                  (click)="approve(report.id)"
-                  [disabled]="report.status === 'APPROVED'"
-                  [ngClass]="{'btn-secondary': report.status === 'Godkänd'}"
-                >
-                  Approve
+    <ng-container *ngIf="!(dataLoading$ | async)">
+      <div class="table-responsive reporting-table-wrap" *ngIf="activityReports.length > 0; else noReports">
+        <table class="table reporting-table align-middle">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Submitted by</th>
+            <th>Locality</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th class="text-end">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let report of activityReports">
+            <td class="fw-bold text-dark">{{ report?.reportDate | date: "yyyy-MM-dd" }}</td>
+            <td>{{ report?.submittedBy ? report.submittedBy : 'N/A' }}</td>
+            <td>{{ report?.locality }}</td>
+            <td>{{ report?.location }}</td>
+            <td>
+              <span class="badge text-uppercase"
+                    [ngClass]="{
+                      'light-green-badge': report?.status === 'APPROVED' || report?.status === 'Godkand',
+                      'light-red-badge': report?.status === 'DECLINED' || report?.status === 'Avvisad',
+                      'light-yellow-badge': report?.status !== 'APPROVED' && report?.status !== 'DECLINED' && report?.status !== 'Godkand' && report?.status !== 'Avvisad'
+                    }">
+                {{ report?.status }}
+              </span>
+            </td>
+            <td class="text-end">
+              <div class="reporting-row-actions">
+                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="View"
+                        aria-label="View report" (click)="openView(report.id)">
+                  <i class="bi bi-eye"></i>
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary btn-sm me-2"
-                  (click)="deny(report.id)"
-                  [disabled]="report.status === 'DECLINED' || report.status === 'Avvisad'"
-                  [ngClass]="{'btn-secondary': report.status === 'Avvisad'}"
-                >
-                  Deny
+                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="Edit"
+                        [disabled]="report.status === 'APPROVED' || report.status === 'DECLINED' || report.status === 'Godkand' || report.status === 'Avvisad'"
+                        aria-label="Edit report" (click)="openEdit(report.id)">
+                  <i class="bi bi-pencil"></i>
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary btn-sm me-2"
-                  (click)="openEdit(report.id)"
-                  [disabled]="report.status === 'Godkänd' || report.status === 'Avvisad'"
-                  [ngClass]="{'btn-secondary': report.status === 'Godkänd' || report.status === 'Avvisad'}"
-                >
-                  Edit
+                <button type="button" class="btn btn-icon btn-sm btn-primary"
+                        [disabled]="report.status === 'APPROVED' || report.status === 'Godkand'"
+                        [ngbTooltip]="report.status === 'APPROVED' || report.status === 'Godkand' ? 'Already approved' : null"
+                        aria-label="Approve report" (click)="approve(report.id)">
+                  <i class="bi bi-check2"></i>
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary btn-sm me-2"
-                  (click)="openView(report.id)"
-                >
-                  View
+                <button type="button" class="btn btn-icon btn-sm btn-outline-danger"
+                        [disabled]="report.status === 'DECLINED' || report.status === 'Avvisad'"
+                        [ngbTooltip]="report.status === 'DECLINED' || report.status === 'Avvisad' ? 'Already denied' : null"
+                        aria-label="Deny report" (click)="deny(report.id)">
+                  <i class="bi bi-x-lg"></i>
                 </button>
               </div>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
-        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
-        </ngb-pagination>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex align-items-center justify-content-center justify-content-md-end mt-6">
+          <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
+          </ngb-pagination>
+        </div>
       </div>
+    </ng-container>
 
+    <ng-template #noReports>
+      <div class="reporting-empty">
+        <h4>No reports found</h4>
+        <p>There are no activity reports for the selected period.</p>
+      </div>
+    </ng-template>
+  </section>
+
+  <section class="reporting-panel reporting-documents-panel">
+    <div class="reporting-section-header">
+      <div>
+        <h3 class="reporting-title">Documents</h3>
+        <p class="reporting-subtitle">Uploaded reporting files connected to this project.</p>
+      </div>
+      <div class="reporting-toolbar">
+        <input type="file" name="file" class="form-control form-control file form-control-solid"
+               (change)="onUploadFile($event)" style="display: none" #upload/>
+        <button type="button" class="btn btn-primary" (click)="upload.click()" [disabled]="uploadLoading$ | async">
+          <ng-container *ngIf="uploadLoading$ | async">
+            <span class="indicator-progress" [style.display]="'block'">
+              {{ fileName || "Uploading..." }}
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="!(uploadLoading$ | async)">
+            <span class="indicator-label"><i class="bi bi-upload me-2"></i>Upload document</span>
+          </ng-container>
+        </button>
+      </div>
     </div>
 
-    <div *ngIf="!activityReports.length && !(dataLoading$ | async)">
-      <p class="mt-10">You have not reported any data or your query is wrong</p>
-    </div>
-
-  </div>
-
-
-
-
-
-  <div class="pe-10">
-    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
-      Dokument
-    </h2>
-  </div>
-  <div class="border p-8 radius-8px mb-10 mt-10">
-
-    <div class="table-responsive" *ngIf="projectFiles.length">
-      <table class="table table-bordered gs-7 gy-7 gx-7">
+    <div class="table-responsive reporting-table-wrap" *ngIf="projectFiles && projectFiles.length; else noFiles">
+      <table class="table reporting-table align-middle">
         <thead>
-        <tr class="fw-bold fs-6 text-gray-800 border-bottom border-gray-200">
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Fil </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Datum </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Användarnamn </span>
-          </th>
+        <tr>
+          <th>File</th>
+          <th>Date</th>
+          <th>Username</th>
         </tr>
-
         </thead>
-        <tbody *ngIf="projectFiles && projectFiles.length">
-        <tr *ngFor="let projectFile of projectFiles ">
-          <div class="d-flex align-items-center">
-                  <span class="fw-bold text-blue d-block fs-8 bold cursor-pointer" (click)="viewFileClick(projectFile)">{{
-                    projectFile?.fileName
-                    }}</span>
-          </div>
-          <td>{{projectFile?.createdDateTime}}</td>
-          <td>{{projectFile?.username}}</td>
+        <tbody>
+        <tr *ngFor="let projectFile of projectFiles">
+          <td>
+            <button type="button" class="reporting-file-link" (click)="viewFileClick(projectFile)">
+              {{ projectFile?.fileName }}
+            </button>
+          </td>
+          <td>{{ projectFile?.createdDateTime }}</td>
+          <td>{{ projectFile?.username }}</td>
         </tr>
         </tbody>
       </table>
     </div>
-    <div *ngIf="!projectFiles.length">
-      <p >Inga rapport filer har laddats upp.</p>
+
+    <ng-template #noFiles>
+      <div class="reporting-empty reporting-empty-compact">
+        <h4>No documents uploaded</h4>
+        <p>There are no report files uploaded for this project.</p>
+      </div>
+    </ng-template>
+  </section>
+
+  <section class="reporting-panel reporting-stats-panel">
+    <div class="reporting-section-header">
+      <div>
+        <h3 class="reporting-title">Participant statistics</h3>
+        <p class="reporting-subtitle">Statistics based on the total number of participants.</p>
+      </div>
     </div>
-
-
-  </div>
-
-  <div class="pe-10">
-    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
-     Statistik baserad på total antal deltagare
-    </h2>
-  </div>
-  <div class="row">
     <app-reportcharts></app-reportcharts>
-  </div>
+  </section>
 
-
-  <div class="row">
-    <div class="col-12 d-flex-justify-content-end mt-10">
-      <button *ngIf="projectDetails?.projectPhase === 'REPORTING'" class="btn btn-primary" (click)="confirmCreateFinalReport()">Redovisa projekt</button>
+  <section class="reporting-finalize reporting-action-panel" *ngIf="projectDetails?.projectPhase === 'REPORTING'">
+    <div>
+      <h3 class="reporting-title">Finalize reporting</h3>
+      <p class="reporting-subtitle">Submit the project when reporting is complete.</p>
     </div>
-  </div>
+    <button class="btn btn-primary" (click)="confirmCreateFinalReport()">
+      <i class="bi bi-check-circle me-2"></i>Finalize project
+    </button>
+  </section>
 </div>
