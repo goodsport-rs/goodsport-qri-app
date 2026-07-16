@@ -88,10 +88,6 @@
   text-decoration: none;
 }
 
-.welcome-action i {
-  color: #fff;
-}
-
 .welcome-action:hover {
   background: rgba(255, 255, 255, .22);
 }
@@ -100,7 +96,6 @@
 .welcome-action--primary:hover {
   border-color: #e31b35;
   background: #e31b35;
-  color: #fff;
 }
 
 .welcome-grid {
@@ -118,7 +113,6 @@
 
 .welcome-panel--wide {
   grid-column: 1 / -1;
-  min-height: auto;
   gap: 16px;
   background: #171719;
   color: #fff;
@@ -140,7 +134,6 @@
   font-weight: 800;
 }
 
-.welcome-panel--wide h2,
 .welcome-panel--wide p {
   color: #fff;
 }

@@ -43,7 +43,6 @@
     border-right: 0;
   }
 
-  /* Red active-indicator bar (animates in when the tab is active) */
   &::after {
     content: "";
     position: absolute;
@@ -69,14 +68,9 @@
       transform: scaleX(1);
     }
 
-    /* Emphasise the "Current phase" caption in brand red */
     .fs-8 {
       color: var(--gs-red, #c91523) !important;
     }
-  }
-
-  &.complete:not(.active) {
-    color: var(--gs-black, #111318);
   }
 
   &.locked,
@@ -108,7 +102,6 @@
   transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Active = solid red bubble with a soft focus halo */
 .project-step.active .project-step-index {
   color: #fff;
   background: var(--gs-red, #c91523);
@@ -116,14 +109,12 @@
   box-shadow: 0 0 0 4px rgba(var(--gs-red-rgb, 201, 21, 35), 0.12);
 }
 
-/* Complete = red check on white (outlined) — distinct from the tinted "available" bubble */
 .project-step.complete:not(.active) .project-step-index {
   color: var(--gs-red, #c91523);
   background: #fff;
   border-color: var(--gs-red, #c91523);
 }
 
-/* Locked = neutral grey, clearly disabled */
 .project-step.locked .project-step-index,
 .project-step:disabled .project-step-index {
   color: #9ca3af;
