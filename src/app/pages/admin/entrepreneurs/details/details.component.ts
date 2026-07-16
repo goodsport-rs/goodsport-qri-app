@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 
 import { EntrepreneurService } from 'src/app/core/services/entrepreneurs.service';
+import { ProjectService } from 'src/app/core/services/project.service';
 import { SweetAlertService } from 'src/app/core/services/alert.service';
 import { QuestionnairesService } from 'src/app/core/services/questionnaires.service';
 
@@ -20,11 +21,13 @@ export class EntrepreneurDetailsComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   entrepreneurDetails: any;
   allAnswers: any;
+  allProjects: any = [];
 
   constructor(
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private service: EntrepreneurService,
+    private projectService: ProjectService,
     private sweetAlert: SweetAlertService,
     private quesService: QuestionnairesService
   ) {
@@ -72,6 +75,7 @@ export class EntrepreneurDetailsComponent implements OnInit, OnDestroy {
         (data: any) => {
           this.dataLoadingSubject.next(false);
           this.entrepreneurDetails = data;
+          this.getEntrepreneurProjects();
           if (data.organizationKYCDone) {
             this.getSubmittedKyc();
           }
@@ -79,6 +83,21 @@ export class EntrepreneurDetailsComponent implements OnInit, OnDestroy {
         (error) => {
           this.dataLoadingSubject.next(false);
           this.sweetAlert.errorMessage(error);
+        }
+      );
+    this.unsubscribe.push(sub);
+  }
+
+
+  getEntrepreneurProjects() {
+    const sub = this.projectService
+      .findProjectsByEntrepreneurId(this.entrepreneurId)
+      .subscribe(
+        (data: any) => {
+          this.allProjects = data.content || data;
+        },
+        (error) => {
+          console.log(error);
         }
       );
     this.unsubscribe.push(sub);

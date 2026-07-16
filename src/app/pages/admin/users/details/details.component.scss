@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+
+.profile-pic {
+  .symbol-label {
+    font-size: 2.5rem;
+  }
+}
+
+// Details rows
+.detail-row {
+  background-color: #f9fafb;
+
+  &:nth-child(even) {
+    background-color: transparent;
+  }
+}
+
+.w-150px {
+  min-width: 150px;
+}
+
+.ls-1 {
+  letter-spacing: 0.08em;
+}
+
+// Status toggle rows
+.status-row {
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.toggle-icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.bg-light-danger {
+  background-color: #fff5f8 !important;
+}
+
+.bg-light-success {
+  background-color: #e8fff3 !important;
+}

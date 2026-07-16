@@ -1,242 +1,178 @@
-<div class="d-flex flex-column flex-root">
-  <div class="d-flex flex-column flex-lg-row flex-column-fluid bg-white">
-    <div class="w-lg-600px p-10 p-lg-15 mx-auto">
-      <h1 class="fw-bolder text-dark multicolor-border pb-5 mb-10">
-        Skapa ett Gooodsportskonto
-      </h1>
-
-      <form class="form w-100" [formGroup]="form" novalidate="novalidate" autocomplete="off">
-        <div *ngIf="step === 1">
-          <div class="row mb-10">
-            <div
-              class="form-radio form-check-custom form-radio-solid mx-3 d-flex align-items-center col-md-4 px-0 ">
-                  <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start">
-                    <input class="form-check-input" type="radio" name="accountType" id="entrepreneur"
-                           value="entrepreneur" formControlName="accountType" />
-                  </span>
-              <label for="entrepreneur" class="ms-5 fw-medium cursor-pointer">Jag är Entreprenör</label>
-            </div>
-
-            <div
-              class="form-radio form-check-custom form-radio-solid mx-3 d-flex align-items-center col-md-4 px-0 ">
-                  <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start">
-                    <input class="form-check-input" type="radio" name="accountType" id="investor" value="investor"
-                           formControlName="accountType" />
-                  </span>
-              <label for="investor" class="ms-5 fw-medium cursor-pointer">Jag är Investerare</label>
-            </div>
-          </div>
-          <div class="fv-row mb-10">
-            <label class="form-label fs-6 text-gray-400 fw-medium required">Epost</label>
-            <input class="form-control form-control-lg border-gray-300 h-40" type="email" name="username"
-                   formControlName="username" autocomplete="off" />
-            <div *ngIf="form.get('username')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('username')?.hasError('required')">
-                Email is required
-              </div>
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('username')?.hasError('pattern')">
-                Invalid email address is not allowed
-              </div>
-            </div>
-          </div>
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between mt-n5">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Lösenord</label>
-              </div>
-            </div>
-
-            <input class="form-control form-control-lg border-gray-300 h-40" type="password" name="password"
-                   autocomplete="off" formControlName="password" />
-            <div *ngIf="form.get('password')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('password')?.hasError('required')">
-                Password is required
-              </div>
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('password')?.hasError('minlength')">
-                Password must contain minimum 8 characters
-              </div>
-            </div>
-          </div>
-
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between mt-n5">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Bekräfta lösenord</label>
-              </div>
-            </div>
-
-            <input class="form-control form-control-lg border-gray-300 h-40" type="password" name="confirmPassword"
-                   autocomplete="off" formControlName="confirmPassword" />
-            <div *ngIf="form.get('confirmPassword')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('confirmPassword')?.hasError('required')">
-                Confirm password is required
-              </div>
-              <div class="fv-plugins-message-container invalid-feedback" *ngIf="
-                      form.get('confirmPassword')?.hasError('ConfirmPassword')
-                    ">
-                Password and confirm password didn't match
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="step === 2">
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Förnamn</label>
-              </div>
-            </div>
-
-            <input class="form-control form-control-lg border-gray-300 h-40" type="text" name="firstName"
-                   autocomplete="off" formControlName="firstName" />
-            <div *ngIf="form.get('firstName')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('firstName')?.hasError('required')">
-                First name is required
-              </div>
-            </div>
-          </div>
-
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between mt-n5">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Efternamn</label>
-              </div>
-            </div>
-
-            <input class="form-control form-control-lg border-gray-300 h-40" type="text" name="lastName"
-                   autocomplete="off" formControlName="lastName" />
-            <div class="fv-plugins-message-container invalid-feedback" *ngIf="
-                    form.get('lastName')?.hasError('required') &&
-                    form.get('lastName')?.touched
-                  ">
-              Last name is required
-            </div>
-          </div>
-
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between mt-n5">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Telefonnummer</label>
-              </div>
-            </div>
-
-            <input class="form-control form-control-lg border-gray-300 h-40" type="text" name="phoneNumber"
-                   autocomplete="off" formControlName="phoneNumber" />
-            <div *ngIf="form.get('phoneNumber')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('phoneNumber')?.hasError('required')">
-                Phone number is required
-              </div>
-              <div class="fv-plugins-message-container invalid-feedback" *ngIf="
-                      form.get('phoneNumber')?.hasError('maxlength') ||
-                      form.get('phoneNumber')?.hasError('minlength') ||
-                      form.get('phoneNumber')?.hasError('pattern')
-                    "
-              >
-                form.get('phoneNumber')?.hasError('minlength')
-                ">
-                Invalid phone number is not allowed
-              </div>
-            </div>
-          </div>
-
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between mt-n5">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fs-6 text-gray-400 fw-medium mb-0 required">Organizationnamn</label>
-              </div>
-            </div>
-            <input class="form-control form-control-lg border-gray-300 h-40" type="text" name="organizationName"
-                   formControlName="organizationName" autocomplete="off" />
-            <div *ngIf="form.get('organizationName')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('organizationName')?.hasError('required')">
-                Organization name is required
-              </div>
-            </div>
-          </div>
-
-          <div class="fv-row mb-10">
-            <div class="d-flex justify-content-between mt-n5">
-              <div class="d-flex flex-stack mb-2">
-                <label class="form-label fw-medium text-gray-400 fs-6 mb-0 required">Organizationnummer</label>
-              </div>
-            </div>
-
-            <input class="form-control form-control-lg border-gray-300 h-40" type="text" name="organizationNumber"
-                   autocomplete="off" formControlName="organizationNumber" mask="000000-0000"/>
-            <div *ngIf="form.get('organizationNumber')?.touched">
-              <div class="fv-plugins-message-container invalid-feedback"
-                   *ngIf="form.get('organizationNumber')?.hasError('required')">
-                Organization number is required
-              </div>
-              <div class="fv-plugins-message-container invalid-feedback" *ngIf="
-                      form.get('organizationNumber')?.hasError('maxlength') ||
-                      form.get('organizationNumber')?.hasError('minlength')
-                    ">
-                Invalid organization number is not allowed
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center d-flex justify-content-between align-items-center">
-          <button type="submit" id="kt_sign_in_submit" class="btn h-40px yellow-button fw-medium"
-                  (click)="onClickButton()" [disabled]="isLoading$ | async">
-            <ng-container *ngIf="!(isLoading$ | async)">
-              <span class="indicator-label" *ngIf="step === 1">Fortsätt</span>
-              <span class="indicator-label" *ngIf="step === 2">Signup</span>
-            </ng-container>
-            <ng-container *ngIf="isLoading$ | async">
-                  <span class="indicator-progress" [style.display]="'block'">
-                    Please wait...
-                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                  </span>
-            </ng-container>
-          </button>
-          <div class="text-center">
-
-          </div>
-        </div>
-
-        <div class="text-center d-flex justify-content-between align-items-center mt-5">
-          <div class="text-center">
-            <!-- <div class="text-gray-400 fw-bold fs-4">
-              <a routerLink="/auth/login" id="kt_login_signup" class="link-primary fs-6 text-dark fw-medium">Already have an
-                account?</a>
-            </div> -->
-          </div>
-          <div class="text-center">
-            <div class="text-gray-400 fw-bold fs-4">
-              <a routerLink="/auth/login" id="kt_login_signup" class="link-primary fs-6 text-dark fw-medium">Logga in med befintligt konto</a>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+<div class="gs-auth-form">
+  <!--begin::Heading-->
+  <div class="gs-auth-head">
+    <h1 class="gs-auth-title">Skapa ett konto</h1>
+    <p class="gs-auth-sub mb-0">
+      Gå med i Goodsport och börja skapa social påverkan genom idrott.
+    </p>
   </div>
-</div>
+  <!--end::Heading-->
 
-<!-- <ng-template
-  #formError
-  let-control="control"
-  let-message="message"
-  let-validation="validation"
->
-  <ng-container
-    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-  >
-    <div class="fv-plugins-message-container">
-      <span role="alert">
-        {{ message }}
-      </span>
+  <form class="form w-100" [formGroup]="form" novalidate="novalidate" autocomplete="off">
+    <!--begin::Step 1-->
+    <div *ngIf="step === 1">
+      <!--begin::Account type-->
+      <div class="acct-grid">
+        <label class="acct-card" for="entrepreneur">
+          <input class="acct-radio" type="radio" name="accountType" id="entrepreneur"
+                 value="entrepreneur" formControlName="accountType" />
+          <span class="acct-inner">
+            <i class="bi bi-rocket-takeoff"></i>
+            <span class="acct-title">Jag är Entreprenör</span>
+            <span class="acct-sub">Driv sociala projekt</span>
+          </span>
+        </label>
+
+        <label class="acct-card" for="investor">
+          <input class="acct-radio" type="radio" name="accountType" id="investor"
+                 value="investor" formControlName="accountType" />
+          <span class="acct-inner">
+            <i class="bi bi-graph-up-arrow"></i>
+            <span class="acct-title">Jag är Investerare</span>
+            <span class="acct-sub">Stöd projekt du tror på</span>
+          </span>
+        </label>
+      </div>
+      <!--end::Account type-->
+
+      <div class="gs-field">
+        <label class="gs-label required">Epost</label>
+        <input class="form-control" type="email" name="username"
+               formControlName="username" autocomplete="off" />
+        <div *ngIf="form.get('username')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('username')?.hasError('required')">
+            Email is required
+          </div>
+          <div class="fv-plugins-message-container" *ngIf="form.get('username')?.hasError('pattern')">
+            Invalid email address is not allowed
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-field">
+        <label class="gs-label required">Lösenord</label>
+        <input class="form-control" type="password" name="password"
+               autocomplete="off" formControlName="password" />
+        <div *ngIf="form.get('password')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('password')?.hasError('required')">
+            Password is required
+          </div>
+          <div class="fv-plugins-message-container" *ngIf="form.get('password')?.hasError('minlength')">
+            Password must contain minimum 8 characters
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-field">
+        <label class="gs-label required">Bekräfta lösenord</label>
+        <input class="form-control" type="password" name="confirmPassword"
+               autocomplete="off" formControlName="confirmPassword" />
+        <div *ngIf="form.get('confirmPassword')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('confirmPassword')?.hasError('required')">
+            Confirm password is required
+          </div>
+          <div class="fv-plugins-message-container" *ngIf="form.get('confirmPassword')?.hasError('ConfirmPassword')">
+            Password and confirm password didn't match
+          </div>
+        </div>
+      </div>
     </div>
-  </ng-container>
-</ng-template> -->
+    <!--end::Step 1-->
+
+    <!--begin::Step 2-->
+    <div *ngIf="step === 2">
+      <div class="gs-field">
+        <label class="gs-label required">Förnamn</label>
+        <input class="form-control" type="text" name="firstName"
+               autocomplete="off" formControlName="firstName" />
+        <div *ngIf="form.get('firstName')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('firstName')?.hasError('required')">
+            First name is required
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-field">
+        <label class="gs-label required">Efternamn</label>
+        <input class="form-control" type="text" name="lastName"
+               autocomplete="off" formControlName="lastName" />
+        <div class="fv-plugins-message-container"
+             *ngIf="form.get('lastName')?.hasError('required') && form.get('lastName')?.touched">
+          Last name is required
+        </div>
+      </div>
+
+      <div class="gs-field">
+        <label class="gs-label required">Telefonnummer</label>
+        <input class="form-control" type="text" name="phoneNumber"
+               autocomplete="off" formControlName="phoneNumber" />
+        <div *ngIf="form.get('phoneNumber')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('phoneNumber')?.hasError('required')">
+            Phone number is required
+          </div>
+          <div class="fv-plugins-message-container"
+               *ngIf="form.get('phoneNumber')?.hasError('maxlength') ||
+                      form.get('phoneNumber')?.hasError('minlength') ||
+                      form.get('phoneNumber')?.hasError('pattern')">
+            Invalid phone number is not allowed
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-field">
+        <label class="gs-label required">Organizationnamn</label>
+        <input class="form-control" type="text" name="organizationName"
+               formControlName="organizationName" autocomplete="off" />
+        <div *ngIf="form.get('organizationName')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('organizationName')?.hasError('required')">
+            Organization name is required
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-field">
+        <label class="gs-label required">Organizationnummer</label>
+        <input class="form-control" type="text" name="organizationNumber"
+               autocomplete="off" formControlName="organizationNumber" mask="000000-0000" />
+        <div *ngIf="form.get('organizationNumber')?.touched">
+          <div class="fv-plugins-message-container" *ngIf="form.get('organizationNumber')?.hasError('required')">
+            Organization number is required
+          </div>
+          <div class="fv-plugins-message-container"
+               *ngIf="form.get('organizationNumber')?.hasError('maxlength') ||
+                      form.get('organizationNumber')?.hasError('minlength')">
+            Invalid organization number is not allowed
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end::Step 2-->
+
+    <!--begin::Actions-->
+    <div class="gs-auth-actions">
+      <button type="submit" id="kt_sign_in_submit" class="btn gs-btn-primary"
+              (click)="onClickButton()" [disabled]="isLoading$ | async">
+        <ng-container *ngIf="!(isLoading$ | async)">
+          <span class="indicator-label" *ngIf="step === 1">Fortsätt</span>
+          <span class="indicator-label" *ngIf="step === 2">Skapa konto</span>
+        </ng-container>
+        <ng-container *ngIf="isLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Please wait...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+        </ng-container>
+      </button>
+
+      <button type="button" class="btn gs-btn-ghost" *ngIf="step === 2" (click)="step = 1">
+        <i class="bi bi-arrow-left me-1"></i> Tillbaka
+      </button>
+    </div>
+    <!--end::Actions-->
+
+    <div class="gs-auth-alt">
+      Har du redan ett konto?
+      <a routerLink="/auth/login" id="kt_login_signup">Logga in med befintligt konto</a>
+    </div>
+  </form>
+</div>

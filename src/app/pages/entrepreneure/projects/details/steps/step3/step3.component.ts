@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 @Component({
   selector: 'app-signup-step3',
   templateUrl: './step3.component.html',
+  styleUrls: ['./step3.component.scss'],
 })
 export class Step3Component implements OnInit {
   @Input() projectId: string;
@@ -38,7 +39,7 @@ export class Step3Component implements OnInit {
   uploadLoading$: Observable<boolean>;
   private uploadLoadingSubject: any;
   fileName: string;
-  projectFiles: any;
+  projectFiles: any = [];
   reportUUID: string;
 
   constructor(

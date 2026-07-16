@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
   page = 1;
   totalPages = 0;
+  totalProjects = 0;
   allProjects: any = [];
   questions: any;
   allQuestions: any = [];
@@ -51,6 +52,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.btnPrefLoadingSubject = new BehaviorSubject<boolean>(false);
     this.btnPrefLoading$ = this.btnPrefLoadingSubject.asObservable();
 
+  }
+
+  get recentProjects(): any[] {
+    return (this.allProjects || []).slice(0, 6);
+  }
+
+  get displayName(): string {
+    if (!this.profile) {
+      return '';
+    }
+    return (
+      this.profile.firstName ||
+      this.profile.organizationName ||
+      this.profile.username ||
+      ''
+    );
   }
 
   ngOnInit(): void {
@@ -125,6 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.dataLoadingSubject.next(false);
         this.allProjects = data.content;
         this.totalPages = data.totalPages;
+        this.totalProjects = data.totalElements ?? (data.content ? data.content.length : 0);
       },
       (error) => {
         this.dataLoadingSubject.next(false);

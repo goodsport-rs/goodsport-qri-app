@@ -7,25 +7,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home.component';
 
-
-import { ProjectDetailComponent } from './details/details.component';
-import {
-  Step0Component,
-  Step1Component,
-  Step2Component,
-  Step3Component,
-  Step4Component,
-} from './details/steps/export.steps';
-
 @NgModule({
   declarations: [
     HomeComponent,
-    ProjectDetailComponent,
-    Step0Component,
-    Step1Component,
-    Step2Component,
-    Step3Component,
-    Step4Component,
   ],
   imports: [
     CommonModule,
@@ -36,7 +20,8 @@ import {
       },
       {
         path: 'details/:id',
-        component: ProjectDetailComponent,
+        redirectTo: '/entrepreneur/projects/details/:id',
+        pathMatch: 'full',
       },
     ]),
     NgbModule,

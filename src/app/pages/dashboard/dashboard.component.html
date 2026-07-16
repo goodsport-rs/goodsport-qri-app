@@ -1,56 +1,98 @@
 <!--begin::Dashboard-->
-<div class="container-xxl">
-  <!--begin::Row-->
-  <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-    <!--begin::Col-->
-    <div *ngIf="cards.length === 0" class="col-12">
-      <div class="alert alert-warning" role="alert">
-        No data available.
+<div class="container-xxl dashboard">
+
+  <!--begin::Page heading-->
+  <div class="d-flex flex-column mb-6">
+    <h1 class="dashboard-title mb-1">Dashboard</h1>
+    <span class="dashboard-subtitle">Översikt över plattformens nyckeltal</span>
+  </div>
+  <!--end::Page heading-->
+
+  <!--begin::Stat tiles-->
+  <div class="row g-5 g-xl-8 mb-5 mb-xl-8">
+    <div *ngIf="cards.length === 0 && (dataLoading$ | async) === false" class="col-12">
+      <div class="alert alert-warning" role="alert">No data available.</div>
+    </div>
+
+    <div *ngFor="let card of cards" class="col-sm-6 col-xl-3">
+      <div class="card stat-tile h-100">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <span class="stat-icon">
+              <i class="bi" [ngClass]="card.icon"></i>
+            </span>
+            <span class="stat-label">{{ card.title }}</span>
+          </div>
+          <div class="stat-value">{{ card.value }}</div>
+          <div class="stat-desc">{{ card.description }}</div>
+        </div>
       </div>
     </div>
-    <div *ngFor="let card of cards" class="col-md-6 col-lg-6 col-xl-6 col-xxl-3 mb-md-5 mb-xl-10">
-      <!--begin::Widget-->
-      <div class="card card-flush h-md-100">
-        <div class="card-header">
-          <h3 class="card-title">{{ card.title }}</h3>
-        </div>
-        <div class="card-body">
-          <h1>{{ card.value }}</h1>
-          <p>{{ card.description }}</p>
-        </div>
-      </div>
-      <!--end::Widget-->
-    </div>
-    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
-      <div class="spinner-border text-warning" role="status">
+
+    <div class="col-12 text-center data-loader" *ngIf="dataLoading$ | async">
+      <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <!--end::Col-->
   </div>
-  <!--end::Row-->
+  <!--end::Stat tiles-->
 
-  <!--begin::Row-->
-  <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-    <!--begin::Col-->
-    <div class="col-12">
-      <!--begin::Widget-->
-      <div class="card card-flush h-md-100">
-        <div class="card-header">
-          <h3 class="card-title">Monthly stats</h3>
+  <!--begin::Charts-->
+  <div class="row g-5 g-xl-8">
+    <!--begin::Monthly trend-->
+    <div class="col-xl-7">
+      <div class="card h-100">
+        <div class="card-header border-0 pt-5">
+          <h3 class="card-title flex-column align-items-start">
+            <span class="card-title-main">Projekt över tid</span>
+            <span class="card-title-sub">Antal nya projekt per månad</span>
+          </h3>
         </div>
-        <div class="card-body">
-          <p>This is a big widget with some text content.</p>
-          <apx-chart [series]="categoryChart.series" [chart]="categoryChart.chart" [dataLabels]="categoryChart.dataLabels"
-                     [plotOptions]="categoryChart.plotOptions" [yaxis]="categoryChart.yaxis" [legend]="categoryChart.legend"
-                     [fill]="categoryChart.fill" [stroke]="categoryChart.stroke" [tooltip]="categoryChart.tooltip"
-                     [xaxis]="categoryChart.xaxis" [colors]="categoryChart.colors"></apx-chart>
+        <div class="card-body pt-3">
+          <apx-chart
+            [series]="columnChart.series"
+            [chart]="columnChart.chart"
+            [dataLabels]="columnChart.dataLabels"
+            [stroke]="columnChart.stroke"
+            [markers]="columnChart.markers"
+            [fill]="columnChart.fill"
+            [grid]="columnChart.grid"
+            [yaxis]="columnChart.yaxis"
+            [xaxis]="columnChart.xaxis"
+            [tooltip]="columnChart.tooltip"
+            [colors]="columnChart.colors"></apx-chart>
         </div>
       </div>
-      <!--end::Widget-->
     </div>
-    <!--end::Col-->
+    <!--end::Monthly trend-->
+
+    <!--begin::By category-->
+    <div class="col-xl-5">
+      <div class="card h-100">
+        <div class="card-header border-0 pt-5">
+          <h3 class="card-title flex-column align-items-start">
+            <span class="card-title-main">Projekt per kategori</span>
+            <span class="card-title-sub">Fördelning över kategorier</span>
+          </h3>
+        </div>
+        <div class="card-body pt-3">
+          <apx-chart
+            [series]="categoryChart.series"
+            [chart]="categoryChart.chart"
+            [dataLabels]="categoryChart.dataLabels"
+            [plotOptions]="categoryChart.plotOptions"
+            [grid]="categoryChart.grid"
+            [stroke]="categoryChart.stroke"
+            [yaxis]="categoryChart.yaxis"
+            [xaxis]="categoryChart.xaxis"
+            [fill]="categoryChart.fill"
+            [tooltip]="categoryChart.tooltip"
+            [colors]="categoryChart.colors"></apx-chart>
+        </div>
+      </div>
+    </div>
+    <!--end::By category-->
   </div>
-  <!--end::Row-->
+  <!--end::Charts-->
 </div>
 <!--end::Dashboard-->

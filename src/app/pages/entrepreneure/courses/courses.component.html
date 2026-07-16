@@ -1,40 +1,74 @@
-<div class="card pb-5 mt-5">
-  <div class="row">
-    <div class="col">
-      <div class="text-center mt-15 mb-10">
-        <img class="h-150px" src="./assets/media/illustrations/courses.svg" alt="project-icon" />
-        <h4 class="bold fs-6 mt-8 mb-0">Lär dig hur söker investering till dina sociala projekt och GRI</h4>
-        <p class="text-gray-800 fs-8">
-         Nedan finner du antal online kurser för lära dig mer om social hållbara projekt.
-        </p>
+<div class="ent-courses-page d-grid gap-6">
+  <section class="gs-static-hero">
+    <div class="gs-static-hero__content">
+      <span class="gs-static-hero__kicker">Kunskapsbank</span>
+      <h1>Kurser f&ouml;r starkare sociala projekt</h1>
+      <p>
+        L&auml;r dig hur du utvecklar, finansierar och presenterar socialt h&aring;llbara projekt med tydligare struktur.
+      </p>
+    </div>
+    <div class="gs-static-hero__media" aria-hidden="true">
+      <img src="./assets/media/illustrations/courses.svg" alt="" />
+    </div>
+  </section>
+
+  <section class="row g-4" *ngIf="!(dataLoading$ | async)">
+    <div class="col-lg-4">
+      <div class="courses-summary__item d-flex align-items-center gap-4 bg-white border p-5">
+      <i class="bi bi-play-circle fs-2 text-danger"></i>
+      <div>
+        <strong class="d-block text-dark fw-bolder fs-5">{{ allCourses.length }}</strong>
+        <span class="text-gray-600 fw-bold fs-8">tillg&auml;ngliga kurser</span>
+      </div>
       </div>
     </div>
-  </div>
+    <div class="col-lg-4">
+      <div class="courses-summary__item d-flex align-items-center gap-4 bg-white border p-5">
+      <i class="bi bi-graph-up-arrow fs-2 text-danger"></i>
+      <div>
+        <strong class="d-block text-dark fw-bolder fs-5">GRI</strong>
+        <span class="text-gray-600 fw-bold fs-8">projekt, effekt och rapportering</span>
+      </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="courses-summary__item d-flex align-items-center gap-4 bg-white border p-5">
+      <i class="bi bi-lightbulb fs-2 text-danger"></i>
+      <div>
+        <strong class="d-block text-dark fw-bolder fs-5">Praktiskt</strong>
+        <span class="text-gray-600 fw-bold fs-8">kortformat som g&aring;r att se i egen takt</span>
+      </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="row">
-    <!-- <div class="col-md-11 mx-auto"> -->
-    <div class="col-md-4 mx-auto mt-5 p-5" *ngFor="let data of allCourses">
-      <div class="d-flex justify-content-center">
-        <div class="card-xl-stretch card radius-15px overflow-hidden">
-          <iframe [src]="data?.link" frameborder="0" allowfullscreen class="h-200px"></iframe>
-          <div class="card-body pt-5 pb-5 bg-gray-200 px-6">
-            <div class="m-0">
-              <span class="fs-6 text-dark bold text-dark lh-base">{{
-                data?.title || "-"
-                }}</span>
-            </div>
-          </div>
+  <section class="row g-6" *ngIf="!(dataLoading$ | async) && allCourses.length > 0">
+    <div class="col-xl-4 col-md-6" *ngFor="let data of allCourses; let i = index">
+    <article class="course-card card overflow-hidden h-100 border">
+      <div class="course-card__media">
+        <iframe [src]="data?.link" frameborder="0" allowfullscreen title="Kursvideo"></iframe>
+      </div>
+      <div class="card-body p-5">
+        <span class="course-card__eyebrow text-danger fw-bolder fs-8 text-uppercase">Kurs {{ i + 1 }}</span>
+        <h2 class="text-dark fw-bolder fs-5 mt-2 mb-4">{{ data?.title || "-" }}</h2>
+        <div class="d-flex flex-wrap gap-2 text-gray-600 fw-bold fs-8">
+          <span class="badge badge-light"><i class="bi bi-camera-video text-danger me-1"></i> Video</span>
+          <span class="badge badge-light"><i class="bi bi-clock text-danger me-1"></i> Egen takt</span>
         </div>
       </div>
+    </article>
     </div>
-    <!-- </div> -->
-  </div>
-  <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+  </section>
+
+  <section class="courses-empty bg-white border text-center p-10" *ngIf="!(dataLoading$ | async) && allCourses.length === 0">
+    <img class="mb-4" src="./assets/media/illustrations/norecord.jpg" alt="" />
+    <h2 class="text-dark fw-bolder fs-4">Inga kurser publicerade &auml;n</h2>
+    <p class="text-gray-600 fw-bold mb-0">N&auml;r nya utbildningar finns tillg&auml;ngliga visas de h&auml;r.</p>
+  </section>
+
+  <div class="courses-loader bg-white border" *ngIf="dataLoading$ | async">
     <div class="spinner-border text-warning" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-  </div>
-  <div class="col-md-8 mx-auto d-flex mt-10">
-    <div class="row"></div>
   </div>
 </div>

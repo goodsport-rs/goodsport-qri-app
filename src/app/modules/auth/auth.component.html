@@ -1,10 +1,16 @@
-<div class="d-flex flex-column flex-lg-row flex-column-fluid vh-100">
+<div class="d-flex flex-column flex-lg-row flex-column-fluid vh-100 auth-shell">
   <!--begin::Body-->
-  <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+  <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-8 p-lg-10 order-2 order-lg-1 auth-form-col">
+    <!--begin::Brand (mobile / top) -->
+    <div class="auth-form-brand d-flex d-lg-none align-items-center mb-8">
+      <span class="auth-wordmark">GOOD<span class="text-danger-brand">SPORT</span></span>
+    </div>
+    <!--end::Brand-->
+
     <!--begin::Form-->
     <div class="d-flex flex-center flex-column flex-lg-row-fluid">
       <!--begin::Wrapper-->
-      <div class="w-100 w-lg-50">
+      <div class="w-100 mw-450px">
         <router-outlet></router-outlet>
       </div>
       <!--end::Wrapper-->
@@ -12,30 +18,51 @@
     <!--end::Form-->
 
     <!--begin::Footer-->
-    <div class="d-flex flex-center flex-wrap px-5">
-      <!--begin::Links-->
-      <div class="d-flex fw-semibold text-primary fs-base">
-        <p>Goodsports AB 2025 All rights reserved</p>
+    <div class="d-flex flex-center flex-wrap px-5 pt-8">
+      <div class="d-flex fw-semibold auth-copyright fs-base">
+        <p class="mb-0">© Goodsports AB 2025 · All rights reserved</p>
       </div>
-      <!--end::Links-->
     </div>
     <!--end::Footer-->
   </div>
   <!--end::Body-->
 
   <!--begin::Aside-->
-  <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
-       [ngStyle]="{'background-image': 'url(./assets/media/goodsports/gs_background_7.png)', 'background-size': '100%', 'background-position': 'top'}">
+  <div class="d-flex flex-lg-row-fluid w-lg-50 order-1 order-lg-2 auth-aside"
+       [ngStyle]="{'background-image': 'url(./assets/media/goodsports/gs_background_1.jpg)'}">
     <!--begin::Content-->
-    <div class="d-flex flex-column flex-center py-15 px-5 px-md-15 w-100">
-      <!--begin::Logo-->
+    <div class="auth-aside-inner d-flex flex-column w-100">
+
+      <!--begin::Logo / tagline-->
+      <div class="auth-aside-top">
+        <span class="auth-wordmark">GOOD<span class="text-danger-brand">SPORT</span></span>
+        <span class="auth-aside-tagline">Sport för samhällsutveckling</span>
+      </div>
       <!--end::Logo-->
-      <!--begin::Image-->
-      <!--end::Image-->
-      <!--begin::Title-->
-      <!--end::Title-->
-      <!--begin::Text-->
-      <!--end::Text-->
+
+      <!--begin::Headline-->
+      <div class="auth-aside-headline">
+        <h2 class="auth-aside-title">
+          Sport har kraften att<br />förändra världen.
+        </h2>
+        <p class="auth-aside-text">
+          Skapa, följ och mät sociala projekt som gör verklig skillnad för unga
+          — och bidra till de globala hållbarhetsmålen.
+        </p>
+        <span class="auth-aside-quote">// Nelson Mandela</span>
+      </div>
+      <!--end::Headline-->
+
+      <!--begin::Global goals-->
+      <div class="auth-aside-goals">
+        <span class="auth-aside-goals-label">Vi bidrar till FN:s 17 globala mål</span>
+        <img
+          src="./assets/media/goodsports/global_goals_small.png"
+          alt="FN:s 17 globala mål för hållbar utveckling"
+          class="auth-aside-goals-img" />
+      </div>
+      <!--end::Global goals-->
+
     </div>
     <!--end::Content-->
   </div>

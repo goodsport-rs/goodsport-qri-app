@@ -1,12 +1,59 @@
-<div class="container">
-  <form name="report" [formGroup]="form">
-    <div class="row justify-content-md-center">
-      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-        <div class="report-screen">
-          <div class="report-box">
-            <a href="#" class="login-logo">
-              <h2 class="fw-bolder text-dark mt-2">Rapportera projekt aktivitet</h2>
-            </a>
+<div class="report-page">
+  <section class="report-hero">
+    <div class="report-hero__content">
+      <span class="report-kicker">Goodsport QRI</span>
+      <h1>{{ projectTitle ? projectTitle : 'Aktivitetsrapport' }}</h1>
+      <p>
+        Rapportera aktivitet, deltagare och kort sammanfattning f&ouml;r projektet.
+      </p>
+      <div class="report-meta" *ngIf="organizationName">
+        <span><i class="bi bi-building"></i>{{ organizationName }}</span>
+      </div>
+      <div class="report-meta" *ngIf="reportContextLoading">
+        <span><i class="bi bi-arrow-repeat"></i>H&auml;mtar projektinformation</span>
+      </div>
+      <div class="report-meta" *ngIf="reportContextError">
+        <span><i class="bi bi-exclamation-circle"></i>Kunde inte h&auml;mta projektinformation</span>
+      </div>
+    </div>
+    <div class="report-hero__media" *ngIf="projectImageUrl">
+      <img [src]="projectImageUrl" alt="" />
+    </div>
+  </section>
+
+  <form name="report" [formGroup]="form" class="report-layout">
+    <div class="report-guide">
+      <div class="report-step" [class.active]="btnStatus === 'rep1'" [class.complete]="btnStatus !== 'rep1'">
+        <span>1</span>
+        <div>
+          <strong>Aktivitet</strong>
+          <small>Namn, datum och plats</small>
+        </div>
+      </div>
+      <div class="report-step" [class.active]="btnStatus === 'rep2'" [class.complete]="btnStatus === 'rep3' || btnStatus === 'submit'">
+        <span>2</span>
+        <div>
+          <strong>Deltagare</strong>
+          <small>K&ouml;n, &aring;lder och nya deltagare</small>
+        </div>
+      </div>
+      <div class="report-step" [class.active]="btnStatus === 'rep3' || btnStatus === 'submit'">
+        <span>3</span>
+        <div>
+          <strong>Summering</strong>
+          <small>Publik, f&ouml;r&auml;ldrar och anteckning</small>
+        </div>
+      </div>
+    </div>
+
+    <main class="report-screen">
+      <div class="report-box">
+            <div class="report-form-header">
+              <span>Aktivitetsrapport</span>
+              <h2 *ngIf="btnStatus == 'rep1'">Aktivitetens grunduppgifter</h2>
+              <h2 *ngIf="btnStatus == 'rep2'">Deltagarstatistik</h2>
+              <h2 *ngIf="btnStatus == 'rep3'">Avslutande uppgifter</h2>
+            </div>
             <div class="row gutters" *ngIf="btnStatus == 'rep1'">
               <div class="col-12 mb-6">
                 <div class="form-group">
@@ -248,9 +295,7 @@
               </button>
             </div>
 
-          </div>
-        </div>
       </div>
-    </div>
+    </main>
   </form>
 </div>

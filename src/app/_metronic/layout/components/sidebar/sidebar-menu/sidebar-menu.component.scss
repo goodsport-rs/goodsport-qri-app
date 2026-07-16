@@ -1,0 +1,36 @@
+.sidebar-menu-scroll {
+  margin: 18px 12px;
+}
+
+:host ::ng-deep .menu {
+  gap: 4px;
+}
+
+:host ::ng-deep .menu-link {
+  min-height: 44px;
+  padding: 0 14px;
+  color: rgba(255, 255, 255, .78);
+  border-radius: 10px;
+}
+
+:host ::ng-deep .menu-link:hover,
+:host ::ng-deep .menu-link.active {
+  color: #fff;
+  background: var(--gs-red, #c91523);
+}
+
+:host ::ng-deep .menu-icon {
+  width: 30px;
+  color: inherit;
+}
+
+:host ::ng-deep .menu-title {
+  color: inherit;
+  font-weight: 700;
+}
+
+:host ::ng-deep .menu-icon .ki-duotone,
+:host ::ng-deep .menu-icon .ki-outline,
+:host ::ng-deep .menu-icon .ki-solid {
+  color: inherit;
+}

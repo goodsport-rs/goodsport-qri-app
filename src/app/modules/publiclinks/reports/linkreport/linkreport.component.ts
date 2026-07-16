@@ -1,4 +1,4 @@
-import {Component, OnInit,} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit,} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, AbstractControl} from '@angular/forms';
 import {NgbActiveModal, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {ProjectService} from 'src/app/core/services/project.service';
@@ -15,21 +15,59 @@ export class LinkreportComponent implements OnInit {
   form: FormGroup;
   model: NgbDateStruct;
   editData: any;
-  id: any;
+  id: string;
   btnStatus = 'rep1';
+  projectTitle = '';
+  organizationName = '';
+  projectImageUrl = '';
+  reportContextLoading = false;
+  reportContextError = false;
 
   constructor(public activeModal: NgbActiveModal, private projService: ProjectService,
-              private route: ActivatedRoute, private formBuilder: FormBuilder, private sweetAlert: SweetAlertService,) {
-    this.id = this.route.snapshot.params.id;
+              private route: ActivatedRoute, private formBuilder: FormBuilder, private sweetAlert: SweetAlertService,
+              private cdr: ChangeDetectorRef,) {
   }
 
   ngOnInit(): void {
     this.btnStatus = 'rep1';
     this.buildForm();
+    this.getReportContext();
     if (this.projService.getEditReport()) {
       this.editData = this.projService.getEditReport();
       this.makeEditForm();
     }
+  }
+
+  getReportContext() {
+    this.id = this.getReportLinkId();
+    if (!this.id) {
+      this.reportContextError = true;
+      return;
+    }
+
+    this.reportContextLoading = true;
+    this.reportContextError = false;
+    this.projService.getPublicReportContext(this.id).subscribe(
+      (data: any) => {
+        this.projectTitle = data?.title || '';
+        this.organizationName = data?.organizationName || '';
+        this.projectImageUrl = data?.imageUrl || '';
+        this.reportContextLoading = false;
+        this.cdr.detectChanges();
+      },
+      () => {
+        this.reportContextError = true;
+        this.reportContextLoading = false;
+        this.cdr.detectChanges();
+      }
+    );
+  }
+
+  private getReportLinkId(): string {
+    return this.route.snapshot.paramMap.get('id')
+      || this.route.parent?.snapshot.paramMap.get('id')
+      || window.location.pathname.split('/').filter(Boolean).pop()
+      || '';
   }
 
   makeEditForm() {
