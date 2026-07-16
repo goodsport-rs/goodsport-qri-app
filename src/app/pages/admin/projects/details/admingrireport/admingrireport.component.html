@@ -1,31 +1,36 @@
 <div *ngIf="!(dataLoading$ | async)">
-  <div>
-    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
-      {{questionnaireName}}
-    </h2>
+  <div class="gri-report-toolbar" *ngIf="reports && reports.length">
+    <div class="gri-report-toolbar__meta">
+      <h2 class="gri-report-toolbar__title">{{questionnaireName}}</h2>
+      <p class="gri-report-toolbar__subtitle">Hantera slutrapport och spara ändringar innan godkännande.</p>
+    </div>
+    <div class="gri-report-toolbar__actions">
+      <button class="btn gri-btn gri-btn--primary" (click)="save()">
+        Spara rapport
+      </button>
+      <button class="btn gri-btn gri-btn--secondary" (click)="print($event)" [disabled]="(exportLoading$ | async)">
+        <ng-container *ngIf="exportLoading$ | async">
+          <span class="indicator-progress" [style.display]="'block'">
+            Vänligen vänta...
+            <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="!(exportLoading$ | async)">
+          <span class="indicator-label">Exportera rapport</span>
+        </ng-container>
+      </button>
+      <button class="btn gri-btn gri-btn--danger" (click)="resetFinalReport()">
+        Återställ rapport
+      </button>
+    </div>
   </div>
 
-  <div class="d-flex justify-content-end mb-6" *ngIf="reports">
-    <button mat-raised-button color="primary" class="me-3" (click)="save()">
-      Save Report
-    </button>
-    <button mat-raised-button color="primary" class="me-3" (click)="print($event)" [disabled]="(exportLoading$ | async)">
-      <ng-container *ngIf="exportLoading$ | async">
-        <span class="indicator-progress" [style.display]="'block'">
-          Please wait...
-          <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
-        </span>
-      </ng-container>
-      <ng-container *ngIf="!(exportLoading$ | async)">
-        <span class="indicator-label">Export Report</span>
-      </ng-container>
-    </button>
-    <button mat-raised-button color="primary" class="me-3" (click)="resetFinalReport()">
-      Reset Report
-    </button>
+  <div class="gri-empty" *ngIf="!reports || !reports.length">
+    <h3>Ingen slutrapport tillgänglig</h3>
+    <p>Det finns ännu inga poster att visa för den här rapporten.</p>
   </div>
 
-  <mat-accordion>
+  <mat-accordion *ngIf="reports && reports.length">
     <mat-expansion-panel *ngFor="let rep of reports; index as i">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -69,9 +74,6 @@
           <tr mat-header-row *matHeaderRowDef="['index', 'question', 'answer', 'decision']"></tr>
           <tr mat-row *matRowDef="let row; columns: ['index', 'question', 'answer', 'decision'];"></tr>
         </table>
-      </div>
-      <div *ngIf="!reports">
-        <h2>No Data Found</h2>
       </div>
     </mat-expansion-panel>
   </mat-accordion>

@@ -147,7 +147,7 @@
       </div>
     </div>
     <div class="pe-5 pt-9" *ngIf="projectDetails?.projectStatus !== 'DECLINED' && (projectDetails?.projectPhase !== 'REPORTING' || projectDetails?.projectPhase !== 'FINAL_REPORT')">
-      <button class="btn danger-button w-150px" (click)="onClickApproveReject(rejectProject)">Reject Project</button>
+      <button class="btn danger-button w-150px" (click)="onClickApproveReject(rejectProject)">Avslå projekt</button>
     </div>
   </div>
   <div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed banner-bg">
@@ -179,10 +179,10 @@
               <span class="d-flex flex-column min-w-0 gap-1">
                 <span class="fw-bolder lh-sm text-truncate">{{ item.title }}</span>
                 <span class="fw-bold text-uppercase fs-8 text-gray-500 lh-sm">
-                  <ng-container *ngIf="currentStep$.value === item.step">Current phase</ng-container>
-                  <ng-container *ngIf="currentStep$.value !== item.step && isStepComplete(item.step)">Completed</ng-container>
-                  <ng-container *ngIf="currentStep$.value !== item.step && !isStepComplete(item.step) && isStepValid(item.step)">Available</ng-container>
-                  <ng-container *ngIf="!isStepValid(item.step)">Locked</ng-container>
+                  <ng-container *ngIf="currentStep$.value === item.step">Aktuell fas</ng-container>
+                  <ng-container *ngIf="currentStep$.value !== item.step && isStepComplete(item.step)">Slutförd</ng-container>
+                  <ng-container *ngIf="currentStep$.value !== item.step && !isStepComplete(item.step) && isStepValid(item.step)">Tillgänglig</ng-container>
+                  <ng-container *ngIf="!isStepValid(item.step)">Låst</ng-container>
                 </span>
               </span>
             </button>
@@ -216,19 +216,19 @@
   <!--project reject modal-->
   <ng-template #rejectProject let-modal>
     <div class="modal-header px-7">
-      <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">Reject Project</h4>
+      <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">Avslå projekt</h4>
     </div>
     <div class="modal-body">
-      <p>Are you sure you want to reject this project?</p>
+      <p>Är du säker på att du vill avslå det här projektet?</p>
     </div>
     <div class="modal-footer justify-content-center">
-      <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')" [disabled]="statusLoading$ | async">Discard</button>
+      <button type="button" class="btn btn-light w-175px" (click)="modal.close('Save click')" [disabled]="statusLoading$ | async">Avbryt</button>
       <button type="button" class="btn yellow-button w-175px" (click)="onClickPopupBtn(modal, 'declined')" [disabled]="statusLoading$ | async">
         <ng-container *ngIf="statusLoading$ | async">
-          <span class="indicator-progress" [style.display]="'block'">Please wait...<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+          <span class="indicator-progress" [style.display]="'block'">Vänligen vänta...<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
         </ng-container>
         <ng-container *ngIf="!(statusLoading$ | async)">
-          <span class="indicator-label">Submit</span>
+          <span class="indicator-label">Bekräfta</span>
         </ng-container>
       </button>
     </div>

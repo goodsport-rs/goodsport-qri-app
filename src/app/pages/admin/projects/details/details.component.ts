@@ -38,11 +38,11 @@ export class ProjectDetailComponent implements OnInit {
   comments: string = '';
   projectPhases = ['IDEA', 'PLAN', 'FUNDING', 'REPORTING', 'FINAL_REPORT'];
   projectSteps = [
-    { step: 1, title: 'Idea', phase: 'IDEA', paneId: 'idea' },
+    { step: 1, title: 'Idé', phase: 'IDEA', paneId: 'idea' },
     { step: 2, title: 'Plan', phase: 'PLAN', paneId: 'plan' },
-    { step: 3, title: 'Funding', phase: 'FUNDING', paneId: 'funding' },
-    { step: 4, title: 'Reporting', phase: 'REPORTING', paneId: 'reporting' },
-    { step: 5, title: 'GRI Report', phase: 'FINAL_REPORT', paneId: 'gri-report' },
+    { step: 3, title: 'Finansiering', phase: 'FUNDING', paneId: 'funding' },
+    { step: 4, title: 'Rapportering', phase: 'REPORTING', paneId: 'reporting' },
+    { step: 5, title: 'GRI-rapport', phase: 'FINAL_REPORT', paneId: 'gri-report' },
   ];
   currentPhase: any = 0;
 

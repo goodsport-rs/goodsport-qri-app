@@ -1,39 +1,38 @@
-<div class="pe-10">
-  <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-10">
-    {{questionnaireName}}
-  </h2>
-</div>
-
-<div class="card-body">
-  <app-admingrireport [projectDetails]="projectDetails"></app-admingrireport>
-</div>
-
-<div class="row mt-5" *ngIf="projectDetails?.projectStatus === 'PENDING'">
-  <div class="col d-flex justify-content-end">
-    <!-- <button
-      class="btn blue-transparent-button w-200px me-5"
-      (click)="onClickApproveReject(reworkProject)"
-    >
-      Rework Required
-    </button> -->
-    <button
-      class="btn success-button w-225px me-5"
-      (click)="onClickApproveReject(approveProject)"
-    >
-      Approve FINAL REPORT
-    </button>
+<section class="final-report-page">
+  <div class="final-report-content">
+    <app-admingrireport [projectDetails]="projectDetails"></app-admingrireport>
   </div>
-</div>
+
+  <section
+    class="final-report-approval-panel"
+    *ngIf="projectDetails?.projectStatus === 'PENDING'"
+  >
+    <div class="final-report-approval-panel__content">
+      <h3 class="final-report-approval-panel__title">Godkännande av slutrapport</h3>
+      <p class="final-report-approval-panel__subtitle">
+        Granskningen är klar. Godkänn slutrapporten för att slutföra projektets sista steg.
+      </p>
+    </div>
+    <div class="final-report-approval-panel__actions">
+      <button
+        class="btn success-button final-report-approval-panel__button"
+        (click)="onClickApproveReject(approveProject)"
+      >
+        Godkänn slutrapport
+      </button>
+    </div>
+  </section>
+</section>
 
 <!--project approve modal-->
 <ng-template #approveProject let-modal>
   <div class="modal-header px-7">
-    <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
-      Approve Project
-    </h4>
+  <h4 class="modal-title fw-bolder fs-3" id="modal-basic-title">
+    Godkänn projekt
+  </h4>
   </div>
   <div class="modal-body">
-    <p>Are you sure you want to approve project FINAL REPORT?</p>
+  <p>Är du säker på att du vill godkänna projektets slutrapport?</p>
   </div>
   <div class="modal-footer justify-content-center">
     <button
@@ -42,7 +41,7 @@
       (click)="modal.close('Save click')"
       [disabled]="statusLoading$ | async"
     >
-      Discard
+      Avbryt
     </button>
     <button
       type="button"
@@ -52,14 +51,14 @@
     >
       <ng-container *ngIf="statusLoading$ | async">
         <span class="indicator-progress" [style.display]="'block'">
-          Please wait...
+          Vänligen vänta...
           <span
             class="spinner-border spinner-border-sm align-middle ms-2"
           ></span>
         </span>
       </ng-container>
       <ng-container *ngIf="!(statusLoading$ | async)">
-        <span class="indicator-label">Submit</span>
+        <span class="indicator-label">Bekräfta</span>
       </ng-container>
     </button>
   </div>

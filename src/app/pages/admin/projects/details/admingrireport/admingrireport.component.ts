@@ -1,5 +1,5 @@
-import {Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {Observable, BehaviorSubject} from 'rxjs';
+import {Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Observable, BehaviorSubject, Subscription} from 'rxjs';
 import {SweetAlertService} from 'src/app/core/services/alert.service';
 import {ProjectService} from 'src/app/core/services/project.service';
 import {ActivatedRoute} from '@angular/router';
@@ -11,7 +11,7 @@ import {ViewgriComponent} from '../viewgri/viewgri.component';
   templateUrl: './admingrireport.component.html',
   styleUrls: ['./admingrireport.component.scss']
 })
-export class AdmingrireportComponent implements OnInit {
+export class AdmingrireportComponent implements OnInit, OnDestroy {
   @Input() projectDetails: any;
   dataLoading$: Observable<boolean>;
   exportLoading$: Observable<boolean>;
@@ -29,7 +29,7 @@ export class AdmingrireportComponent implements OnInit {
   questionnaireName : string = '';
 
   // @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
-  private unsubscribe: any;
+  private unsubscribe: Subscription[] = [];
   private questionnaireId: any;
   private questionnaireStatus: any;
 
@@ -133,21 +133,24 @@ export class AdmingrireportComponent implements OnInit {
   }
 
   resetFinalReport() {
-    this.projService.resetReport(this.projectId).subscribe()
-
     const sub = this.projService
       .resetReport(this.projectId)
       .subscribe(
         (data: any) => {
           this.sweetAlert.successMessage(
-            'Project Deleted approved successfully!'
+            'Rapporten har återställts.'
           );
+          this.getList();
         },
         (error) => {
           this.sweetAlert.errorMessage(error);
         }
       );
     this.unsubscribe.push(sub);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }

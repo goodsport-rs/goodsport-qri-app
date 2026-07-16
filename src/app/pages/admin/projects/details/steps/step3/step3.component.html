@@ -2,14 +2,14 @@
   <section class="reporting-panel reporting-controls-panel">
     <div class="reporting-section-header">
       <div>
-        <h3 class="reporting-title">Report controls</h3>
-        <p class="reporting-subtitle">Filter submitted activity reports by date or locality, then export the current period.</p>
+        <h3 class="reporting-title">Rapportkontroller</h3>
+        <p class="reporting-subtitle">Filtrera inskickade aktivitetsrapporter efter datum eller ort och exportera vald period.</p>
       </div>
     </div>
 
     <div class="reporting-filters">
       <div class="reporting-field">
-        <label>Date from</label>
+        <label>Datum från</label>
         <div class="input-group">
           <input class="form-control" placeholder="yyyy-mm-dd"
                  name="dateFrom" [(ngModel)]="dateFromFld" ngbDatepicker #d="ngbDatepicker">
@@ -20,7 +20,7 @@
       </div>
 
       <div class="reporting-field">
-        <label>Date to</label>
+        <label>Datum till</label>
         <div class="input-group">
           <input class="form-control" placeholder="yyyy-mm-dd"
                  name="dateTo" [(ngModel)]="dateToFld" ngbDatepicker #df="ngbDatepicker">
@@ -31,16 +31,16 @@
       </div>
 
       <div class="reporting-field">
-        <label>Locality</label>
-        <input class="form-control" placeholder="Search locality" name="locality" [(ngModel)]="locality">
+        <label>Ort</label>
+        <input class="form-control" placeholder="Sök ort" name="locality" [(ngModel)]="locality">
       </div>
 
       <div class="reporting-actions">
         <button class="btn btn-primary" (click)="reportDateSearch()">
-          <i class="bi bi-search me-2"></i>Search
+          <i class="bi bi-search me-2"></i>Sök
         </button>
         <button class="btn btn-light" (click)="reportDateExport()">
-          <i class="bi bi-download me-2"></i>Export
+          <i class="bi bi-download me-2"></i>Exportera
         </button>
       </div>
     </div>
@@ -49,10 +49,10 @@
   <section class="reporting-panel reporting-list-panel">
     <div class="reporting-section-header">
       <div>
-        <h3 class="reporting-title">Activity reports</h3>
-        <p class="reporting-subtitle">Review, edit, approve, or deny submitted reports.</p>
+        <h3 class="reporting-title">Aktivitetsrapporter</h3>
+        <p class="reporting-subtitle">Granska, redigera, godkänn eller avslå inskickade rapporter.</p>
       </div>
-      <span class="reporting-count">{{ totalItems }} reports</span>
+      <span class="reporting-count">{{ totalItems }} rapporter</span>
     </div>
 
     <div class="col text-center data-loader my-5 p-5" *ngIf="dataLoading$ | async">
@@ -66,18 +66,18 @@
         <table class="table reporting-table align-middle">
           <thead>
           <tr>
-            <th>Date</th>
-            <th>Submitted by</th>
-            <th>Participants / Leaders</th>
-            <th>Locality / Location</th>
+            <th>Datum</th>
+            <th>Inskickad av</th>
+            <th>Deltagare / Ledare</th>
+            <th>Ort / Plats</th>
             <th>Status</th>
-            <th class="text-end">Actions</th>
+            <th class="text-end">Åtgärder</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let v of activityReports">
             <td class="fw-bold text-dark">{{ v?.reportDate | date: "yyyy-MM-dd" }}</td>
-            <td>{{ v?.submittedBy ? v.submittedBy : 'N/A' }}</td>
+            <td>{{ v?.submittedBy ? v.submittedBy : 'Ej angiven' }}</td>
             <td>{{ v?.participants }} / {{ v?.leaders }}</td>
             <td>{{ v?.locality }} / {{ v?.location }}</td>
             <td>
@@ -92,24 +92,24 @@
             </td>
             <td class="text-end">
               <div class="reporting-row-actions">
-                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="View"
-                        aria-label="View report" (click)="openView(v.id)">
+                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="Visa"
+                        aria-label="Visa rapport" (click)="openView(v.id)">
                   <i class="bi bi-eye"></i>
                 </button>
-                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="Edit"
-                        aria-label="Edit report" (click)="openEdit(v.id)">
+                <button type="button" class="btn btn-icon btn-sm btn-light" ngbTooltip="Redigera"
+                        aria-label="Redigera rapport" (click)="openEdit(v.id)">
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button type="button" class="btn btn-icon btn-sm btn-primary"
                         [disabled]="v.status === 'APPROVED'"
-                        [ngbTooltip]="v.status === 'APPROVED' ? 'Already approved' : null"
-                        aria-label="Approve report" (click)="approve(v.id)">
+                        [ngbTooltip]="v.status === 'APPROVED' ? 'Redan godkänd' : null"
+                        aria-label="Godkänn rapport" (click)="approve(v.id)">
                   <i class="bi bi-check2"></i>
                 </button>
                 <button type="button" class="btn btn-icon btn-sm btn-outline-danger"
                         [disabled]="v.status === 'DECLINED'"
-                        [ngbTooltip]="v.status === 'DECLINED' ? 'Already denied' : null"
-                        aria-label="Deny report" (click)="deny(v.id)">
+                        [ngbTooltip]="v.status === 'DECLINED' ? 'Redan avslagen' : null"
+                        aria-label="Avslå rapport" (click)="deny(v.id)">
                   <i class="bi bi-x-lg"></i>
                 </button>
               </div>
@@ -118,8 +118,15 @@
           </tbody>
         </table>
 
-        <div class="d-flex align-items-center justify-content-center justify-content-md-end mt-6">
-          <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="onPageChange()">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-end mt-6 reporting-pagination">
+          <ngb-pagination
+            [collectionSize]="totalItems"
+            [pageSize]="10"
+            [maxSize]="5"
+            [rotate]="true"
+            [boundaryLinks]="true"
+            [(page)]="page"
+            (pageChange)="onPageChange($event)">
           </ngb-pagination>
         </div>
       </div>
@@ -127,8 +134,8 @@
 
     <ng-template #noReports>
       <div class="reporting-empty">
-        <h4>No reports found</h4>
-        <p>There are no activity reports for the selected period.</p>
+        <h4>Inga rapporter hittades</h4>
+        <p>Det finns inga aktivitetsrapporter för vald period.</p>
       </div>
     </ng-template>
   </section>
@@ -136,8 +143,8 @@
   <section class="reporting-panel reporting-documents-panel">
     <div class="reporting-section-header">
       <div>
-        <h3 class="reporting-title">Documents</h3>
-        <p class="reporting-subtitle">Uploaded reporting files connected to this project.</p>
+        <h3 class="reporting-title">Dokument</h3>
+        <p class="reporting-subtitle">Uppladdade rapportfiler kopplade till projektet.</p>
       </div>
     </div>
 
@@ -145,9 +152,9 @@
       <table class="table reporting-table align-middle">
         <thead>
         <tr>
-          <th>File</th>
-          <th>Date</th>
-          <th>Username</th>
+          <th>Fil</th>
+          <th>Datum</th>
+          <th>Användare</th>
         </tr>
         </thead>
         <tbody>
@@ -166,8 +173,8 @@
 
     <ng-template #noFiles>
       <div class="reporting-empty reporting-empty-compact">
-        <h4>No documents uploaded</h4>
-        <p>There are no report files uploaded for this project.</p>
+        <h4>Inga dokument uppladdade</h4>
+        <p>Det finns inga uppladdade rapportfiler för projektet.</p>
       </div>
     </ng-template>
   </section>
@@ -175,8 +182,8 @@
   <section class="reporting-panel reporting-stats-panel">
     <div class="reporting-section-header">
       <div>
-        <h3 class="reporting-title">Participant statistics</h3>
-        <p class="reporting-subtitle">Statistics based on the total number of participants.</p>
+        <h3 class="reporting-title">Deltagarstatistik</h3>
+        <p class="reporting-subtitle">Statistik baserad på det totala antalet deltagare.</p>
       </div>
     </div>
     <app-reportcharts></app-reportcharts>
@@ -184,9 +191,9 @@
 
   <section class="reporting-finalize reporting-action-panel" *ngIf="projectDetails && projectDetails.projectPhase !== 'FINAL_REPORT'">
     <div>
-      <h3 class="reporting-title">Finalize reporting</h3>
-      <p class="reporting-subtitle">Create the GRI report when reporting review is complete.</p>
+      <h3 class="reporting-title">Slutför rapportering</h3>
+      <p class="reporting-subtitle">Skapa GRI-rapport när granskningen av rapporteringen är klar.</p>
     </div>
-    <button class="btn btn-primary" (click)="goStep4()">Create GRI</button>
+    <button class="btn btn-primary" (click)="goStep4()">Skapa GRI</button>
   </section>
 </div>

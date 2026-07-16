@@ -52,7 +52,8 @@ export class Step3Component implements OnInit {
     this.getReportFiles();
   }
 
-  onPageChange() {
+  onPageChange(nextPage: number) {
+    this.page = nextPage;
     console.log("onPageChange" + this.dateToFormatted);
     if (this.dateToFormatted === '' || this.dateFromFormatted === '') {
       console.log("onPageChange is empty");
@@ -97,7 +98,7 @@ export class Step3Component implements OnInit {
     this.service.getProjectReport(obj).subscribe((val: any) => {
       obj.data = val;
       this.service.approveProjectReport(val, obj.projectId, obj.reportId).subscribe((val) => {
-        this.sweetAlert.successMessage('Successfully approved!');
+        this.sweetAlert.successMessage('Rapporten har godkänts.');
         this.getActivityReports();
       }, err => this.sweetAlert.errorMessage(err))
     });
@@ -108,7 +109,7 @@ export class Step3Component implements OnInit {
     this.service.getProjectReport(obj).subscribe((val: any) => {
       obj.data = val;
       this.service.denyProjectReport(val, obj.projectId, obj.reportId).subscribe((val) => {
-        this.sweetAlert.successMessage('Successfully approved!');
+        this.sweetAlert.successMessage('Rapporten har avslagits.');
         this.getActivityReports();
       }, err => this.sweetAlert.errorMessage(err))
     });
@@ -185,9 +186,9 @@ export class Step3Component implements OnInit {
 
   goStep4() {
     this.service.completeReport(this.projectId).subscribe((val) => {
-      this.sweetAlert.successMessage('Report phase completed');
+      this.sweetAlert.successMessage('Rapporteringsfasen är slutförd.');
     }, (err) =>
-      this.sweetAlert.errorMessage('Failed to complete'));
+      this.sweetAlert.errorMessage('Kunde inte slutföra rapporteringen.'));
   }
 
   onClickApproveReject(content: any) {
@@ -206,7 +207,7 @@ export class Step3Component implements OnInit {
         (data: any) => {
           this.statusLoadingSubject.next(false);
           this.sweetAlert.successMessage(
-            'Project REPORTING approved successfully!'
+            'Projektets rapportering har godkänts.'
           );
           modal.close('');
           this.projectDetails = data;

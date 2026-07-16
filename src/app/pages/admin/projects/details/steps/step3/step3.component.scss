@@ -104,28 +104,60 @@
 
 .reporting-table-wrap {
   margin-top: 0;
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
 }
 
 .reporting-table {
+  width: 100%;
   margin-bottom: 0;
-
-  tr,
-  th,
-  td {
-    border-radius: 0 !important;
-  }
+  table-layout: fixed;
+  border-collapse: collapse;
 
   th {
     color: #6b7280;
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-    background: #f9fafb;
+    letter-spacing: 0.04em;
+    background: #f8fafc;
+  }
+
+  > :not(caption) > * > * {
+    padding: 0.8rem 1rem !important;
+    vertical-align: middle;
+    background-clip: padding-box;
+    border-right: 1px solid #eef1f4;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: none !important;
+  }
+
+  > :not(caption) > * > *:last-child {
+    border-right: 0;
+  }
+
+  > tbody > tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  > tbody > tr > td {
+    color: #1f2937;
+    word-break: break-word;
+  }
+
+  > tbody > tr:nth-child(even) > td {
+    background: #fcfdff;
+  }
+
+  > tbody > tr:hover > td {
+    background: #f5f8ff;
   }
 }
 
 .reporting-row-actions {
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   .btn-icon {
     width: 2rem;
@@ -171,6 +203,33 @@
   padding: 1.5rem 1rem;
 }
 
+:host ::ng-deep .reporting-pagination .pagination {
+  margin-bottom: 0;
+  gap: 0.25rem;
+}
+
+:host ::ng-deep .reporting-pagination .page-link {
+  min-width: 2.1rem;
+  height: 2.1rem;
+  color: #374151;
+  font-weight: 700;
+  text-align: center;
+  border-color: #d1d5db;
+  border-radius: 6px;
+}
+
+:host ::ng-deep .reporting-pagination .page-item.active .page-link {
+  color: #fff;
+  background: #c91523;
+  border-color: #c91523;
+}
+
+:host ::ng-deep .reporting-pagination .page-item.disabled .page-link {
+  color: #9ca3af;
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
+
 @media (max-width: 991.98px) {
   .reporting-filters {
     grid-template-columns: 1fr 1fr;
@@ -195,6 +254,7 @@
   }
 
   .reporting-row-actions {
+    flex-wrap: wrap;
     justify-content: flex-start;
   }
 }
