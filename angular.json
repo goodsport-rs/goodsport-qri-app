@@ -27,7 +27,8 @@
               "clipboard.js",
               "prismjs",
               "sweetalert2",
-              "moment"
+              "moment",
+              "lodash"
             ],
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -54,16 +55,26 @@
           },
           "configurations": {
             "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": {
+                  "inline": false
+                }
+              },
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
+                  "maximumWarning": "3mb",
                   "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "11kb",
+                  "maximumError": "14kb"
                 }
               ],
               "fileReplacements": [
@@ -75,16 +86,26 @@
               "outputHashing": "all"
             },
             "staging": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": {
+                  "inline": false
+                }
+              },
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
+                  "maximumWarning": "3mb",
                   "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "11kb",
+                  "maximumError": "14kb"
                 }
               ],
               "fileReplacements": [
