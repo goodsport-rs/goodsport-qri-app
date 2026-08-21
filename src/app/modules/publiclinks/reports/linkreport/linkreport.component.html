@@ -1,301 +1,275 @@
 <div class="report-page">
-  <section class="report-hero">
+  <section class="report-hero" *ngIf="!reportContextLoading && !reportContextError">
     <div class="report-hero__content">
       <span class="report-kicker">Goodsport QRI</span>
-      <h1>{{ projectTitle ? projectTitle : 'Aktivitetsrapport' }}</h1>
-      <p>
-        Rapportera aktivitet, deltagare och kort sammanfattning f&ouml;r projektet.
-      </p>
+      <h1>{{ projectTitle || 'Aktivitetsrapport' }}</h1>
+      <p>Rapportera genomförd aktivitet och deltagarstatistik. Det tar bara några minuter.</p>
       <div class="report-meta" *ngIf="organizationName">
-        <span><i class="bi bi-building"></i>{{ organizationName }}</span>
-      </div>
-      <div class="report-meta" *ngIf="reportContextLoading">
-        <span><i class="bi bi-arrow-repeat"></i>H&auml;mtar projektinformation</span>
-      </div>
-      <div class="report-meta" *ngIf="reportContextError">
-        <span><i class="bi bi-exclamation-circle"></i>Kunde inte h&auml;mta projektinformation</span>
+        <span><i class="bi bi-building" aria-hidden="true"></i>{{ organizationName }}</span>
       </div>
     </div>
     <div class="report-hero__media" *ngIf="projectImageUrl">
-      <img [src]="projectImageUrl" alt="" />
+      <img [src]="projectImageUrl" [alt]="projectTitle || 'Projektbild'" />
     </div>
   </section>
 
-  <form name="report" [formGroup]="form" class="report-layout">
-    <div class="report-guide">
-      <div class="report-step" [class.active]="btnStatus === 'rep1'" [class.complete]="btnStatus !== 'rep1'">
-        <span>1</span>
-        <div>
-          <strong>Aktivitet</strong>
-          <small>Namn, datum och plats</small>
-        </div>
+  <section class="report-state" *ngIf="reportContextLoading" aria-live="polite">
+    <span class="spinner-border" aria-hidden="true"></span>
+    <h2>Kontrollerar rapportlänken</h2>
+    <p>Vänta ett ögonblick medan vi hämtar projektet.</p>
+  </section>
+
+  <section class="report-error-page" *ngIf="reportContextError">
+    <header class="report-error-page__brand">
+      <span class="report-error-page__mark">G</span>
+      <div><strong>Goodsport</strong><span>Quality Reporting Initiative</span></div>
+    </header>
+
+    <div class="report-error-page__content">
+      <div class="report-error-page__icon"><i class="bi bi-link-45deg" aria-hidden="true"></i></div>
+      <span class="status-label">Rapportering inte tillgänglig</span>
+      <h1 *ngIf="reportLinkInvalid">Vi kan inte öppna den här rapportlänken</h1>
+      <h1 *ngIf="!reportLinkInvalid">Vi kunde inte ansluta till projektet</h1>
+      <p class="report-error-page__lead" *ngIf="reportLinkInvalid">
+        Länken verkar vara felaktig, inaktiverad eller utgången. Ingen rapport har skickats och inget formulär behöver fyllas i.
+      </p>
+      <p class="report-error-page__lead" *ngIf="!reportLinkInvalid">
+        Ett tillfälligt tekniskt fel uppstod när projektet skulle hämtas. Ingen information har gått förlorad.
+      </p>
+
+      <div class="report-error-page__help" *ngIf="reportLinkInvalid">
+        <h2>Så här går du vidare</h2>
+        <ul>
+          <li><i class="bi bi-check2" aria-hidden="true"></i><span>Kontrollera att du har öppnat hela länken från meddelandet du fick.</span></li>
+          <li><i class="bi bi-check2" aria-hidden="true"></i><span>Be projektansvarig om en ny rapportlänk om problemet kvarstår.</span></li>
+        </ul>
       </div>
-      <div class="report-step" [class.active]="btnStatus === 'rep2'" [class.complete]="btnStatus === 'rep3' || btnStatus === 'submit'">
-        <span>2</span>
-        <div>
-          <strong>Deltagare</strong>
-          <small>K&ouml;n, &aring;lder och nya deltagare</small>
-        </div>
+
+      <div class="report-error-page__actions">
+        <button type="button" class="btn btn-outline-dark" *ngIf="!reportLinkInvalid" (click)="getReportContext()">
+          <i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Försök igen
+        </button>
+        <a class="btn btn-primary" href="mailto:info@goodsport.se?subject=Problem%20med%20rapportlänk">
+          <i class="bi bi-envelope" aria-hidden="true"></i> Kontakta supporten
+        </a>
       </div>
-      <div class="report-step" [class.active]="btnStatus === 'rep3' || btnStatus === 'submit'">
-        <span>3</span>
-        <div>
-          <strong>Summering</strong>
-          <small>Publik, f&ouml;r&auml;ldrar och anteckning</small>
-        </div>
-      </div>
+      <small>När du kontaktar oss, skicka gärna med rapportlänken så hjälper vi dig snabbare.</small>
     </div>
+  </section>
+
+  <div class="report-layout" *ngIf="!reportContextLoading && !reportContextError">
+    <nav class="report-guide" aria-label="Rapportens steg" *ngIf="!submitted">
+      <button type="button" class="report-step" (click)="goToStep('rep1')"
+              [class.active]="btnStatus === 'rep1'" [class.complete]="btnStatus !== 'rep1'"
+              [attr.aria-current]="btnStatus === 'rep1' ? 'step' : null">
+        <span aria-hidden="true">1</span><div><strong>Aktivitet</strong><small>Datum och plats</small></div>
+      </button>
+      <button type="button" class="report-step" (click)="goToStep('rep2')"
+              [class.active]="btnStatus === 'rep2'" [class.complete]="btnStatus === 'rep3'"
+              [attr.aria-current]="btnStatus === 'rep2' ? 'step' : null">
+        <span aria-hidden="true">2</span><div><strong>Deltagare</strong><small>Antal och ålder</small></div>
+      </button>
+      <button type="button" class="report-step" (click)="goToStep('rep3')"
+              [class.active]="btnStatus === 'rep3'"
+              [attr.aria-current]="btnStatus === 'rep3' ? 'step' : null">
+        <span aria-hidden="true">3</span><div><strong>Kontrollera</strong><small>Granska och skicka</small></div>
+      </button>
+    </nav>
 
     <main class="report-screen">
-      <div class="report-box">
-            <div class="report-form-header">
-              <span>Aktivitetsrapport</span>
-              <h2 *ngIf="btnStatus == 'rep1'">Aktivitetens grunduppgifter</h2>
-              <h2 *ngIf="btnStatus == 'rep2'">Deltagarstatistik</h2>
-              <h2 *ngIf="btnStatus == 'rep3'">Avslutande uppgifter</h2>
+      <section class="report-box confirmation" *ngIf="submitted" aria-live="polite">
+        <div class="confirmation__icon"><i class="bi bi-check-lg" aria-hidden="true"></i></div>
+        <span class="report-kicker">Rapporten är mottagen</span>
+        <h2>Tack, {{ submittedReport?.email }}</h2>
+        <p class="confirmation__lead">Din aktivitetsrapport har skickats till Goodsport och sparats.</p>
+
+        <div class="receipt" *ngIf="receiptId || reportId">
+          <span>Kvittens</span>
+          <strong *ngIf="reportId">Rapport #{{ reportId }}</strong>
+          <code *ngIf="receiptId">{{ receiptId }}</code>
+        </div>
+
+        <div class="review-card">
+          <div class="review-card__header"><h3>Det här skickade du</h3><span>{{ reportDateLabel }}</span></div>
+          <dl class="review-grid">
+            <div><dt>Aktivitet</dt><dd>{{ submittedReport?.title }}</dd></div>
+            <div><dt>Plats</dt><dd>{{ submittedReport?.location }}, {{ submittedReport?.locality }}</dd></div>
+            <div><dt>Deltagare</dt><dd>{{ totalParticipants }} personer</dd></div>
+            <div><dt>Längd</dt><dd>{{ submittedReport?.duration }} minuter</dd></div>
+          </dl>
+        </div>
+
+        <p class="confirmation__hint"><i class="bi bi-info-circle" aria-hidden="true"></i>Du kan spara kvittensnumret om du behöver kontakta Goodsport om rapporten.</p>
+        <button type="button" class="btn btn-outline-dark" (click)="submitAnotherReport()">
+          <i class="bi bi-plus-lg" aria-hidden="true"></i> Rapportera en ny aktivitet
+        </button>
+      </section>
+
+      <form *ngIf="!submitted" name="report" [formGroup]="form" (ngSubmit)="addReport()" novalidate>
+        <div class="report-box">
+          <header class="report-form-header">
+            <span>Steg {{ btnStatus === 'rep1' ? '1 av 3' : btnStatus === 'rep2' ? '2 av 3' : '3 av 3' }}</span>
+            <h2 *ngIf="btnStatus === 'rep1'">Berätta om aktiviteten</h2>
+            <h2 *ngIf="btnStatus === 'rep2'">Fyll i deltagarstatistiken</h2>
+            <h2 *ngIf="btnStatus === 'rep3'">Kontrollera och skicka</h2>
+            <p *ngIf="btnStatus === 'rep1'">Fält markerade med <span aria-hidden="true">*</span> är obligatoriska.</p>
+            <p *ngIf="btnStatus === 'rep2'">Ange 0 om ingen deltagare finns i en kategori.</p>
+            <p *ngIf="btnStatus === 'rep3'">Se över uppgifterna innan rapporten skickas.</p>
+          </header>
+
+          <div class="form-grid" *ngIf="btnStatus === 'rep1'">
+            <div class="form-field form-field--wide">
+              <label for="report-title">Aktivitetens namn <span>*</span></label>
+              <input id="report-title" type="text" class="form-control" formControlName="title" maxlength="150"
+                     placeholder="Till exempel Fotbollsträning" [class.is-invalid]="fieldInvalid('title')">
+              <small class="field-error" *ngIf="fieldInvalid('title')">Ange aktivitetens namn (minst 2 tecken).</small>
             </div>
-            <div class="row gutters" *ngIf="btnStatus == 'rep1'">
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Aktivitetsnamn:</label>
-                  <input type="text" class="form-control form-control-solid" formControlName="title"
-                         placeholder="Activity Name">
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.title.touched && form.controls.title.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Email:</label>
-                  <input type="email" class="form-control form-control-solid" formControlName="email"
-                         placeholder="Email">
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.email.touched && form.controls.email.errors?.required">Detta fält är obligatoriskt</span>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.email.touched && form.controls.email.errors?.pattern">Invalid email</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Aktivietsdatum:</label>
-                  <div class="input-group">
-                    <input class="form-control" placeholder="yyyy-mm-dd"
-                           name="dp" formControlName="reportDate" ngbDatepicker formControlName="reportDate"
-                           #d="ngbDatepicker" dateFormat="dd-MMM-yyyy">
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                        <i class="bi bi-calendar"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.reportDate.touched && form.controls.reportDate.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Ort:</label>
-                  <input type="text" class="form-control form-control-solid" formControlName="locality"
-                         placeholder="Ange ort">
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.locality.touched && form.controls.locality.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Plats:</label>
-                  <input type="text" class="form-control form-control-solid" formControlName="location"
-                         placeholder="Ange Plats">
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.location.touched && form.controls.location.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-                <div class="col-12 mb-6">
-                  <div class="form-group">
-                    <label class="form-label fs-6 fw-medium">Aktivitets tid i minuter</label>
-                    <input type="number" formControlName="duration" class="form-control form-control-solid"
-                           placeholder="Hur månaga minuter var aktiviteteng"/>
-                    <span class="form-text text-danger"
-                          *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">Detta fält är obligatoriskt</span>
-                  </div>
-                </div>
 
+            <div class="form-field form-field--wide">
+              <label for="report-email">E-post för kvittens <span>*</span></label>
+              <input id="report-email" type="email" class="form-control" formControlName="email" autocomplete="email"
+                     placeholder="namn@exempel.se" [class.is-invalid]="fieldInvalid('email')">
+              <small class="field-hint" *ngIf="!fieldInvalid('email')">Används för att identifiera vem som skickat rapporten.</small>
+              <small class="field-error" *ngIf="fieldInvalid('email', 'required')">Ange din e-postadress.</small>
+              <small class="field-error" *ngIf="fieldInvalid('email', 'email')">Ange en giltig e-postadress.</small>
+            </div>
+
+            <div class="form-field">
+              <label for="report-date">Aktivitetsdatum <span>*</span></label>
+              <div class="input-group">
+                <input id="report-date" class="form-control" placeholder="ÅÅÅÅ-MM-DD" formControlName="reportDate"
+                       ngbDatepicker #datePicker="ngbDatepicker" [maxDate]="today" [class.is-invalid]="fieldInvalid('reportDate')">
+                <button class="btn btn-outline-secondary" (click)="datePicker.toggle()" type="button" aria-label="Öppna kalendern">
+                  <i class="bi bi-calendar3" aria-hidden="true"></i>
+                </button>
               </div>
+              <small class="field-error" *ngIf="fieldInvalid('reportDate', 'required')">Välj datum för aktiviteten.</small>
+              <small class="field-error" *ngIf="fieldInvalid('reportDate', 'futureDate')">Datumet kan inte ligga i framtiden.</small>
+            </div>
 
+            <div class="form-field">
+              <label for="report-duration">Längd i minuter <span>*</span></label>
+              <input id="report-duration" type="number" class="form-control" formControlName="duration" min="1" max="1440" step="1"
+                     placeholder="Till exempel 90" [class.is-invalid]="fieldInvalid('duration')">
+              <small class="field-error" *ngIf="fieldInvalid('duration')">Ange hela minuter mellan 1 och 1 440.</small>
+            </div>
 
-              <!-- [disabled]="!(form.controls.reportDate.valid && form.controls.locality.valid && form.controls.title.valid)" -->
-              <button type="submit" class="continue-link btn btn-primary w-25"
-                      [disabled]="!(form.controls.reportDate.valid && form.controls.email.valid && form.controls.locality.valid && form.controls.title.valid)"
-                      (click)="continue('rep2')">Fortsätt
+            <div class="form-field">
+              <label for="report-locality">Ort <span>*</span></label>
+              <input id="report-locality" type="text" class="form-control" formControlName="locality" maxlength="100"
+                     placeholder="Till exempel Stockholm" [class.is-invalid]="fieldInvalid('locality')">
+              <small class="field-error" *ngIf="fieldInvalid('locality')">Ange ort (minst 2 tecken).</small>
+            </div>
+
+            <div class="form-field">
+              <label for="report-location">Plats <span>*</span></label>
+              <input id="report-location" type="text" class="form-control" formControlName="location" maxlength="150"
+                     placeholder="Till exempel Idrottshallen" [class.is-invalid]="fieldInvalid('location')">
+              <small class="field-error" *ngIf="fieldInvalid('location')">Ange plats (minst 2 tecken).</small>
+            </div>
+
+            <div class="form-actions form-field--wide">
+              <button type="button" class="btn btn-primary" (click)="goToStep('rep2')">Fortsätt <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div *ngIf="btnStatus === 'rep2'">
+            <section class="field-section">
+              <div class="field-section__header"><div><h3>Deltagare efter kön</h3><p>Totalt antal samt hur många som deltog för första gången.</p></div></div>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="male-total">Killar totalt <span>*</span></label>
+                  <input id="male-total" type="number" class="form-control" formControlName="maleParticipants" min="0" step="1" [class.is-invalid]="fieldInvalid('maleParticipants')">
+                  <small class="field-error" *ngIf="fieldInvalid('maleParticipants')">Ange ett heltal, 0 eller större.</small>
+                </div>
+                <div class="form-field">
+                  <label for="male-new">Varav nya killar <span>*</span></label>
+                  <input id="male-new" type="number" class="form-control" formControlName="newMaleParticipants" min="0" step="1" [class.is-invalid]="fieldInvalid('newMaleParticipants')">
+                  <small class="field-error" *ngIf="fieldInvalid('newMaleParticipants', 'greaterThanTotal')">Kan inte vara fler än killar totalt.</small>
+                  <small class="field-error" *ngIf="fieldInvalid('newMaleParticipants') && !fieldInvalid('newMaleParticipants', 'greaterThanTotal')">Ange ett heltal, 0 eller större.</small>
+                </div>
+                <div class="form-field">
+                  <label for="female-total">Tjejer totalt <span>*</span></label>
+                  <input id="female-total" type="number" class="form-control" formControlName="femaleParticipants" min="0" step="1" [class.is-invalid]="fieldInvalid('femaleParticipants')">
+                  <small class="field-error" *ngIf="fieldInvalid('femaleParticipants')">Ange ett heltal, 0 eller större.</small>
+                </div>
+                <div class="form-field">
+                  <label for="female-new">Varav nya tjejer <span>*</span></label>
+                  <input id="female-new" type="number" class="form-control" formControlName="newFemaleParticipants" min="0" step="1" [class.is-invalid]="fieldInvalid('newFemaleParticipants')">
+                  <small class="field-error" *ngIf="fieldInvalid('newFemaleParticipants', 'greaterThanTotal')">Kan inte vara fler än tjejer totalt.</small>
+                  <small class="field-error" *ngIf="fieldInvalid('newFemaleParticipants') && !fieldInvalid('newFemaleParticipants', 'greaterThanTotal')">Ange ett heltal, 0 eller större.</small>
+                </div>
+              </div>
+            </section>
+
+            <section class="field-section">
+              <div class="field-section__header"><div><h3>Deltagare efter ålder</h3><p>Summan måste vara samma som antalet killar och tjejer.</p></div><strong class="total-badge">{{ totalAgeGroups }} / {{ totalParticipants }}</strong></div>
+              <div class="form-grid form-grid--three">
+                <div class="form-field"><label for="children">Barn 0–12 <span>*</span></label><input id="children" type="number" class="form-control" formControlName="children" min="0" step="1" [class.is-invalid]="fieldInvalid('children')"><small class="field-error" *ngIf="fieldInvalid('children')">Ange ett heltal, 0 eller större.</small></div>
+                <div class="form-field"><label for="youth">Ungdomar 13–25 <span>*</span></label><input id="youth" type="number" class="form-control" formControlName="youth" min="0" step="1" [class.is-invalid]="fieldInvalid('youth')"><small class="field-error" *ngIf="fieldInvalid('youth')">Ange ett heltal, 0 eller större.</small></div>
+                <div class="form-field"><label for="adults">Vuxna 26+ <span>*</span></label><input id="adults" type="number" class="form-control" formControlName="adults" min="0" step="1" [class.is-invalid]="fieldInvalid('adults')"><small class="field-error" *ngIf="fieldInvalid('adults')">Ange ett heltal, 0 eller större.</small></div>
+              </div>
+              <div class="validation-banner" *ngIf="form.hasError('participantsSumInvalid') && (form.get('children')?.touched || form.get('adults')?.touched)">
+                <i class="bi bi-exclamation-circle" aria-hidden="true"></i><div><strong>Antalen stämmer inte</strong><span>Killar och tjejer är {{ totalParticipants }}, men åldersgrupperna blir {{ totalAgeGroups }}. Justera så att summorna är lika.</span></div>
+              </div>
+            </section>
+
+            <section class="field-section">
+              <div class="field-section__header"><div><h3>Ledare</h3><p>Fyll i 0 om inga ledare deltog.</p></div></div>
+              <div class="form-grid">
+                <div class="form-field"><label for="leaders">Ledare</label><input id="leaders" type="number" class="form-control" formControlName="leaders" min="0" step="1" [class.is-invalid]="fieldInvalid('leaders')"><small class="field-error" *ngIf="fieldInvalid('leaders')">Ange ett heltal, 0 eller större.</small></div>
+              </div>
+            </section>
+
+            <div class="form-actions form-actions--split">
+              <button type="button" class="btn btn-light" (click)="goToStep('rep1')"><i class="bi bi-arrow-left" aria-hidden="true"></i> Tillbaka</button>
+              <button type="button" class="btn btn-primary" (click)="goToStep('rep3')">Fortsätt <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+            </div>
+          </div>
+
+          <div *ngIf="btnStatus === 'rep3'">
+            <div class="review-card">
+              <div class="review-card__header"><h3>Aktiviteten</h3><button type="button" (click)="goToStep('rep1')">Ändra</button></div>
+              <dl class="review-grid">
+                <div><dt>Namn</dt><dd>{{ form.get('title')?.value }}</dd></div>
+                <div><dt>Datum</dt><dd>{{ reportDateLabel }}</dd></div>
+                <div><dt>Plats</dt><dd>{{ form.get('location')?.value }}, {{ form.get('locality')?.value }}</dd></div>
+                <div><dt>Längd</dt><dd>{{ form.get('duration')?.value }} minuter</dd></div>
+              </dl>
+            </div>
+
+            <div class="review-card">
+              <div class="review-card__header"><h3>Deltagare</h3><button type="button" (click)="goToStep('rep2')">Ändra</button></div>
+              <dl class="review-grid review-grid--numbers">
+                <div><dt>Totalt</dt><dd>{{ totalParticipants }}</dd></div>
+                <div><dt>Killar</dt><dd>{{ form.get('maleParticipants')?.value }}</dd></div>
+                <div><dt>Tjejer</dt><dd>{{ form.get('femaleParticipants')?.value }}</dd></div>
+                <div><dt>Ledare</dt><dd>{{ form.get('leaders')?.value || 0 }}</dd></div>
+              </dl>
+            </div>
+
+            <section class="field-section field-section--final">
+              <div class="field-section__header"><div><h3>Kompletterande uppgifter</h3><p>Valfritt, men hjälper till att ge en bättre bild av aktiviteten.</p></div></div>
+              <div class="form-grid">
+                <div class="form-field"><label for="spectators">Publik</label><input id="spectators" type="number" class="form-control" formControlName="spectator" min="0" step="1" [class.is-invalid]="fieldInvalid('spectator')"><small class="field-error" *ngIf="fieldInvalid('spectator')">Ange ett heltal, 0 eller större.</small></div>
+                <div class="form-field"><label for="parents">Föräldrar på plats</label><input id="parents" type="number" class="form-control" formControlName="parents" min="0" step="1" [class.is-invalid]="fieldInvalid('parents')"><small class="field-error" *ngIf="fieldInvalid('parents')">Ange ett heltal, 0 eller större.</small></div>
+                <div class="form-field form-field--wide"><label for="summary">Kort sammanfattning</label><textarea id="summary" class="form-control" formControlName="summary" rows="5" maxlength="2000" placeholder="Vad gjorde ni och hur gick aktiviteten?"></textarea><small class="field-hint field-hint--right">{{ form.get('summary')?.value?.length || 0 }} / 2 000</small></div>
+              </div>
+            </section>
+
+            <div class="submit-error" *ngIf="submitError" role="alert"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i><div><strong>Rapporten skickades inte</strong><span>{{ submitError }}</span></div></div>
+
+            <div class="form-actions form-actions--split">
+              <button type="button" class="btn btn-light" (click)="goToStep('rep2')" [disabled]="isSubmitting"><i class="bi bi-arrow-left" aria-hidden="true"></i> Tillbaka</button>
+              <button type="submit" class="btn btn-primary btn-submit" [disabled]="isSubmitting">
+                <span class="spinner-border spinner-border-sm" *ngIf="isSubmitting" aria-hidden="true"></span>
+                <i class="bi bi-send" *ngIf="!isSubmitting" aria-hidden="true"></i>
+                {{ isSubmitting ? 'Skickar rapporten…' : 'Skicka rapporten' }}
               </button>
             </div>
-
-            <div class="row gutters" *ngIf="btnStatus == 'rep2'">
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Total killar:</label>
-                  <input type="number" formControlName="maleParticipants" class="form-control form-control-solid"
-                         placeholder="Total Number of boys">
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.maleParticipants.touched && form.controls.maleParticipants.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Total tjejer:</label>
-                  <input type="number" formControlName="femaleParticipants" class="form-control form-control-solid"
-                         placeholder="Total Number of girls"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.femaleParticipants.touched && form.controls.femaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Ledare:</label>
-                  <input type="number" formControlName="leaders" class="form-control form-control-solid"
-                         placeholder="Total Number of Leaders"/>
-                </div>
-              </div>
-
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Varav nya killar:</label>
-                  <input type="number" formControlName="newMaleParticipants" class="form-control form-control-solid"
-                         placeholder="Number of new boys"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.newMaleParticipants.touched && (form.controls.newMaleParticipants.errors?.required || form.controls.newMaleParticipants.errors?.newParticipantsInvalid)">
-                    <!-- Error message for required validation -->
-                    <span *ngIf="form.controls.newMaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
-                    <!-- Error message for custom validation -->
-                    <span *ngIf="form.controls.newMaleParticipants.errors?.newParticipantsInvalid">Antalet nya killar måste vara mindre än eller lika med det totala antalet killar</span>
-                  </span>
-                </div>
-              </div>
-
-              <div class="col-md-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Varav nya tjejer:</label>
-                  <input type="number" formControlName="newFemaleParticipants" class="form-control form-control-solid"
-                         placeholder="Number of new girls"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.newFemaleParticipants.touched && (form.controls.newFemaleParticipants.errors?.required || form.controls.newFemaleParticipants.errors?.newParticipantsInvalid)">
-                    <!-- Error message for required validation -->
-                    <span *ngIf="form.controls.newFemaleParticipants.errors?.required">Detta fält är obligatoriskt</span>
-                    <!-- Error message for custom validation -->
-                    <span *ngIf="form.controls.newFemaleParticipants.errors?.newParticipantsInvalid">Antalet nya tjejer måste vara mindre än eller lika med det totala antalet tjejer</span>
-                  </span>                       
-                </div>
-              </div>
-
-              <div class="col-md-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Varav barn ensamkommande:</label>
-                  <input type="number" formControlName="unaccompaniedMinors" class="form-control form-control-solid"
-                         placeholder="Total Number of unaccompanied children"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.unaccompaniedMinors.touched && form.controls.unaccompaniedMinors.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-md-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Varav nya barn ensamkommande:</label>
-                  <input type="number" formControlName="newUnaccompaniedMinors" class="form-control form-control-solid"
-                         placeholder="Number of new unaccompanied children"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.newUnaccompaniedMinors.touched && (form.controls.newUnaccompaniedMinors.errors?.required || form.controls.newUnaccompaniedMinors.errors?.newParticipantsInvalid)">
-                    <!-- Error message for required validation -->
-                    <span *ngIf="form.controls.newUnaccompaniedMinors.errors?.required">Detta fält är obligatoriskt</span>
-                    <!-- Error message for custom validation -->
-                    <span *ngIf="form.controls.newUnaccompaniedMinors.errors?.newParticipantsInvalid">Antalet nya barn måste vara mindre än eller lika med det totala antalet barn</span>
-                  </span>                        
-                </div>
-              </div>
-              <div class="col-md-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Varav antal barn (0 - 12)</label>
-                  <input type="number" formControlName="children" class="form-control form-control-solid"
-                         placeholder="Number of new children"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.newUnaccompaniedMinors.touched && form.controls.children.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-md-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Varav antal ungdomar (13 - 25)</label>
-                  <input type="number" formControlName="youth" class="form-control form-control-solid"
-                         placeholder="Number of new youth"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.youth.touched && form.controls.youth.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-              <div class="col-md-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6  fw-medium">Varav antal vuxna (26+)</label>
-                  <input type="number" formControlName="adults" class="form-control form-control-solid"
-                         placeholder="Number of adults"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.adults.touched && form.controls.adults.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-
-              <span class="form-text text-danger"
-                    *ngIf="((this.form.controls.femaleParticipants.valid
-                    && this.form.controls.maleParticipants.valid
-                    && this.form.controls.children.valid                    
-                    && this.form.controls.youth.valid
-                    && this.form.controls.adults.valid) && 
-                    form.errors?.participantsSumInvalid)">
-                    Summan av killar och tjejer ({{ form.errors?.participantsSumInvalid.sumParticipants }}) 
-                    ska vara lika med summan av barn, ungdomar och vuxna ({{ form.errors?.participantsSumInvalid.sumAgeGroups }})
-                  </span>
-
-              <button type="submit" class="continue-link btn btn-primary w-25" [disabled]="!(this.form.controls.femaleParticipants.valid
-              && this.form.controls.newFemaleParticipants.valid
-              && this.form.controls.unaccompaniedMinors.valid
-              && this.form.controls.newUnaccompaniedMinors.valid
-              && this.form.controls.newMaleParticipants.valid
-              && this.form.controls.maleParticipants.valid
-              && !form.errors?.participantsSumInvalid)"
-                      (click)="continue('rep3')">Fortsätt
-              </button>
-            </div>
-
-            <div class="row gutters" *ngIf="btnStatus == 'rep3'">
-
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Publik:</label>
-                  <input type="number" formControlName="spectator" class="form-control form-control-solid"
-                         placeholder="Number of spectators"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.spectator.touched && form.controls.spectator.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Föräldrar:</label>
-                  <input type="number" formControlName="parents" class="form-control form-control-solid"
-                         placeholder="How many parents were present during the evening"/>
-                  <span class="form-text text-danger"
-                        *ngIf="form.controls.parents.touched && form.controls.parents.errors?.required">Detta fält är obligatoriskt</span>
-                </div>
-              </div>
-
-
-
-              <div class="col-12 mb-6">
-                <div class="form-group">
-                  <label class="form-label fs-6 fw-medium">Sammanfattning:</label>
-                  <textarea class="form-control form-control-solid" formControlName="summary" id="validationTextarea"
-                            placeholder="Brief Summary"></textarea>
-                </div>
-              </div>
-
-              <button type="submit" class="continue-link btn btn-primary w-25" (click)="continue('submit')">Skicka
-              </button>
-            </div>
-
-      </div>
+          </div>
+        </div>
+      </form>
     </main>
-  </form>
+  </div>
 </div>
