@@ -68,7 +68,12 @@ export class ReportPdfService {
         .then(([pdfMakeModule, fontModule]: any[]) => {
           const pdfMake = pdfMakeModule.default ?? pdfMakeModule;
           const fonts = fontModule.default ?? fontModule;
-          pdfMake.vfs = fonts.pdfMake?.vfs ?? fonts.vfs;
+          // pdfmake 0.2.7+ (incl. 0.2.17) exports the vfs map directly from
+          // build/vfs_fonts, i.e. { "Roboto-Medium.ttf": ... }. Older builds
+          // nested it under .pdfMake.vfs or .vfs. Fall back to the map itself,
+          // otherwise pdfMake.vfs is undefined and fonts fail to load
+          // ("File 'Roboto-Medium.ttf' not found in virtual file system").
+          pdfMake.vfs = fonts.pdfMake?.vfs ?? fonts.vfs ?? fonts;
           return pdfMake;
         });
     }
