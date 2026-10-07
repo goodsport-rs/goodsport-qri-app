@@ -32,7 +32,7 @@ export class ReportPdfService {
           this.tableHeader(['Datum', 'Aktivitet', 'Ort', 'Plats', 'Kvinnor', 'Män', 'Ledare', 'Timmar']), ...rows,
         ]}, layout: this.reportTableLayout()} : {text: 'Det finns inga aktiviteter för den valda perioden.', style: 'empty'},
       ],
-      styles: this.styles(), defaultStyle: {font: 'Roboto', fontSize: 8, color: '#24313d'},
+      styles: this.styles(), defaultStyle: {font: 'Roboto', fontSize: 8, color: '#2b2f36'},
     };
     const pdfMake = await this.pdfMake();
     pdfMake.createPdf(definition).download(this.fileName('aktivitetsrapport', data?.projectName));
@@ -56,7 +56,7 @@ export class ReportPdfService {
       pageSize: 'A4', pageMargins: [40, 52, 40, 44],
       info: {title: `Slutrapport – ${this.text(data?.projectTitle, 'Projekt')}`, creator: 'Goodsport QRI'},
       header: this.header('SLUTRAPPORT'), footer: this.footer(), content,
-      styles: this.styles(), defaultStyle: {font: 'Roboto', fontSize: 9, color: '#24313d'},
+      styles: this.styles(), defaultStyle: {font: 'Roboto', fontSize: 9, color: '#2b2f36'},
     };
     const pdfMake = await this.pdfMake();
     pdfMake.createPdf(definition).download(this.fileName('slutrapport', data?.projectTitle));
@@ -82,8 +82,8 @@ export class ReportPdfService {
 
   private header(label: string): any {
     return {columns: [
-      {text: 'GOODSPORT', bold: true, color: '#0b6b57', fontSize: 11},
-      {text: label, alignment: 'right', color: '#64717d', fontSize: 8},
+      {text: 'GOODSPORT', bold: true, color: '#c91523', fontSize: 11},
+      {text: label, alignment: 'right', color: '#6b7280', fontSize: 8},
     ], margin: [40, 20, 40, 0]};
   }
 
@@ -91,34 +91,34 @@ export class ReportPdfService {
     return (currentPage: number, pageCount: number) => ({columns: [
       {text: `Skapad ${new Intl.DateTimeFormat('sv-SE').format(new Date())}`},
       {text: `Sida ${currentPage} av ${pageCount}`, alignment: 'right'},
-    ], color: '#77838e', fontSize: 7, margin: [40, 12, 40, 0]});
+    ], color: '#6b7280', fontSize: 7, margin: [40, 12, 40, 0]});
   }
 
   private metric(label: string, value: unknown): any {
     return {stack: [
-      {text: label, color: '#64717d', fontSize: 7},
-      {text: this.number(value), color: '#173f38', bold: true, fontSize: 15, margin: [0, 3, 0, 0]},
+      {text: label, color: '#6b7280', fontSize: 7},
+      {text: this.number(value), color: '#c91523', bold: true, fontSize: 15, margin: [0, 3, 0, 0]},
     ], margin: [8, 7, 8, 7]};
   }
 
   private styles(): any {
     return {
-      title: {fontSize: 20, bold: true, color: '#173f38', margin: [0, 0, 0, 4]},
-      period: {fontSize: 10, color: '#64717d', margin: [0, 0, 0, 8]},
-      sectionTitle: {fontSize: 12, bold: true, color: '#173f38', margin: [0, 0, 0, 8]},
-      groupTitle: {fontSize: 12, bold: true, color: '#173f38', margin: [0, 18, 0, 7]},
-      empty: {italics: true, color: '#64717d', margin: [0, 6, 0, 10]},
+      title: {fontSize: 20, bold: true, color: '#111318', margin: [0, 0, 0, 4]},
+      period: {fontSize: 10, color: '#6b7280', margin: [0, 0, 0, 8]},
+      sectionTitle: {fontSize: 12, bold: true, color: '#111318', margin: [0, 0, 0, 8]},
+      groupTitle: {fontSize: 12, bold: true, color: '#111318', margin: [0, 18, 0, 7]},
+      empty: {italics: true, color: '#6b7280', margin: [0, 6, 0, 10]},
     };
   }
 
   private cardLayout(): any {
-    return {hLineColor: () => '#dfe8e5', vLineColor: () => '#dfe8e5', fillColor: () => '#f5f9f8'};
+    return {hLineColor: () => '#f1d0d4', vLineColor: () => '#f1d0d4', fillColor: () => '#fff1f2'};
   }
 
   private reportTableLayout(): any {
     return {
-      fillColor: (rowIndex: number) => rowIndex === 0 ? '#0b6b57' : rowIndex % 2 === 0 ? '#f5f9f8' : null,
-      hLineColor: () => '#dfe8e5', vLineColor: () => '#dfe8e5',
+      fillColor: (rowIndex: number) => rowIndex === 0 ? '#111318' : rowIndex % 2 === 0 ? '#f7f8fa' : null,
+      hLineColor: () => '#e5e7eb', vLineColor: () => '#e5e7eb',
       paddingLeft: () => 6, paddingRight: () => 6, paddingTop: () => 5, paddingBottom: () => 5,
     };
   }
