@@ -11,6 +11,7 @@ import {SharemodalComponent} from '../../../addreport/sharemodal/sharemodal.comp
 import {ViewReportComponent} from '../../../addreport/view-report/view-report.component';
 import * as moment from "moment";
 import Swal from "sweetalert2";
+import {ReportPdfService} from 'src/app/core/services/report-pdf.service';
 
 @Component({
   selector: 'app-signup-step3',
@@ -47,6 +48,7 @@ export class Step3Component implements OnInit {
     private sweetAlert: SweetAlertService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
+    private reportPdf: ReportPdfService,
   ) {
     this.projectId = this.route.snapshot.params.id;
     this.service.setProjectId(this.projectId);
@@ -235,7 +237,6 @@ export class Step3Component implements OnInit {
 
 
   reportDateExport() {
-    console.log("Export data");
     if (this.dateToFld === undefined || this.dateFromFld == undefined) {
       this.sweetAlert.errorMessage('Start och slutdatum krävs!');
     } else {
@@ -248,19 +249,12 @@ export class Step3Component implements OnInit {
       this.dataLoadingSubject.next(true);
 
       const sub = this.service
-        .findProjectReportsByIdAndRangeExport(this.projectId, this.dateFromFormatted, this.dateToFormatted, this.locality)
+        .findProjectReportsForDocument(this.projectId, this.dateFromFormatted, this.dateToFormatted, this.locality)
         .subscribe(
           (data: any) => {
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            document.body.appendChild(a);
-            a.setAttribute('style', 'display: none');
-            a.href = url;
-            a.download = "report_export.docx";
-            a.click();
-            window.URL.revokeObjectURL(url);
-            this.dataLoadingSubject.next(false);
-            a.remove();
+            this.reportPdf.downloadActivityReport(data)
+              .catch(() => this.sweetAlert.errorMessage('PDF-filen kunde inte skapas. Försök igen eller kontakta supporten.'))
+              .finally(() => this.dataLoadingSubject.next(false));
           },
           (error) => {
             this.dataLoadingSubject.next(false);

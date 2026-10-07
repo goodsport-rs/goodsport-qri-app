@@ -90,76 +90,58 @@
   </div>
 
 
-  <div class="card mt-7 radius-15px py-3"  *ngIf="investments.length > 0">
+  <div class="card mt-7 radius-15px py-3">
     <div class="card-header border-0 mb-0">
       <div class="card-title mt-3">
-        <h4 class="fs-3 fw-bolder">Investments</h4>
+        <h4 class="fs-3 fw-bolder">
+          Investments
+          <span class="badge bg-light text-gray-600 ms-2" *ngIf="totalItems !== undefined">{{ totalItems }}</span>
+        </h4>
       </div>
-      <div class="card-toolbar text-end mt-5 pe-5"></div>
     </div>
     <div class="card-body">
-      <div class="table-responsive">
-        <table
-          class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
-        >
+      <div *ngIf="!(dataLoading$ | async) && (!investments || investments.length === 0)" class="table-empty-state py-8">
+        <i class="bi bi-wallet2"></i>
+        <h6>No investments found</h6>
+        <p>No investment records are available for this investor.</p>
+      </div>
+
+      <div class="table-responsive" *ngIf="investments && investments.length > 0">
+        <table class="table align-middle">
           <thead>
-          <tr>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Project </span>
-            </th>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Status </span>
-            </th>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Created date </span>
-            </th>
-          </tr>
+            <tr>
+              <th>Project</th>
+              <th>Status</th>
+              <th class="text-end">Created Date</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let investment of investments">
-
-            <td>
-
-              <a
-                [routerLink]="['/admin/projects/details',investment.projectId]"
-                class="text-dark fw-bolder text-hover-primary mb-0 fs-12"
-              >{{ investment.projectName }}</a>
-
-
-            </td>
-
-            <td>
-                <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                      *ngIf=" investment.investmentStatus === 'APPROVED'">APPROVED</span>
-              <span class="badge light-red-badge  fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                    *ngIf=" investment.investmentStatus === 'DECLINED'">DECLINED</span>
-              <span class="badge dark-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                    *ngIf=" investment.investmentStatus === 'PENDING'">PENDING</span>
-
-            </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-11">
-                {{ investment.createdDateTime }}</span
-              >
-            </td>
-          </tr>
+            <tr *ngFor="let investment of investments">
+              <td>
+                <a [routerLink]="['/admin/projects/details', investment.projectId]"
+                   class="text-dark fw-bolder text-hover-primary mb-0 fs-7">
+                  {{ investment.projectName }}
+                </a>
+              </td>
+              <td>
+                <span class="badge light-green-badge fw-bolder px-3 py-2 rounded-pill text-uppercase"
+                      *ngIf="investment.investmentStatus === 'APPROVED'">APPROVED</span>
+                <span class="badge light-red-badge fw-bolder px-3 py-2 rounded-pill text-uppercase"
+                      *ngIf="investment.investmentStatus === 'DECLINED'">DECLINED</span>
+                <span class="badge dark-yellow-badge fw-bolder px-3 py-2 rounded-pill text-uppercase"
+                      *ngIf="investment.investmentStatus === 'PENDING'">PENDING</span>
+              </td>
+              <td class="text-end">
+                <span class="text-muted fw-semibold fs-8">{{ investment.createdDateTime }}</span>
+              </td>
+            </tr>
           </tbody>
-          <!--end::Table body-->
         </table>
-        <!--end::Table-->
 
-        <div
-          class="col text-center data-loader mt-5 p-5 pt-7"
-          *ngIf="dataLoading$ | async"
-        >
-          <div class="spinner-border text-warning" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="table-footer">
+          <div class="table-footer-info">
+            Visar {{ investments.length }} av {{ totalItems }} investeringar
           </div>
-        </div>
-
-        <div
-          class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
-        >
           <ngb-pagination
             [collectionSize]="totalItems"
             [(page)]="page"
@@ -168,6 +150,15 @@
             (pageChange)="onPageChange()"
           >
           </ngb-pagination>
+        </div>
+      </div>
+
+      <div
+        class="col text-center data-loader mt-5 p-5 pt-7"
+        *ngIf="dataLoading$ | async"
+      >
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
     </div>

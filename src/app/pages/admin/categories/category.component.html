@@ -1,92 +1,73 @@
-<div class="card">
+<div class="card gs-table-card">
+  <div class="table-page-toolbar">
+    <div>
+      <h2 class="table-page-title mb-1">Categories</h2>
+      <span class="table-page-subtitle">Global Goals for Sustainable Development</span>
+    </div>
+  </div>
 
-    <div class="card-body">
-      <div class="table-responsive">
-        <table
-          class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
-        >
-          <thead>
-          <tr>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Image </span>
-            </th>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Goal </span>
-            </th>
-
-
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Name </span>
-            </th>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Type </span>
-            </th>
-
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let category of allCategories">
-
-            <td>
-              <div class="d-flex">
-                <div class="symbol symbol-50px">
-                  <span class="symbol-label bg-light">
-                    <!-- <img src="./assets/media/svg/avatars/001-boy.svg" class="h-75 align-self-end" alt="" /> -->
-                    <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">
-                      <img src="./assets/media/categories/{{category?.id}}-icon.png" class="w-50px"
-                           style=" border-radius: 10%;"/>
-                    </span>
-                  </span>
-                </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+        <thead>
+        <tr>
+          <th style="width: 80px;">Icon</th>
+          <th style="width: 100px;">Goal #</th>
+          <th>Name</th>
+          <th>Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let category of allCategories">
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px">
+                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">
+                  <img src="./assets/media/categories/{{category?.id}}-icon.png" class="w-45px h-45px"
+                       style="border-radius: 8px;"/>
+                </span>
               </div>
-            </td>
-            <td>
-              <div class="d-flex">
-                <div class="d-flex justify-content-start flex-column">
-                  {{ category?.categoryNumber }}
-                </div>
-              </div>
-            </td>
+            </div>
+          </td>
+          <td>
+            <span class="badge badge-light fw-bold text-gray-700 fs-7">
+              Goal {{ category?.categoryNumber }}
+            </span>
+          </td>
+          <td>
+            <span class="text-dark fw-bolder fs-7">
+              {{ category.name }}
+            </span>
+          </td>
+          <td>
+            <span class="badge light-blue-badge fw-bold fs-8">
+              {{ category?.categoryType }}
+            </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
 
+      <div class="table-empty-state" *ngIf="(!allCategories || allCategories.length === 0) && !(dataLoading$ | async)">
+        <i class="bi bi-tags"></i>
+        <div class="empty-title">No categories found</div>
+        <p class="empty-subtitle">No sustainable development goals are currently registered.</p>
+      </div>
 
-
-
-
-            <td>
-              <div class="d-flex">
-                <div class="d-flex justify-content-start flex-column">
-                  {{ category.name }}
-                </div>
-              </div>
-            </td>
-
-
-
-            <td>
-              <div class="d-flex">
-                <div class="d-flex justify-content-start flex-column">
-                  {{ category?.categoryType }}
-                </div>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-          <!--end::Table body-->
-        </table>
-        <!--end::Table-->
-
-        <div
-          class="col text-center data-loader mt-5 p-5 pt-7"
-          *ngIf="dataLoading$ | async"
-        >
-          <div class="spinner-border text-warning" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
-
       </div>
     </div>
   </div>
+
+  <div class="table-footer">
+    <div class="table-footer-info">
+      Total: <strong>{{ allCategories?.length || 0 }}</strong> categories
+    </div>
+  </div>
+</div>
 
   <!-- -->
 

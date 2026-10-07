@@ -1,119 +1,110 @@
-<div class="card">
-  <div class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0">
-    <form data-kt-search-element="form" autocomplete="off" class="w-100 d-flex justify-content-between">
-      <div class="bg-light position-relative px-5 w-100 me-10 radius-8px">
-        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
-          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
-                  transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
-            <path
-              d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-              fill="black"></path>
+<div class="card gs-table-card">
+  <div class="table-page-toolbar">
+    <div>
+      <h2 class="table-page-title mb-1">Questionnaires</h2>
+      <span class="table-page-subtitle">Survey and assessment templates</span>
+    </div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn btn-sm btn-primary text-nowrap" (click)="openModal(createQuestionnaire)">
+        <i class="bi bi-plus-lg me-1"></i> New Questionnaire
+      </button>
+    </div>
+  </div>
+
+  <div class="table-filter-bar">
+    <form data-kt-search-element="form" autocomplete="off" class="table-filter-form">
+      <div class="table-search-control">
+        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"></path>
           </svg>
         </span>
-        <input type="text" name="search" placeholder="Search..." data-kt-search-element="input"
-               class="form-control form-control-flush ps-10 fs-7 h-100" [(ngModel)]="search"
-               (keyup.enter)="onEnterSearch()"/>
+        <input type="text" name="search" placeholder="Search questionnaires..." data-kt-search-element="input"
+               class="form-control form-control-flush ps-10 fs-7" [(ngModel)]="search" (keyup.enter)="onEnterSearch()"/>
       </div>
-      <a class="btn yellow-button w-150px fs-7" (click)="openModal(createQuestionnaire)">
-        Add New
-      </a>
     </form>
   </div>
+
   <div class="card-body">
-    <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-5 mb-3">
-      <thead>
-      <tr>
-        <th>
-          <span class="fs-7 text-gray-500 fs-8 bold"> Questionnaire </span>
-        </th>
-        <th>
-          <span class="fs-7 text-gray-500 fs-8 bold">Partner</span>
-        </th>
-        <th>
-          <span class="fs-7 text-gray-500 fs-8 bold">Target</span>
-        </th>
-        <th>
-          <span class="fs-7 text-gray-500 fs-8 bold">Status</span>
-        </th>
-        <th>
-          <span class="fs-7 text-gray-500 fs-8 bold">Modified</span>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let data of allQuestionnaires">
-        <td>
-          <a [routerLink]="['./details', data?.id]" class="text-dark bold fs-12">
-            {{ data?.name }}
-          </a>
-        </td>
-        <td>
-          {{data?.ownerName}}
-        </td>
-        <td>
-            <span class="badge light-purple-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+        <thead>
+        <tr>
+          <th>Questionnaire</th>
+          <th>Partner</th>
+          <th>Target</th>
+          <th>Status</th>
+          <th>Modified</th>
+          <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of allQuestionnaires">
+          <td>
+            <a [routerLink]="['./details', data?.id]" class="text-dark fw-bolder text-hover-primary mb-1 fs-7 d-block">
+              {{ data?.name }}
+            </a>
+          </td>
+          <td>
+            <span class="text-gray-800 fw-semibold fs-8">{{ data?.ownerName || '—' }}</span>
+          </td>
+          <td>
+            <span class="badge light-purple-badge fw-bold fs-8"
                   *ngIf="data?.audienceType === 'PROJECT'">
-            {{ data?.audienceType }} - {{ data?.projectPhase }}
+              {{ data?.audienceType }} - {{ data?.projectPhase }}
             </span>
-          <span class="badge light-blue-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                *ngIf="data?.audienceType !== 'PROJECT'">
-            {{ data?.audienceType }}
+            <span class="badge light-blue-badge fw-bold fs-8"
+                  *ngIf="data?.audienceType !== 'PROJECT'">
+              {{ data?.audienceType }}
             </span>
-        </td>
-        <td>
-            <span class="text-dark fw-bold fs-8">
-              <div class="card-toolbar">
-                <span class="badge light-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                      *ngIf="data?.status === 'PENDING'">
-                  {{ data?.status }}
-                </span>
-                <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                      *ngIf="data?.status === 'PUBLISHED'">
-                  {{ data?.status }}
-                </span>
-                <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill text-uppercase"
-                      *ngIf="data?.status === 'OBSOLETE'">
-                  {{ data?.status }}
-                </span>
-              </div>
+          </td>
+          <td>
+            <span class="badge light-yellow-badge fw-bold fs-8" *ngIf="data?.status === 'PENDING'">
+              {{ data?.status }}
             </span>
-        </td>
-        <td>
-            <span class="text-dark fw-bold fs-8">
+            <span class="badge light-green-badge fw-bold fs-8" *ngIf="data?.status === 'PUBLISHED'">
+              {{ data?.status }}
+            </span>
+            <span class="badge light-red-badge fw-bold fs-8" *ngIf="data?.status === 'OBSOLETE'">
+              {{ data?.status }}
+            </span>
+          </td>
+          <td>
+            <span class="text-muted fw-semibold fs-8">
               {{ data?.lastModifiedDateTime }}
             </span>
-        </td>
+          </td>
 
-        <td class="text-end">
-          <a [routerLink]="['./details', data?.id]">
-              <span class="svg-icon svg-icon-gray-400 svg-icon-2 me-5">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                     height="24px" viewBox="0 0 24 24" version="1.1">
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <rect x="0" y="0" width="24" height="24"/>
-                    <path
-                      d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z"
-                      fill="#000000" fill-rule="nonzero"
-                      transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) "/>
-                    <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1"/>
-                  </g>
-                </svg>
-              </span>
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+          <td class="text-end">
+            <a [routerLink]="['./details', data?.id]" class="btn btn-icon btn-sm btn-light" ngbTooltip="Edit Questionnaire">
+              <i class="bi bi-pencil fs-6"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
 
-    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
-      <div class="spinner-border text-warning" role="status">
-        <span class="visually-hidden">Loading...</span>
+      <div class="table-empty-state" *ngIf="(!allQuestionnaires || allQuestionnaires.length === 0) && !(dataLoading$ | async)">
+        <i class="bi bi-ui-checks"></i>
+        <div class="empty-title">No questionnaires found</div>
+        <p class="empty-subtitle">Try adjusting your search criteria or create a new questionnaire.</p>
+      </div>
+
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
-      <ngb-pagination [collectionSize]="totalPages" [(page)]="page" [maxSize]="3" (pageChange)="onPageChange()">
+  <div class="table-footer" *ngIf="totalPages > 0">
+    <div class="table-footer-info">
+      Showing <strong>{{ allQuestionnaires?.length || 0 }}</strong> of <strong>{{ totalPages }}</strong> questionnaires
+    </div>
+    <div class="table-footer-pagination">
+      <ngb-pagination [collectionSize]="totalPages" [(page)]="page" [pageSize]="10" [maxSize]="5" [rotate]="true" (pageChange)="onPageChange()">
       </ngb-pagination>
     </div>
   </div>

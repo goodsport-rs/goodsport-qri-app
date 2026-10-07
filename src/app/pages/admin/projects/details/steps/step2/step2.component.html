@@ -15,67 +15,71 @@
     </div>
   </div>
 
-  <div class="col mt-10"  *ngIf="!(dataLoading$ | async)">
-    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 bold mb-5">
-      Investors Offers
+  <div class="col mt-10" *ngIf="!(dataLoading$ | async)">
+    <h2 class="d-flex align-items-center text-dark mb-0 fs-5 fw-bolder mb-5">
+      Investor Offers
+      <span class="badge bg-light text-gray-600 ms-2" *ngIf="allInvestors?.length">{{ allInvestors.length }}</span>
     </h2>
-    <div class="border p-8 radius-8px">
-      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3 gap-25">
-        <thead>
-        <tr>
-          <th><span class="text-gray-500 fs-8 bold">Investor</span></th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Interest Date </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Status </span>
-          </th>
-          <th><span class="text-gray-500 fs-8 bold">Decision</span></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of allInvestors; let j = index">
-          <td>
 
-            <div class="d-flex justify-content-start flex-column">
-              <a
-                [routerLink]="['/admin/investors/details/', item.investorId]"
-                class="text-dark fw-bolder text-hover-primary mb-0 fs-12"
-              >{{ item.investorOrganization }}</a>
-            </div>
+    <div *ngIf="!allInvestors || allInvestors.length === 0" class="table-empty-state py-8 border radius-8px">
+      <i class="bi bi-people"></i>
+      <h6>No investor offers yet</h6>
+      <p>No investors have made offers on this project yet.</p>
+    </div>
 
-          </td>
-          <td class="fs-8">{{ item?.createdDateTime | date: "longDate" }}</td>
-          <td>
-              <span class="badge light-yellow-badge fw-bolder me-auto px-4 py-2 rounded-pill"
-                    *ngIf="item?.investmentStatus === 'PENDING'">Pending</span>
-            <span class="badge light-green-badge fw-bolder me-auto px-4 py-2 rounded-pill"
-                  *ngIf="item?.investmentStatus === 'APPROVED'">
-                Approved</span>
-            <span class="badge light-red-badge fw-bolder me-auto px-4 py-2 rounded-pill"
-                  *ngIf="item?.investmentStatus === 'DECLINED'">
-                Rejected</span>
-          </td>
-          <td>
-            <div *ngIf="item?.investmentStatus === 'PENDING'">
-              <div *ngIf="loaderId !== j">
-                <i class="bi bi-x text-danger" (click)="onClickIcon(item?.id, 'declined', j)"></i>
-                <i class="bi bi-check2 text-success" (click)="onClickIcon(item?.id, 'approved', j)"></i>
-              </div>
-              <div *ngIf="(statusLoading$ | async) && loaderId === j" id="{{ j }}">
-                  <span class="indicator-progress" [style.display]="'block'">
-                    Please wait...
-                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                  </span>
-              </div>
-            </div>
-            <div *ngIf="item?.investmentStatus !== 'PENDING'">
-              {{ item?.lastModifiedDateTime | date: "longDate" }}
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="border p-8 radius-8px" *ngIf="allInvestors && allInvestors.length > 0">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Investor</th>
+              <th>Interest Date</th>
+              <th>Status</th>
+              <th>Decision</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of allInvestors; let j = index">
+              <td>
+                <a [routerLink]="['/admin/investors/details/', item.investorId]"
+                   class="text-dark fw-bolder text-hover-primary mb-0 fs-7">
+                  {{ item.investorOrganization }}
+                </a>
+              </td>
+              <td class="fs-8 text-muted fw-semibold">{{ item?.createdDateTime | date: "longDate" }}</td>
+              <td>
+                <span class="badge light-yellow-badge fw-bolder px-3 py-2 rounded-pill"
+                      *ngIf="item?.investmentStatus === 'PENDING'">Pending</span>
+                <span class="badge light-green-badge fw-bolder px-3 py-2 rounded-pill"
+                      *ngIf="item?.investmentStatus === 'APPROVED'">Approved</span>
+                <span class="badge light-red-badge fw-bolder px-3 py-2 rounded-pill"
+                      *ngIf="item?.investmentStatus === 'DECLINED'">Rejected</span>
+              </td>
+              <td>
+                <div *ngIf="item?.investmentStatus === 'PENDING'">
+                  <div *ngIf="loaderId !== j" class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn btn-icon btn-sm btn-outline-danger" (click)="onClickIcon(item?.id, 'declined', j)" title="Avslå">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-sm btn-primary" (click)="onClickIcon(item?.id, 'approved', j)" title="Godkänn">
+                      <i class="bi bi-check2"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="(statusLoading$ | async) && loaderId === j" id="{{ j }}">
+                    <span class="indicator-progress" [style.display]="'block'">
+                      Please wait...
+                      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="item?.investmentStatus !== 'PENDING'" class="text-muted fw-semibold fs-8">
+                  {{ item?.lastModifiedDateTime | date: "longDate" }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 

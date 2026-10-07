@@ -848,8 +848,312 @@ a.text-primary,
 }
 
 /* =====================================================================
-   Admin portal — richer data-table treatment (kept scoped, now colour-
-   matched to the same brand tokens as the rest of the app).
+   UNIFIED DATA TABLE & CARD SYSTEM — APP-WIDE
+   Consistent header, content, and footer design across all tables.
+   ===================================================================== */
+
+/* Card wrapper for tables */
+.gs-table-card,
+.admin-projects-card {
+  overflow: hidden;
+  border: 1px solid var(--gs-border);
+  border-radius: 10px;
+  background: var(--gs-surface);
+  box-shadow: 0 10px 30px rgba(17, 19, 24, 0.05);
+}
+
+/* 1. Table Page / Card Toolbar (Header) */
+.table-page-toolbar,
+.admin-page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  background: var(--gs-surface);
+  border-bottom: 1px solid var(--gs-border);
+
+  .table-page-title,
+  .admin-page-title {
+    color: var(--gs-black);
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+
+  .table-page-subtitle,
+  .admin-page-subtitle {
+    color: var(--gs-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+/* 2. Filter / Search Bar */
+.table-filter-bar,
+.admin-filter-bar {
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--gs-border);
+}
+
+.table-filter-form,
+.admin-filter-form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.table-filter-control,
+.admin-filter-control {
+  position: relative;
+  min-width: 140px;
+  flex: 0 1 180px;
+
+  &.table-filter-control-wide,
+  &.admin-filter-control-wide {
+    flex: 0 1 220px;
+  }
+
+  .form-select {
+    height: 42px;
+    background-color: #ffffff;
+    border: 1px solid var(--gs-border);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gs-black);
+
+    &:focus {
+      border-color: var(--gs-red);
+      box-shadow: 0 0 0 0.2rem rgba(var(--gs-red-rgb), 0.08);
+    }
+  }
+}
+
+.table-search-control,
+.admin-search-control {
+  position: relative;
+  flex: 1 1 240px;
+  min-width: 200px;
+  height: 42px;
+  padding: 0 1rem;
+  background: #ffffff;
+  border: 1px solid rgba(var(--gs-red-rgb), 0.24);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+
+  .svg-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    line-height: 1;
+
+    svg path,
+    svg rect {
+      fill: var(--gs-red);
+    }
+  }
+
+  .form-control,
+  .form-control-flush {
+    width: 100%;
+    height: 100%;
+    padding-left: 2.25rem !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--gs-black);
+    font-size: 0.875rem;
+
+    &::placeholder {
+      color: var(--gs-muted);
+    }
+  }
+
+  &:focus-within {
+    border-color: var(--gs-red);
+    box-shadow: 0 0 0 0.2rem rgba(var(--gs-red-rgb), 0.08);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .table-page-toolbar,
+  .admin-page-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .table-filter-form,
+  .admin-filter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-filter-control,
+  .admin-filter-control,
+  .table-search-control,
+  .admin-search-control {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+/* 3. Table Structure & Cells (Content) */
+.table,
+.card .table {
+  margin-bottom: 0;
+  color: var(--gs-black);
+  border-collapse: separate;
+  border-spacing: 0 0.45rem;
+  width: 100%;
+
+  thead th {
+    padding: 0.85rem 1rem;
+    color: var(--gs-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+    background: transparent;
+    border: 0 !important;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    span {
+      color: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+    }
+  }
+
+  tbody td {
+    padding: 0.95rem 1rem;
+    background: #ffffff;
+    border-top: 1px solid #edf0f3 !important;
+    border-bottom: 1px solid #edf0f3 !important;
+    border-left: 0;
+    border-right: 0;
+    vertical-align: middle;
+  }
+
+  tbody tr td:first-child {
+    border-left: 1px solid #edf0f3 !important;
+    border-radius: 8px 0 0 8px;
+  }
+
+  tbody tr td:last-child {
+    border-right: 1px solid #edf0f3 !important;
+    border-radius: 0 8px 8px 0;
+  }
+
+  tbody tr:hover td {
+    background: #fff8f8;
+    border-color: rgba(var(--gs-red-rgb), 0.18) !important;
+  }
+
+  .table-row-bordered tr,
+  .table-row-bordered td,
+  .table-row-bordered th {
+    border-color: transparent !important;
+  }
+
+  .symbol-label {
+    border-radius: 8px;
+  }
+
+  .badge {
+    padding: 0.45rem 0.75rem !important;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.02rem;
+  }
+
+  a.text-dark,
+  .fw-bolder {
+    color: var(--gs-black) !important;
+  }
+}
+
+.table-responsive {
+  padding: 0.25rem;
+}
+
+/* 4. Table Footer (Counter summary + pagination) */
+.table-footer,
+.gs-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--gs-surface);
+  border-top: 1px solid var(--gs-border);
+
+  .table-footer-info {
+    color: var(--gs-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    strong {
+      color: var(--gs-black);
+      font-weight: 700;
+    }
+  }
+
+  .table-footer-pagination {
+    margin: 0;
+
+    .pagination {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* 5. Empty State */
+.table-empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  color: var(--gs-muted);
+
+  i {
+    display: inline-block;
+    font-size: 2.25rem;
+    color: #9ca3af;
+    margin-bottom: 0.75rem;
+  }
+
+  .empty-title {
+    color: var(--gs-black);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .empty-subtitle {
+    color: var(--gs-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+}
+
+/* =====================================================================
+   Admin portal — page layout & content container
    ===================================================================== */
 
 body.admin-theme {
@@ -881,73 +1185,6 @@ body.admin-theme {
     border-color: var(--gs-border);
   }
 
-  .table {
-    margin-bottom: 0;
-    color: var(--gs-black);
-    border-collapse: separate;
-    border-spacing: 0 0.45rem;
-
-    thead th {
-      padding: 0.85rem 1rem;
-      color: var(--gs-muted);
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.02rem;
-      background: transparent;
-      border: 0;
-    }
-
-    tbody td {
-      padding: 1rem;
-      background: #fff;
-      border-top: 1px solid #edf0f3;
-      border-bottom: 1px solid #edf0f3;
-      vertical-align: middle;
-    }
-
-    tbody td:first-child {
-      border-left: 1px solid #edf0f3;
-      border-radius: 8px 0 0 8px;
-    }
-
-    tbody td:last-child {
-      border-right: 1px solid #edf0f3;
-      border-radius: 0 8px 8px 0;
-    }
-
-    tbody tr:hover td {
-      background: #fff8f8;
-      border-color: rgba(var(--gs-red-rgb), 0.18);
-    }
-  }
-
-  .table-row-bordered tr,
-  .table-row-bordered td,
-  .table-row-bordered th {
-    border-color: transparent !important;
-  }
-
-  .table-responsive {
-    padding: 0.25rem;
-  }
-
-  .table .symbol-label {
-    border-radius: 8px;
-  }
-
-  .table .badge {
-    padding: 0.45rem 0.7rem !important;
-    font-size: 0.7rem;
-    letter-spacing: 0.01rem;
-  }
-
-  .table a.text-dark,
-  .table .fw-bolder {
-    color: var(--gs-black) !important;
-  }
-
-  .admin-search-control,
   form[data-kt-search-element="form"].position-relative.bg-light,
   form[data-kt-search-element="form"] .position-relative.bg-light {
     background: #fff !important;

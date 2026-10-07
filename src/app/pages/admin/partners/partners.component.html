@@ -1,89 +1,95 @@
-<div class="card">
-  <div
-    class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0"
-  >
-    <form data-kt-search-element="form" autocomplete="off" class="w-100 d-flex justify-content-between">
-      <div class="bg-light position-relative px-5 w-100 me-10 radius-8px">
-        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
-          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
-                  transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
-            <path
-              d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-              fill="black"></path>
+<div class="card gs-table-card">
+  <div class="table-page-toolbar">
+    <div>
+      <h2 class="table-page-title mb-1">Partners</h2>
+      <span class="table-page-subtitle">{{ totalItems }} registered partner organizations</span>
+    </div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn btn-sm btn-primary text-nowrap" (click)="openModal(createPartnerModal)">
+        <i class="bi bi-plus-lg me-1"></i> Add Partner
+      </button>
+    </div>
+  </div>
+
+  <div class="table-filter-bar">
+    <form data-kt-search-element="form" autocomplete="off" class="table-filter-form">
+      <div class="table-search-control">
+        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"></path>
           </svg>
         </span>
-        <input type="text" name="search" placeholder="Search..." data-kt-search-element="input"
-               class="form-control form-control-flush ps-10 fs-7 h-100" [(ngModel)]="search"
-               (keyup.enter)="onEnterSearch()"/>
+        <input type="text" name="search" placeholder="Search partners..." data-kt-search-element="input"
+               class="form-control form-control-flush ps-10 fs-7" [(ngModel)]="search" (keyup.enter)="onEnterSearch()" />
       </div>
-      <a class="btn yellow-button w-150px fs-7" (click)="openModal(createPartnerModal)">
-        Add Partner
-      </a>
     </form>
   </div>
+
   <div class="card-body">
     <div class="table-responsive">
-      <table
-        class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
-      >
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
         <thead>
           <tr>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Name </span>
-            </th>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Code </span>
-            </th>
-            <th>
-              <span class="text-gray-500 fs-8 bold"> Created Date </span>
-            </th>
+            <th>Partner Name</th>
+            <th>Invitation Code</th>
+            <th class="text-end">Created Date</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let partner of allPartners">
             <td>
-              <span class="text-muted fw-bold text-muted d-block fs-11">
-                {{ partner.name}}</span
-              >
+              <div class="d-flex align-items-center">
+                <div class="symbol symbol-40px me-3">
+                  <span class="symbol-label bg-light-primary text-primary fs-6 fw-bold">
+                    {{ partner.name ? partner.name.charAt(0) : 'P' }}
+                  </span>
+                </div>
+                <span class="text-dark fw-bolder fs-7">
+                  {{ partner.name }}
+                </span>
+              </div>
             </td>
             <td>
-              <span class="text-muted fw-bold text-muted d-block fs-11">
-                {{ partner.invitationCode}}</span
-              >
+              <span class="badge badge-light-primary fw-bold fs-8">
+                {{ partner.invitationCode }}
+              </span>
             </td>
-            <td>
-              <span class="text-muted fw-bold text-muted d-block fs-11">
-                {{ partner.createdDateTime}}</span
-              >
+            <td class="text-end">
+              <span class="text-muted fw-semibold d-block fs-8">
+                {{ partner.createdDateTime }}
+              </span>
             </td>
           </tr>
         </tbody>
-        <!--end::Table body-->
       </table>
-      <!--end::Table-->
 
-      <div
-        class="col text-center data-loader mt-5 p-5 pt-7"
-        *ngIf="dataLoading$ | async"
-      >
+      <div class="table-empty-state" *ngIf="(!allPartners || allPartners.length === 0) && !(dataLoading$ | async)">
+        <i class="bi bi-building"></i>
+        <div class="empty-title">No partners found</div>
+        <p class="empty-subtitle">Try adjusting your search criteria.</p>
+      </div>
+
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
         <div class="spinner-border text-warning" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div
-        class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
-      >
-        <ngb-pagination
-          [collectionSize]="totalItems"
-          [(page)]="page"
-          [pageSize]="20"
-          [maxSize]="5"
-          (pageChange)="onPageChange()"
-        >
-        </ngb-pagination>
-      </div>
+  <div class="table-footer" *ngIf="totalItems > 0">
+    <div class="table-footer-info">
+      Showing <strong>{{ allPartners?.length || 0 }}</strong> of <strong>{{ totalItems }}</strong> partners
+    </div>
+    <div class="table-footer-pagination">
+      <ngb-pagination [collectionSize]="totalItems"
+                      [(page)]="page"
+                      [pageSize]="20"
+                      [maxSize]="5"
+                      [rotate]="true"
+                      (pageChange)="onPageChange()">
+      </ngb-pagination>
     </div>
   </div>
 </div>

@@ -1,63 +1,91 @@
-<div class="card mb-4 shadow-sm">
-  <div class="card-body">
-    <h3>Search</h3>
-    <form class="form-inline">
-      <div class="row w-100">
-        <div class="col-md-6">
-          <div class="form-group me-3 w-100">
-            <select id="phaseSelect" class="form-control w-100" name="phaseSelect" [(ngModel)]="selectedPhase" (change)="onPhaseChange()">
-              <option *ngFor="let phase of phases" [value]="phase">{{ phase }}</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group me-3 w-100">
-            <input type="text" name="search" placeholder="Search by Project..." class="form-control w-100" [(ngModel)]="search" (keyup.enter)="onEnterSearch()"/>
-          </div>
-        </div>
+<div class="card gs-table-card">
+  <div class="table-page-toolbar">
+    <div>
+      <h2 class="table-page-title mb-1">Project Questionnaires</h2>
+      <span class="table-page-subtitle">{{ totalItems }} project questionnaire assignments</span>
+    </div>
+  </div>
+
+  <div class="table-filter-bar">
+    <form autocomplete="off" class="table-filter-form">
+      <div class="table-filter-control">
+        <select id="phaseSelect" class="form-select form-select-sm" name="phaseSelect"
+                [(ngModel)]="selectedPhase" (change)="onPhaseChange()">
+          <option *ngFor="let phase of phases" [value]="phase">{{ phase }}</option>
+        </select>
       </div>
-      <button type="button" class="btn btn-primary mt-3" (click)="onEnterSearch()">Search</button>
+      <div class="table-search-control">
+        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"></path>
+          </svg>
+        </span>
+        <input type="text" name="search" placeholder="Search by project name..." class="form-control form-control-flush ps-10 fs-7"
+               [(ngModel)]="search" (keyup.enter)="onEnterSearch()"/>
+      </div>
     </form>
   </div>
-</div>
 
-<div class="card">
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
         <thead>
         <tr>
-          <th><span class="text-gray-500 fs-8 bold">Project</span></th>
-          <th><span class="text-gray-500 fs-8 bold">Template</span></th>
-          <th><span class="text-gray-500 fs-8 bold">Questionnaire ID</span></th>
-          <th><span class="text-gray-500 fs-8 bold">Project Phase</span></th>
+          <th>Project</th>
+          <th>Template</th>
+          <th>Questionnaire ID</th>
+          <th class="text-end">Project Phase</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let report of reports">
           <td>
-            <a
-              [routerLink]="['/admin/projects/details', report.projectId]"
-              class="text-muted fw-bold text-muted d-block fs-11">{{ report?.title }}</a>
+            <a [routerLink]="['/admin/projects/details', report.projectId]"
+               class="text-dark fw-bolder text-hover-primary mb-1 fs-7 d-block">
+              {{ report?.title }}
+            </a>
           </td>
           <td>
-            <a
-              [routerLink]="['/admin/questionnaires/details', report.questionnaireId]"
-              class="text-muted fw-bold text-muted d-block fs-11">{{ report?.name }}</a>
+            <a [routerLink]="['/admin/questionnaires/details', report.questionnaireId]"
+               class="text-dark fw-semibold text-hover-primary fs-8">
+              {{ report?.name }}
+            </a>
           </td>
-          <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.id }}</span></td>
-          <td><span class="text-muted fw-bold text-muted d-block fs-11">{{ report.projectPhase }}</span></td>
+          <td>
+            <span class="badge badge-light fw-bold text-gray-700 fs-8">
+              #{{ report.id }}
+            </span>
+          </td>
+          <td class="text-end">
+            <span class="badge light-purple-badge fw-bold fs-8">
+              {{ report.projectPhase }}
+            </span>
+          </td>
         </tr>
         </tbody>
       </table>
+
+      <div class="table-empty-state" *ngIf="(!reports || reports.length === 0) && !(dataLoading$ | async)">
+        <i class="bi bi-card-checklist"></i>
+        <div class="empty-title">No project questionnaires found</div>
+        <p class="empty-subtitle">Try selecting a different phase or search query.</p>
+      </div>
+
       <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
         <div class="spinner-border text-warning" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-      <div class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10">
-        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="20" [maxSize]="5" (pageChange)="onPageChange()"></ngb-pagination>
-      </div>
+    </div>
+  </div>
+
+  <div class="table-footer" *ngIf="totalItems > 0">
+    <div class="table-footer-info">
+      Showing <strong>{{ reports?.length || 0 }}</strong> of <strong>{{ totalItems }}</strong> assignments
+    </div>
+    <div class="table-footer-pagination">
+      <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="20" [maxSize]="5" [rotate]="true" (pageChange)="onPageChange()"></ngb-pagination>
     </div>
   </div>
 </div>

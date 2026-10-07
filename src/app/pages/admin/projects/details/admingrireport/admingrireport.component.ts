@@ -5,6 +5,7 @@ import {ProjectService} from 'src/app/core/services/project.service';
 import {ActivatedRoute} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ViewgriComponent} from '../viewgri/viewgri.component';
+import {ReportPdfService} from 'src/app/core/services/report-pdf.service';
 
 @Component({
   selector: 'app-admingrireport',
@@ -35,7 +36,9 @@ export class AdmingrireportComponent implements OnInit, OnDestroy {
 
   constructor(private projService: ProjectService,
               private modalService: NgbModal,
-              private sweetAlert: SweetAlertService, private route: ActivatedRoute,) {
+              private sweetAlert: SweetAlertService,
+              private route: ActivatedRoute,
+              private reportPdf: ReportPdfService) {
     this.dataLoadingSubject = new BehaviorSubject<boolean>(false);
     this.dataLoading$ = this.dataLoadingSubject.asObservable();
     this.projectId = this.route.snapshot.params.id;
@@ -98,38 +101,19 @@ export class AdmingrireportComponent implements OnInit, OnDestroy {
   }
 
 
-  print(e: any) {
+  async print() {
     this.exportLoadingSubject.next(true);
-    let docDefinition = {
-      content: [
-        {
-          layout: 'lightHorizontalLines', // optional
-          table: {
-            // headers are automatically repeated if the table spans over multiple pages
-            // you can declare how many rows should be treated as headers
-            headerRows: 1,
-            widths: [150, 200, 200, 150],
-
-            body: [
-              ['Question', 'Answer', 'Decision']
-            ]
-          }
-        }
-      ]
+    try {
+      await this.reportPdf.downloadFinalReport({
+        ...this.viewData,
+        projectTitle: this.viewData?.projectTitle ?? this.projectDetails?.title,
+        groups: this.reports,
+      });
+    } catch (error) {
+      this.sweetAlert.errorMessage('PDF-filen kunde inte skapas. Försök igen eller kontakta supporten.');
+    } finally {
+      this.exportLoadingSubject.next(false);
     }
-
-    for (let i of this.reports) {
-      for (let k of i.entries) {
-        const arr = [];
-        arr.push(k.question);
-        k.answer ? arr.push(k.answer) : arr.push('N/A');
-        arr.push(k.decision);
-        docDefinition.content[0].table.body.push(arr
-        )
-      }
-    }
-  //  pdfMake.createPdf(docDefinition).download('final_gri_report.pdf');
-    this.exportLoadingSubject.next(false);
   }
 
   resetFinalReport() {

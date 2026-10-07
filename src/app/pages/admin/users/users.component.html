@@ -1,126 +1,114 @@
-<div class="card">
-  <div
-    class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0"
-  >
-    <form data-kt-search-element="form" autocomplete="off" class="w-100 d-flex justify-content-between">
-      <div class="bg-light position-relative px-5 w-100 me-10 radius-8px">
-        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
-          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
-                  transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
-            <path
-              d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-              fill="black"></path>
+<div class="card gs-table-card">
+  <div class="table-page-toolbar">
+    <div>
+      <h2 class="table-page-title mb-1">Users</h2>
+      <span class="table-page-subtitle">{{ totalItems }} user accounts</span>
+    </div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn btn-sm btn-primary text-nowrap" (click)="openModal(createQuestionnaire)">
+        <i class="bi bi-plus-lg me-1"></i> Add Admin
+      </button>
+    </div>
+  </div>
+
+  <div class="table-filter-bar">
+    <form data-kt-search-element="form" autocomplete="off" class="table-filter-form">
+      <div class="table-search-control">
+        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"></path>
           </svg>
         </span>
-        <input type="text" name="search" placeholder="Search..." data-kt-search-element="input"
-               class="form-control form-control-flush ps-10 fs-7 h-100" [(ngModel)]="search"
-               (keyup.enter)="onEnterSearch()"/>
+        <input type="text" name="search" placeholder="Search users..." data-kt-search-element="input"
+               class="form-control form-control-flush ps-10 fs-7" [(ngModel)]="search" (keyup.enter)="onEnterSearch()" />
       </div>
-      <a class="btn yellow-button w-150px fs-7" (click)="openModal(createQuestionnaire)">
-        Add Admin
-      </a>
     </form>
   </div>
+
   <div class="card-body">
     <div class="table-responsive">
-      <table
-        class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
-      >
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
         <thead>
         <tr>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> User </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Role </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Locked </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Enabled </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Verified </span>
-          </th>
-          <th>
-            <span class="text-gray-500 fs-8 bold"> Last Seen </span>
-          </th>
+          <th>User</th>
+          <th>Role</th>
+          <th class="text-center" style="width: 100px;">Locked</th>
+          <th class="text-center" style="width: 100px;">Enabled</th>
+          <th class="text-center" style="width: 100px;">Verified</th>
+          <th class="text-end">Last Seen</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let user of allUsers">
           <td>
-            <div class="d-flex">
-              <div class="symbol symbol-50px me-5">
-                <!-- <img src="./assets/media/illustrations/bluedot.png" class="h-100 align-self-end" alt="" /> -->
-                <span *ngIf="!user?.imageUrl"
-                      class="symbol-label bg-light-danger text-danger fs-6 fw-bolder"
-                >
-                    {{ user.username.charAt(0) }}
-                  </span>
+            <div class="d-flex align-items-center">
+              <div class="symbol symbol-45px me-4">
+                <span *ngIf="!user?.imageUrl" class="symbol-label bg-light-danger text-danger fs-5 fw-bolder">
+                  {{ user?.username ? user.username.charAt(0).toUpperCase() : 'U' }}
+                </span>
+                <img [src]="user?.imageUrl" *ngIf="user?.imageUrl" class="w-45px h-45px rounded" />
               </div>
               <div class="d-flex justify-content-start flex-column">
-                <a
-                  [routerLink]="['./details', user.id]"
-                  class="text-dark fw-bolder text-hover-primary mb-0 fs-12"
-                >{{ user.username }}</a
-                >
-                <span class="text-muted fw-bold text-muted d-block fs-11"
-                >{{ user?.firstName }} {{ user?.lastName }}</span
-                >
+                <a [routerLink]="['./details', user.id]" class="text-dark fw-bolder text-hover-primary mb-1 fs-7">
+                  {{ user.username }}
+                </a>
+                <span class="text-muted fw-semibold d-block fs-8">
+                  {{ user?.firstName }} {{ user?.lastName }}
+                </span>
               </div>
             </div>
           </td>
           <td>
-              <span class="fw-bold text-dark d-block fs-8">
-                {{ user?.roles?.length > 0 ? user.roles[0].role : '—' }}</span
-              >
+            <span class="badge light-blue-badge fw-bold fs-8">
+              {{ user?.roles?.length > 0 ? user.roles[0].role : '—' }}
+            </span>
           </td>
-          <td>
-            <app-keenicon *ngIf="user?.accountLocked" name="cross-circle" class="fs-2 text-primary me-4 cursor-pointer" (click)="onToggleState(user, 'lock')"></app-keenicon>
-            <app-keenicon *ngIf="!user?.accountLocked" name="user-tick" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState(user, 'lock')"></app-keenicon>
+          <td class="text-center">
+            <app-keenicon *ngIf="user?.accountLocked" name="cross-circle" class="fs-2 text-danger cursor-pointer" (click)="onToggleState(user, 'lock')" ngbTooltip="Account Locked"></app-keenicon>
+            <app-keenicon *ngIf="!user?.accountLocked" name="user-tick" class="fs-2 text-success cursor-pointer" (click)="onToggleState(user, 'lock')" ngbTooltip="Account Active"></app-keenicon>
           </td>
-          <td>
-            <app-keenicon *ngIf="!user?.accountEnabled" name="cross-circle" class="fs-2 text-primary me-4 cursor-pointer" (click)="onToggleState(user, 'enable')"></app-keenicon>
-            <app-keenicon *ngIf="user?.accountEnabled" name="check" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState(user, 'enable')"></app-keenicon>
+          <td class="text-center">
+            <app-keenicon *ngIf="!user?.accountEnabled" name="cross-circle" class="fs-2 text-danger cursor-pointer" (click)="onToggleState(user, 'enable')" ngbTooltip="Account Disabled"></app-keenicon>
+            <app-keenicon *ngIf="user?.accountEnabled" name="check" class="fs-2 text-success cursor-pointer" (click)="onToggleState(user, 'enable')" ngbTooltip="Account Enabled"></app-keenicon>
           </td>
-          <td>
-            <app-keenicon *ngIf="!user?.verified" name="cross-circle" class="fs-2 text-danger me-4 cursor-pointer" (click)="onToggleState(user, 'verify')"></app-keenicon>
-            <app-keenicon *ngIf="user?.verified" name="check" class="fs-2 text-success me-4 cursor-pointer" (click)="onToggleState(user, 'verify')"></app-keenicon>
+          <td class="text-center">
+            <app-keenicon *ngIf="!user?.verified" name="cross-circle" class="fs-2 text-danger cursor-pointer" (click)="onToggleState(user, 'verify')" ngbTooltip="Not Verified"></app-keenicon>
+            <app-keenicon *ngIf="user?.verified" name="check" class="fs-2 text-success cursor-pointer" (click)="onToggleState(user, 'verify')" ngbTooltip="Verified"></app-keenicon>
           </td>
-          <td>
-            <span class="text-muted fw-bold d-block fs-8">{{ user?.lastSeenTimestamp || '-' }}</span>
+          <td class="text-end">
+            <span class="text-muted fw-semibold d-block fs-8">{{ user?.lastSeenTimestamp || '—' }}</span>
           </td>
-
         </tr>
         </tbody>
-        <!--end::Table body-->
       </table>
-      <!--end::Table-->
 
-      <div
-        class="col text-center data-loader mt-5 p-5 pt-7"
-        *ngIf="dataLoading$ | async"
-      >
+      <div class="table-empty-state" *ngIf="(!allUsers || allUsers.length === 0) && !(dataLoading$ | async)">
+        <i class="bi bi-people"></i>
+        <div class="empty-title">No users found</div>
+        <p class="empty-subtitle">Try adjusting your search criteria.</p>
+      </div>
+
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
         <div class="spinner-border text-warning" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div
-        class="col-sm-12 d-flex align-items-center justify-content-center justify-content-md-end mt-10"
-      >
-        <ngb-pagination
-          [collectionSize]="totalItems"
-          [(page)]="page"
-          [pageSize]="20"
-          [maxSize]="5"
-          (pageChange)="onPageChange()"
-        >
-        </ngb-pagination>
-      </div>
+  <div class="table-footer" *ngIf="totalItems > 0">
+    <div class="table-footer-info">
+      Showing <strong>{{ allUsers?.length || 0 }}</strong> of <strong>{{ totalItems }}</strong> users
+    </div>
+    <div class="table-footer-pagination">
+      <ngb-pagination [collectionSize]="totalItems"
+                      [(page)]="page"
+                      [pageSize]="20"
+                      [maxSize]="5"
+                      [rotate]="true"
+                      (pageChange)="onPageChange()">
+      </ngb-pagination>
     </div>
   </div>
 </div>

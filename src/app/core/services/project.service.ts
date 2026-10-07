@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {environment} from 'src/environments/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
@@ -94,10 +94,12 @@ export class ProjectService {
     });
   }
 
-  findProjectReportsByIdAndRangeExport(id: string, startDate: string, endDate: string, locality: string) {
-    return this.http.get(`${this.projectsUrl}/id/${id}/reports/export?startDate=${startDate}&endDate=${endDate}&locality=${locality}`, {
-      responseType: 'blob',
-    });
+  findProjectReportsForDocument(id: string, startDate: string, endDate: string, locality: string) {
+    let params = new HttpParams().set('startDate', startDate).set('endDate', endDate);
+    if (locality) {
+      params = params.set('locality', locality);
+    }
+    return this.http.get(`${this.projectsUrl}/id/${id}/reports/document`, {params});
   }
 
   findProjectCourses() {

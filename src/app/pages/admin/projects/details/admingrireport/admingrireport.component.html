@@ -8,7 +8,7 @@
       <button class="btn gri-btn gri-btn--primary" (click)="save()">
         Spara rapport
       </button>
-      <button class="btn gri-btn gri-btn--secondary" (click)="print($event)" [disabled]="(exportLoading$ | async)">
+      <button class="btn gri-btn gri-btn--secondary" (click)="print()" [disabled]="(exportLoading$ | async)">
         <ng-container *ngIf="exportLoading$ | async">
           <span class="indicator-progress" [style.display]="'block'">
             Vänligen vänta...
@@ -16,7 +16,7 @@
           </span>
         </ng-container>
         <ng-container *ngIf="!(exportLoading$ | async)">
-          <span class="indicator-label">Exportera rapport</span>
+          <span class="indicator-label">Exportera PDF</span>
         </ng-container>
       </button>
       <button class="btn gri-btn gri-btn--danger" (click)="resetFinalReport()">

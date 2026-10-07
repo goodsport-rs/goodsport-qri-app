@@ -220,37 +220,39 @@
     </div>
   </div>
 
-  <!-- Project Doucments Section -->
-  <div class="card pe-10 mt-10" *ngIf="allDocuments.length > 0">
-
-
+  <!-- Project Documents Section -->
+  <div class="card pe-10 mt-10" *ngIf="allDocuments && allDocuments.length > 0">
     <div class="card-body">
-      <h4 class="fs-3 bold">Projekt dokument</h4>
+      <h4 class="fs-3 fw-bolder mb-5">
+        Projektdokument
+        <span class="badge bg-light text-gray-600 ms-2">{{ allDocuments.length }}</span>
+      </h4>
 
-      <div class="table-responsive round-table">
-        <table class="table align-middle gs-5 gy-4 mb-0 ">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Dokumentnamn</th>
+              <th>Uppladdningsdatum</th>
+              <th class="text-end">Åtgärd</th>
+            </tr>
+          </thead>
           <tbody>
-          <tr *ngFor="let item of allDocuments">
-            <td>
-              <div class="d-flex align-items-center">
-                  <span class="fw-bold text-blue d-block fs-8 bold cursor-pointer" (click)="onClickViewIcon(item)">{{
-                    item?.fileName
-                    }}</span>
-              </div>
-            </td>
-            <td>
-                <span class="fw-bold text-dark d-block fs-8 bold">{{
-                  item?.createdDateTime | date: "longDate"
-                  }}</span>
-            </td>
-
-            <td class="text-end">
-              <button class="btn btn-sm btn-icon p-0 w-auto h-auto mt-1" data-kt-password-meter-control="visibility"
-                      (click)="onClickViewIcon(item)">
-                <i class="bi bi-eye-fill text-blue fs-5"></i>
-              </button>
-            </td>
-          </tr>
+            <tr *ngFor="let item of allDocuments">
+              <td>
+                <span class="fw-bold text-dark d-block fs-7 cursor-pointer text-hover-primary" (click)="onClickViewIcon(item)">
+                  <i class="bi bi-file-earmark-text text-primary me-2"></i>{{ item?.fileName }}
+                </span>
+              </td>
+              <td>
+                <span class="text-muted fw-semibold fs-8">{{ item?.createdDateTime | date: "longDate" }}</span>
+              </td>
+              <td class="text-end">
+                <button class="btn btn-icon btn-sm btn-light" (click)="onClickViewIcon(item)" title="Visa dokument">
+                  <i class="bi bi-eye text-primary"></i>
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

@@ -1,77 +1,60 @@
-<div class="card">
-  <!-- <div class="col-md-12 d-flex justify-content-between bg-white card-rounded flex-stack flex-wrap p-8 pb-0">
-    <form data-kt-search-element="form" autocomplete="off" class="w-100 d-flex justify-content-between">
-      <div class="bg-light position-relative px-5 w-100 radius-8px">
-        <span class="svg-icon svg-icon-2 svg-icon-gray-500 position-absolute top-50 translate-middle-y ms-0"><svg
-            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1"
-              transform="rotate(45 17.0365 15.1223)" fill="black"></rect>
-            <path
-              d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-              fill="black"></path>
-          </svg>
-        </span>
-        <input type="text" name="search" value="" placeholder="Search..." data-kt-search-element="input"
-          class="form-control form-control-flush ps-10 fs-7 h-100" />
-      </div>
-      <a
-        class="btn yellow-button w-200px"
-      >
-        Add New
-      </a>
-    </form>
-  </div> -->
+<div class="card gs-table-card">
+  <div class="table-page-toolbar">
+    <div>
+      <h2 class="table-page-title mb-1">Questionnaire Settings</h2>
+      <span class="table-page-subtitle">Configure questionnaire phase mappings</span>
+    </div>
+  </div>
+
   <div class="card-body">
-    <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-5 mb-3">
-      <thead>
-        <tr>
-          <th>
-            <span class="fs-7 text-gray-500 fs-8 bold"> Questionnaires </span>
-          </th>
-          <th>
-            <span class="fs-7 text-gray-500 fs-8 bold">Project Phase</span>
-          </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of allQuestionnaires">
-          <td>
-            <span class="text-dark fw-bolder cursor-pointer bold" (click)="openModal(updatePhase, data)">
-              {{ data?.questionnaireName }}
-            </span>
-          </td>
-          <td>
-            <span class="text-dark fw-bold fs-8">
-              {{ data?.projectPhase }}
-            </span>
-          </td>
-
-          <td class="text-end">
-            <a href="javascript:void(0)" (click)="openModal(updatePhase, data)" class="cursor-pointer">
-              <span class="svg-icon svg-icon-gray-400 svg-icon-2 me-5">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                  height="24px" viewBox="0 0 24 24" version="1.1">
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <rect x="0" y="0" width="24" height="24" />
-                    <path
-                      d="M8,17.9148182 L8,5.96685884 C8,5.56391781 8.16211443,5.17792052 8.44982609,4.89581508 L10.965708,2.42895648 C11.5426798,1.86322723 12.4640974,1.85620921 13.0496196,2.41308426 L15.5337377,4.77566479 C15.8314604,5.0588212 16,5.45170806 16,5.86258077 L16,17.9148182 C16,18.7432453 15.3284271,19.4148182 14.5,19.4148182 L9.5,19.4148182 C8.67157288,19.4148182 8,18.7432453 8,17.9148182 Z"
-                      fill="#000000" fill-rule="nonzero"
-                      transform="translate(12.000000, 10.707409) rotate(-135.000000) translate(-12.000000, -10.707409) " />
-                    <rect fill="#000000" opacity="0.3" x="5" y="20" width="15" height="2" rx="1" />
-                  </g>
-                </svg>
+    <div class="table-responsive">
+      <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+        <thead>
+          <tr>
+            <th>Questionnaire</th>
+            <th>Project Phase</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of allQuestionnaires">
+            <td>
+              <a href="javascript:void(0)" class="text-dark fw-bolder text-hover-primary fs-7" (click)="openModal(updatePhase, data)">
+                {{ data?.questionnaireName }}
+              </a>
+            </td>
+            <td>
+              <span class="badge light-purple-badge fw-bold fs-8">
+                {{ data?.projectPhase }}
               </span>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
 
-    <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
-      <div class="spinner-border text-warning" role="status">
-        <span class="visually-hidden">Loading...</span>
+            <td class="text-end">
+              <button class="btn btn-icon btn-sm btn-light" (click)="openModal(updatePhase, data)" ngbTooltip="Update Phase">
+                <i class="bi bi-pencil fs-6"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="table-empty-state" *ngIf="(!allQuestionnaires || allQuestionnaires.length === 0) && !(dataLoading$ | async)">
+        <i class="bi bi-gear"></i>
+        <div class="empty-title">No questionnaire settings found</div>
+        <p class="empty-subtitle">No questionnaire configurations are currently available.</p>
       </div>
+
+      <div class="col text-center data-loader mt-5 p-5 pt-7" *ngIf="dataLoading$ | async">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-footer">
+    <div class="table-footer-info">
+      Total: <strong>{{ allQuestionnaires?.length || 0 }}</strong> configurations
     </div>
   </div>
 </div>
